@@ -7,7 +7,7 @@ export const siteConfig = {
   ],
   writing: {
     label: "WRITINGS",
-    url: "https://medium.com/@rudrakshbhardwaj01",
+    url: "/writings",
     description:
       "technical and non technical blogs",
   },
