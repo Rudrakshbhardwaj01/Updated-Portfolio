@@ -47,7 +47,7 @@ export default async function PostPage({ params }: PageProps) {
         <header className="mb-10">
           <TextLink href="/writings">← Writings</TextLink>
 
-          <p className="mt-6 text-sm text-secondary">
+          <p className="mt-6 text-base text-secondary">
             {formatDate(post.date)}
           </p>
         </header>

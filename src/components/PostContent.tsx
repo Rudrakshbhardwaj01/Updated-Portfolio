@@ -9,7 +9,7 @@ export function PostContent({ content }: PostContentProps) {
 
   return (
     <article
-      className="post-content mt-8"
+      className="post-content mt-8 text-[20px] leading-[1.9]"
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );
