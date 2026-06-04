@@ -2,6 +2,7 @@
 title: "How Bitcoin Is Mined"
 date: "2025-08-15"
 description: "A beginner-friendly explanation of Bitcoin mining."
+category: "Blockchain"
 ---
 # How Bitcoin is Mined: A Beginner’s POV
 

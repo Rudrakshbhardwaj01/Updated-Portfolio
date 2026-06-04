@@ -9,11 +9,20 @@ export type PostMeta = {
   title: string;
   date: string;
   description: string;
+  category: string;
+  readingTimeMinutes: number;
 };
 
 export type Post = PostMeta & {
   content: string;
 };
+
+const WORDS_PER_MINUTE = 200;
+
+function estimateReadingTimeMinutes(content: string): number {
+  const words = content.trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.ceil(words / WORDS_PER_MINUTE));
+}
 
 function getMdFiles(): string[] {
   if (!fs.existsSync(writingsDirectory)) {
@@ -30,13 +39,15 @@ export function getAllPosts(): PostMeta[] {
     const slug = filename.replace(/\.md$/, "");
     const filePath = path.join(writingsDirectory, filename);
     const fileContents = fs.readFileSync(filePath, "utf8");
-    const { data } = matter(fileContents);
+    const { data, content } = matter(fileContents);
 
     return {
       slug,
       title: data.title as string,
       date: data.date as string,
       description: data.description as string,
+      category: data.category as string,
+      readingTimeMinutes: estimateReadingTimeMinutes(content),
     };
   });
 
@@ -60,6 +71,8 @@ export function getPostBySlug(slug: string): Post | null {
     title: data.title as string,
     date: data.date as string,
     description: data.description as string,
+    category: data.category as string,
+    readingTimeMinutes: estimateReadingTimeMinutes(content),
     content,
   };
 }
@@ -74,4 +87,16 @@ export function formatDate(dateString: string): string {
     month: "long",
     day: "numeric",
   });
+}
+
+export function formatReadingTime(minutes: number): string {
+  return `${minutes} min read`;
+}
+
+export function formatPostMetaLine(post: PostMeta): string {
+  return `${formatDate(post.date)} · ${formatReadingTime(post.readingTimeMinutes)} · ${post.category}`;
+}
+
+export function formatArticleCount(count: number): string {
+  return count === 1 ? "1 article published" : `${count} articles published`;
 }
