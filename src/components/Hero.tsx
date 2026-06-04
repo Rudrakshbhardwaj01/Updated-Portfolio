@@ -20,7 +20,7 @@ export function Hero() {
           </div>
         ) : (
           <Image
-            src="/assets/ProfileAvatar.jpeg"
+            src="/assets/Avatar_2.png"
             alt="Rudraksh Bhardwaj"
             width={96}
             height={96}
