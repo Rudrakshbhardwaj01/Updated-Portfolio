@@ -191,7 +191,18 @@ export function BhardwajBot() {
       <button
         type="button"
         onClick={toggleOpen}
-        className="flex items-center gap-2.5 rounded-2xl border border-border bg-background px-3.5 py-2.5 text-sm text-primary shadow-[0_4px_20px_rgba(0,0,0,0.05)] transition-[color,box-shadow] duration-200 hover:text-accent dark:shadow-[0_4px_20px_rgba(0,0,0,0.25)]"
+        className="flex h-14 w-14 items-center justify-center rounded-2xl border border-border bg-background shadow-[0_4px_20px_rgba(0,0,0,0.05)] transition-[color,box-shadow] duration-200 hover:text-accent dark:shadow-[0_4px_20px_rgba(0,0,0,0.25)] md:hidden"
+        aria-expanded={isOpen}
+        aria-controls="bhardwajbot-panel"
+        aria-label="Open BhardwajBot"
+      >
+        <BhardwajBotAvatar size="md" className="!h-10 !w-10" />
+      </button>
+
+      <button
+        type="button"
+        onClick={toggleOpen}
+        className="hidden items-center gap-2.5 rounded-2xl border border-border bg-background px-3.5 py-2.5 text-sm text-primary shadow-[0_4px_20px_rgba(0,0,0,0.05)] transition-[color,box-shadow] duration-200 hover:text-accent dark:shadow-[0_4px_20px_rgba(0,0,0,0.25)] md:flex"
         aria-expanded={isOpen}
         aria-controls="bhardwajbot-panel"
       >
