@@ -1,7 +1,9 @@
 import {
   buildNvidiaChatPayload,
   getNvidiaConfig,
-  NVIDIA_REQUEST_TIMEOUT_MS,
+  NVIDIA_FETCH_TIMEOUT_MS,
+  NVIDIA_STREAM_IDLE_TIMEOUT_MS,
+  NVIDIA_STREAM_TIMEOUT_MS,
 } from "./config";
 import type { OpenAIMessage } from "./client";
 import { formatResponseHeaders, logBhardwajBot } from "./logger";
@@ -52,8 +54,10 @@ export class NvidiaStreamError extends Error {
 export type ManagedAbort = {
   signal: AbortSignal;
   cleanup: () => void;
+  onFetchComplete: () => void;
   wasCancelled: () => boolean;
   wasTimedOut: () => boolean;
+  wasFetchTimedOut: () => boolean;
 };
 
 function extractDeltaContent(
@@ -101,6 +105,13 @@ function resolveAbortError(managedAbort: ManagedAbort): NvidiaStreamError {
     return new NvidiaStreamError("CANCELLED", "Request was cancelled.");
   }
 
+  if (managedAbort.wasFetchTimedOut()) {
+    return new NvidiaStreamError(
+      "TIMEOUT",
+      "BhardwajBot is taking too long to start. Please try again in a moment.",
+    );
+  }
+
   if (managedAbort.wasTimedOut()) {
     return new NvidiaStreamError(
       "TIMEOUT",
@@ -121,27 +132,50 @@ export function createManagedAbort(
   const controller = new AbortController();
   let cancelledByClient = false;
   let timedOut = false;
+  let fetchTimedOut = false;
+  let fetchCompleted = false;
   let cleanedUp = false;
 
-  const timeoutId = setTimeout(() => {
+  const fetchTimeoutId = setTimeout(() => {
+    if (fetchCompleted || cleanedUp) {
+      return;
+    }
+
+    fetchTimedOut = true;
     timedOut = true;
     logBhardwajBot(requestId, "warn", "timeout", {
-      timeoutMs: NVIDIA_REQUEST_TIMEOUT_MS,
+      reason: "fetch",
+      timeoutMs: NVIDIA_FETCH_TIMEOUT_MS,
     });
     controller.abort();
-  }, NVIDIA_REQUEST_TIMEOUT_MS);
+  }, NVIDIA_FETCH_TIMEOUT_MS);
+
+  const streamTimeoutId = setTimeout(() => {
+    if (cleanedUp) {
+      return;
+    }
+
+    timedOut = true;
+    logBhardwajBot(requestId, "warn", "timeout", {
+      reason: "stream",
+      timeoutMs: NVIDIA_STREAM_TIMEOUT_MS,
+    });
+    controller.abort();
+  }, NVIDIA_STREAM_TIMEOUT_MS);
 
   const onParentAbort = () => {
     cancelledByClient = true;
     logBhardwajBot(requestId, "warn", "client_abort");
-    clearTimeout(timeoutId);
+    clearTimeout(fetchTimeoutId);
+    clearTimeout(streamTimeoutId);
     controller.abort();
   };
 
   if (parentSignal) {
     if (parentSignal.aborted) {
       cancelledByClient = true;
-      clearTimeout(timeoutId);
+      clearTimeout(fetchTimeoutId);
+      clearTimeout(streamTimeoutId);
       controller.abort();
     } else {
       parentSignal.addEventListener("abort", onParentAbort, { once: true });
@@ -154,7 +188,8 @@ export function createManagedAbort(
     }
 
     cleanedUp = true;
-    clearTimeout(timeoutId);
+    clearTimeout(fetchTimeoutId);
+    clearTimeout(streamTimeoutId);
 
     if (parentSignal) {
       parentSignal.removeEventListener("abort", onParentAbort);
@@ -163,11 +198,18 @@ export function createManagedAbort(
 
   controller.signal.addEventListener("abort", cleanup, { once: true });
 
+  const onFetchComplete = () => {
+    fetchCompleted = true;
+    clearTimeout(fetchTimeoutId);
+  };
+
   return {
     signal: controller.signal,
     cleanup,
+    onFetchComplete,
     wasCancelled: () => cancelledByClient,
     wasTimedOut: () => timedOut,
+    wasFetchTimedOut: () => fetchTimedOut,
   };
 }
 
@@ -197,12 +239,109 @@ function parseSseDataLine(line: string): string | null {
   return trimmed.slice(5).trim();
 }
 
+const STREAM_END_REASONS = new Set(["stop", "length"]);
+
+type ProcessSseResult = {
+  finished: boolean;
+  content: string[];
+};
+
+function processSseEventBlock(
+  eventBlock: string,
+  diagnostics: StreamDiagnostics,
+  streamStart: number,
+  requestId: string,
+): ProcessSseResult {
+  const content: string[] = [];
+  let finished = false;
+  const lines = eventBlock.split("\n");
+
+  for (const line of lines) {
+    const data = parseSseDataLine(line);
+
+    if (data === null) {
+      continue;
+    }
+
+    if (data === "[DONE]") {
+      finished = true;
+      break;
+    }
+
+    let parsed: NvidiaStreamChunk;
+
+    try {
+      parsed = JSON.parse(data) as NvidiaStreamChunk;
+    } catch {
+      continue;
+    }
+
+    diagnostics.chunksReceived += 1;
+
+    const finishReason = parsed.choices?.[0]?.finish_reason;
+
+    if (finishReason && STREAM_END_REASONS.has(finishReason)) {
+      finished = true;
+    }
+
+    const delta = extractDeltaContent(
+      parsed.choices?.[0]?.delta?.content,
+    );
+
+    if (delta) {
+      if (diagnostics.firstTokenMs === null) {
+        diagnostics.firstTokenMs = Date.now() - streamStart;
+        logBhardwajBot(requestId, "info", "first_token", {
+          latencyMs: diagnostics.firstTokenMs,
+        });
+      }
+
+      diagnostics.contentChunks += 1;
+      diagnostics.totalContentChars += delta.length;
+      content.push(delta);
+    }
+  }
+
+  return { finished, content };
+}
+
+function processBufferedSseEvents(
+  buffer: string,
+  diagnostics: StreamDiagnostics,
+  streamStart: number,
+  requestId: string,
+): { remainder: string; finished: boolean; content: string[] } {
+  const events = buffer.split("\n\n");
+  const remainder = events.pop() ?? "";
+  const allContent: string[] = [];
+  let finished = false;
+
+  for (const eventBlock of events) {
+    const result = processSseEventBlock(
+      eventBlock,
+      diagnostics,
+      streamStart,
+      requestId,
+    );
+
+    allContent.push(...result.content);
+
+    if (result.finished) {
+      finished = true;
+      break;
+    }
+  }
+
+  return { remainder, finished, content: allContent };
+}
+
 export async function* streamNvidiaCompletion(
   requestId: string,
   messages: OpenAIMessage[],
   managedAbort: ManagedAbort,
+  maxTokens?: number,
 ): AsyncGenerator<string, StreamDiagnostics, undefined> {
-  const config = getNvidiaConfig();
+  const config = getNvidiaConfig(maxTokens);
 
   if (!config) {
     throw new NvidiaStreamError(
@@ -244,6 +383,7 @@ export async function* streamNvidiaCompletion(
     });
 
     diagnostics.fetchMs = Date.now() - fetchStart;
+    managedAbort.onFetchComplete();
 
     logBhardwajBot(requestId, "info", "fetch_complete", {
       fetchMs: diagnostics.fetchMs,
@@ -284,6 +424,41 @@ export async function* streamNvidiaCompletion(
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
   let buffer = "";
+  let idleTimeoutId: ReturnType<typeof setTimeout> | null = null;
+  let hasStreamContent = false;
+
+  const clearIdleTimeout = () => {
+    if (idleTimeoutId !== null) {
+      clearTimeout(idleTimeoutId);
+      idleTimeoutId = null;
+    }
+  };
+
+  const armIdleTimeout = () => {
+    clearIdleTimeout();
+
+    if (!hasStreamContent) {
+      return;
+    }
+
+    idleTimeoutId = setTimeout(() => {
+      logBhardwajBot(requestId, "warn", "timeout", {
+        reason: "stream_idle",
+        idleMs: NVIDIA_STREAM_IDLE_TIMEOUT_MS,
+        contentChunks: diagnostics.contentChunks,
+      });
+      void reader.cancel();
+    }, NVIDIA_STREAM_IDLE_TIMEOUT_MS);
+  };
+
+  const finishStream = () => {
+    clearIdleTimeout();
+    logBhardwajBot(requestId, "info", "stream_complete", {
+      totalMs: Date.now() - streamStart,
+      contentChunks: diagnostics.contentChunks,
+      totalContentChars: diagnostics.totalContentChars,
+    });
+  };
 
   try {
     while (true) {
@@ -294,6 +469,7 @@ export async function* streamNvidiaCompletion(
       const { done, value } = await reader.read();
 
       if (done) {
+        buffer += decoder.decode();
         break;
       }
 
@@ -306,56 +482,40 @@ export async function* streamNvidiaCompletion(
 
       buffer += decoder.decode(value, { stream: true });
 
-      // SSE events are separated by blank lines; lines may arrive split across chunks.
-      const events = buffer.split("\n\n");
-      buffer = events.pop() ?? "";
+      const parsed = processBufferedSseEvents(
+        buffer,
+        diagnostics,
+        streamStart,
+        requestId,
+      );
+      buffer = parsed.remainder;
 
-      for (const eventBlock of events) {
-        const lines = eventBlock.split("\n");
+      for (const chunk of parsed.content) {
+        hasStreamContent = true;
+        yield chunk;
+      }
 
-        for (const line of lines) {
-          const data = parseSseDataLine(line);
+      if (parsed.content.length > 0) {
+        armIdleTimeout();
+      }
 
-          if (data === null) {
-            continue;
-          }
+      if (parsed.finished) {
+        finishStream();
+        return diagnostics;
+      }
+    }
 
-          if (data === "[DONE]") {
-            logBhardwajBot(requestId, "info", "stream_complete", {
-              totalMs: Date.now() - streamStart,
-              contentChunks: diagnostics.contentChunks,
-              totalContentChars: diagnostics.totalContentChars,
-            });
-            return diagnostics;
-          }
+    if (buffer.trim().length > 0) {
+      const parsed = processBufferedSseEvents(
+        `${buffer}\n\n`,
+        diagnostics,
+        streamStart,
+        requestId,
+      );
 
-          let parsed: NvidiaStreamChunk;
-
-          try {
-            parsed = JSON.parse(data) as NvidiaStreamChunk;
-          } catch {
-            continue;
-          }
-
-          diagnostics.chunksReceived += 1;
-
-          const content = extractDeltaContent(
-            parsed.choices?.[0]?.delta?.content,
-          );
-
-          if (content) {
-            if (diagnostics.firstTokenMs === null) {
-              diagnostics.firstTokenMs = Date.now() - streamStart;
-              logBhardwajBot(requestId, "info", "first_token", {
-                latencyMs: diagnostics.firstTokenMs,
-              });
-            }
-
-            diagnostics.contentChunks += 1;
-            diagnostics.totalContentChars += content.length;
-            yield content;
-          }
-        }
+      for (const chunk of parsed.content) {
+        hasStreamContent = true;
+        yield chunk;
       }
     }
   } catch (error) {
@@ -369,15 +529,10 @@ export async function* streamNvidiaCompletion(
 
     throw error;
   } finally {
+    clearIdleTimeout();
     await releaseReader(reader);
-    managedAbort.cleanup();
   }
 
-  logBhardwajBot(requestId, "info", "stream_complete", {
-    totalMs: Date.now() - streamStart,
-    contentChunks: diagnostics.contentChunks,
-    totalContentChars: diagnostics.totalContentChars,
-  });
-
+  finishStream();
   return diagnostics;
 }

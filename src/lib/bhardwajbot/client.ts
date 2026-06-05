@@ -10,6 +10,17 @@ export type OpenAIMessage = {
   content: string;
 };
 
+export function trimChatMessages(
+  messages: ChatMessage[],
+  maxMessages: number,
+): ChatMessage[] {
+  if (messages.length <= maxMessages) {
+    return messages;
+  }
+
+  return messages.slice(-maxMessages);
+}
+
 export function toOpenAIMessages(
   systemPrompt: string,
   messages: ChatMessage[],

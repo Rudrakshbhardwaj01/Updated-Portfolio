@@ -2,7 +2,11 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
-import type { ChatMessage } from "@/lib/bhardwajbot/client";
+import {
+  trimChatMessages,
+  type ChatMessage,
+} from "@/lib/bhardwajbot/client";
+import { MAX_CHAT_MESSAGES } from "@/lib/bhardwajbot/config";
 import {
   extractNavigation,
   isValidNavigationPath,
@@ -19,7 +23,7 @@ export type BotMessage = {
 const WELCOME_MESSAGE =
   "I'm BhardwajBot — ask me about Rudraksh's projects, experience, writings, or what to explore first.";
 
-/** Slightly above server NVIDIA_REQUEST_TIMEOUT_MS (60s). */
+/** Slightly above server NVIDIA_STREAM_TIMEOUT_MS (60s). */
 const CLIENT_REQUEST_TIMEOUT_MS = 65_000;
 
 export const SUGGESTED_PROMPTS = [
@@ -123,13 +127,16 @@ export function useBhardwajBot(pageContext: PageContext) {
       };
 
       const history = messages.filter((message) => message.id !== "welcome");
-      const apiMessages: ChatMessage[] = [
-        ...history.map((message) => ({
-          role: message.role,
-          content: message.content,
-        })),
-        { role: "user", content },
-      ];
+      const apiMessages: ChatMessage[] = trimChatMessages(
+        [
+          ...history.map((message) => ({
+            role: message.role,
+            content: message.content,
+          })),
+          { role: "user", content },
+        ],
+        MAX_CHAT_MESSAGES,
+      );
 
       setMessages((prev) => [...prev, userMessage, assistantMessage]);
       setIsLoading(true);
@@ -189,19 +196,11 @@ export function useBhardwajBot(pageContext: PageContext) {
         const decoder = new TextDecoder();
         let buffer = "";
         let fullContent = "";
-        let receivedDone = false;
         let receivedError: string | null = null;
 
-        while (true) {
-          const { done, value } = await reader.read();
-
-          if (done) {
-            break;
-          }
-
-          buffer += decoder.decode(value, { stream: true });
-          const parts = buffer.split("\n\n");
-          buffer = parts.pop() ?? "";
+        const processSseBuffer = (chunk: string) => {
+          const parts = chunk.split("\n\n");
+          const remainder = parts.pop() ?? "";
 
           for (const part of parts) {
             const events = parseSseChunk(part);
@@ -229,42 +228,50 @@ export function useBhardwajBot(pageContext: PageContext) {
                 receivedError =
                   parsed.message ?? "BhardwajBot couldn't respond right now.";
               }
-
-              if (event === "done") {
-                receivedDone = true;
-              }
             }
           }
+
+          return remainder;
+        };
+
+        while (true) {
+          const { done, value } = await reader.read();
+
+          if (done) {
+            buffer += decoder.decode();
+            break;
+          }
+
+          buffer += decoder.decode(value, { stream: true });
+          buffer = processSseBuffer(buffer);
         }
 
-        if (receivedError) {
-          throw new Error(receivedError);
+        if (buffer.trim().length > 0) {
+          processSseBuffer(`${buffer}\n\n`);
         }
 
         const { text, navigation } = extractNavigation(fullContent);
 
-        if (!text.trim() && !receivedDone) {
+        if (receivedError && !text.trim()) {
+          throw new Error(receivedError);
+        }
+
+        if (!text.trim()) {
           throw new Error(
             "BhardwajBot received an empty response. Please try again.",
           );
         }
 
-        if (text.trim()) {
-          setMessages((prev) =>
-            prev.map((message) =>
-              message.id === assistantId
-                ? { ...message, content: text, isStreaming: false }
-                : message,
-            ),
-          );
+        setMessages((prev) =>
+          prev.map((message) =>
+            message.id === assistantId
+              ? { ...message, content: text, isStreaming: false }
+              : message,
+          ),
+        );
 
-          if (navigation && isValidNavigationPath(navigation)) {
-            router.push(navigation);
-          }
-        } else {
-          setMessages((prev) =>
-            prev.filter((message) => message.id !== assistantId),
-          );
+        if (navigation && isValidNavigationPath(navigation)) {
+          router.push(navigation);
         }
       } catch (error) {
         if (error instanceof Error && error.name === "AbortError") {

@@ -38,6 +38,18 @@ export function getWritingNavigationPath(slug: string): string {
   return `/writings/${slug}`;
 }
 
+function stripMarkdownHeadings(content: string): string {
+  return content.replace(/^#{1,6}\s+/gm, "");
+}
+
+function stripHtmlComments(content: string): string {
+  return content.replace(/<!--[\s\S]*?-->/g, "");
+}
+
+export function sanitizeAssistantResponse(content: string): string {
+  return stripMarkdownHeadings(stripHtmlComments(content)).trim();
+}
+
 export function extractNavigation(content: string): {
   text: string;
   navigation: string | null;
@@ -45,11 +57,16 @@ export function extractNavigation(content: string): {
   const match = content.match(/<!--NAV:([^>]+)-->/);
 
   if (!match) {
-    return { text: content.trim(), navigation: null };
+    return {
+      text: sanitizeAssistantResponse(content),
+      navigation: null,
+    };
   }
 
   const navigation = match[1].trim();
-  const text = content.replace(NAVIGATION_MARKER_REGEX, "").trim();
+  const text = sanitizeAssistantResponse(
+    content.replace(NAVIGATION_MARKER_REGEX, ""),
+  );
 
   return { text, navigation };
 }

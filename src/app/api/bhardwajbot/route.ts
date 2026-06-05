@@ -1,6 +1,15 @@
 import { NextResponse } from "next/server";
-import { toOpenAIMessages, type ChatMessage } from "@/lib/bhardwajbot/client";
-import { BHARDWAJBOT_MODEL, isNvidiaConfigured } from "@/lib/bhardwajbot/config";
+import {
+  toOpenAIMessages,
+  trimChatMessages,
+  type ChatMessage,
+} from "@/lib/bhardwajbot/client";
+import {
+  BHARDWAJBOT_MODEL,
+  getMaxTokensForQuery,
+  isNvidiaConfigured,
+  MAX_CHAT_MESSAGES,
+} from "@/lib/bhardwajbot/config";
 import { createRequestId, logBhardwajBot } from "@/lib/bhardwajbot/logger";
 import {
   createManagedAbort,
@@ -45,7 +54,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
 
-  const messages = body.messages ?? [];
+  const messages = trimChatMessages(body.messages ?? [], MAX_CHAT_MESSAGES);
 
   if (messages.length === 0) {
     return NextResponse.json({ error: "No messages provided." }, { status: 400 });
@@ -62,11 +71,24 @@ export async function POST(request: Request) {
 
   timing.mark("context_retrieval_start");
 
-  const { prompt: systemPrompt, promptChars, sections } = buildSystemPrompt(
+  const recentUserQueries = messages
+    .slice(0, -1)
+    .filter((message) => message.role === "user")
+    .map((message) => message.content)
+    .slice(-3);
+
+  const {
+    prompt: systemPrompt,
+    promptChars,
+    sections,
+    isPortfolio,
+  } = buildSystemPrompt(
     lastMessage.content,
     body.pageContext,
+    recentUserQueries,
   );
   const openAIMessages = toOpenAIMessages(systemPrompt, messages);
+  const maxTokens = getMaxTokensForQuery(isPortfolio);
 
   timing.mark("context_retrieval_end");
 
@@ -74,6 +96,8 @@ export async function POST(request: Request) {
     model: BHARDWAJBOT_MODEL,
     promptChars,
     sections: sections.join(","),
+    isPortfolio,
+    maxTokens,
     messageCount: openAIMessages.length,
   });
 
@@ -82,12 +106,7 @@ export async function POST(request: Request) {
       const sse = new SafeSseStream(controller);
       const managedAbort = createManagedAbort(requestId, request.signal);
       let tokenCount = 0;
-
-      const onClientAbort = () => {
-        managedAbort.cleanup();
-      };
-
-      request.signal.addEventListener("abort", onClientAbort, { once: true });
+      let streamCompleted = false;
 
       try {
         timing.mark("model_invocation_start");
@@ -100,6 +119,7 @@ export async function POST(request: Request) {
           requestId,
           openAIMessages,
           managedAbort,
+          maxTokens,
         );
 
         while (true) {
@@ -122,6 +142,7 @@ export async function POST(request: Request) {
           const result = await generator.next();
 
           if (result.done) {
+            streamCompleted = true;
             const diagnostics = result.value;
 
             logBhardwajBot(requestId, "info", "model_end", {
@@ -162,6 +183,7 @@ export async function POST(request: Request) {
             });
           } else {
             sse.safeEnqueue("done", {});
+            streamCompleted = true;
           }
         }
       } catch (error) {
@@ -177,7 +199,12 @@ export async function POST(request: Request) {
             logBhardwajBot(requestId, "warn", "timeout", { tokenCount });
 
             if (sse.isOpen) {
-              sse.safeEnqueue("error", { message: error.message });
+              if (tokenCount > 0) {
+                sse.safeEnqueue("done", {});
+                streamCompleted = true;
+              } else {
+                sse.safeEnqueue("error", { message: error.message });
+              }
             }
           } else {
             logBhardwajBot(requestId, "error", "stream_error", {
@@ -207,7 +234,10 @@ export async function POST(request: Request) {
           }
         }
       } finally {
-        request.signal.removeEventListener("abort", onClientAbort);
+        if (sse.isOpen && !streamCompleted && tokenCount > 0) {
+          sse.safeEnqueue("done", {});
+        }
+
         managedAbort.cleanup();
         timing.mark("response_complete");
         timing.report();
