@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Crimson_Text } from "next/font/google";
+import { BhardwajBot } from "@/components/bhardwajbot/BhardwajBot";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import "./globals.css";
@@ -59,6 +60,7 @@ export default function RootLayout({
         <ThemeProvider>
           <ThemeToggle />
           {children}
+          <BhardwajBot />
         </ThemeProvider>
       </body>
     </html>

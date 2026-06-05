@@ -6,11 +6,15 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:bhardwajbot": "npx tsx scripts/test-mistral-connectivity.mjs"
   },
   "dependencies": {
+    "@langchain/core": "^1.1.48",
+    "@langchain/openai": "^1.4.7",
     "@upstash/redis": "^1.38.0",
     "gray-matter": "^4.0.3",
+    "langchain": "^1.4.4",
     "marked": "^18.0.4",
     "next": "15.5.18",
     "react": "19.1.0",
