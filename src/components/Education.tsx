@@ -1,4 +1,5 @@
 import { education } from "@/data/education";
+import { ContributionHeatmapSection } from "./contribution/ContributionHeatmapSection";
 import { TextLink } from "./TextLink";
 
 export function Education() {
@@ -27,6 +28,8 @@ export function Education() {
           </li>
         ))}
       </ol>
+
+      <ContributionHeatmapSection />
     </section>
   );
 }
