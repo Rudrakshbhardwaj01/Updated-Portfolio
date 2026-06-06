@@ -22,8 +22,8 @@ export const NVIDIA_STREAM_IDLE_TIMEOUT_MS = 30_000;
 /** Cap chat history to limit prompt size on 70B. */
 export const MAX_CHAT_MESSAGES = 4;
 
-export const PORTFOLIO_MAX_TOKENS = 250;
-export const GENERAL_MAX_TOKENS = 300;
+export const PORTFOLIO_MAX_TOKENS = 150;
+export const GENERAL_MAX_TOKENS = 100;
 
 export type NvidiaConfig = {
   apiKey: string;

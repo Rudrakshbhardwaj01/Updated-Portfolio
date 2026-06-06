@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
+import { useFloatingWidget } from "@/hooks/useFloatingWidget";
 import {
   trimChatMessages,
   type ChatMessage,
@@ -88,7 +89,7 @@ async function releaseStreamReader(
 
 export function useBhardwajBot(pageContext: PageContext) {
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, toggle: toggleOpen, close: closeWidget } = useFloatingWidget();
   const [messages, setMessages] = useState<BotMessage[]>([
     {
       id: "welcome",
@@ -331,14 +332,10 @@ export function useBhardwajBot(pageContext: PageContext) {
     [sendMessage],
   );
 
-  const toggleOpen = useCallback(() => {
-    setIsOpen((prev) => !prev);
-  }, []);
-
   const close = useCallback(() => {
     abortRef.current?.abort();
-    setIsOpen(false);
-  }, []);
+    closeWidget();
+  }, [closeWidget]);
 
   return {
     isOpen,

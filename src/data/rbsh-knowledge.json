@@ -1,0 +1,2040 @@
+{
+  "meta": {
+    "version": "2.0.0",
+    "schema_version": "rbsh-2.0",
+    "last_updated": "2026-06-06",
+    "source": "resume + github.com/Rudrakshbhardwaj01 + rudrakshbhardwaj.vercel.app",
+    "environment": "production",
+    "encoding": "utf-8"
+  },
+  "shell": {
+    "name": "RBSH",
+    "full_name": "Rudraksh Bhardwaj Shell",
+    "version": "2.0.0",
+    "prompt": "rb@portfolio:~$",
+    "prompt_short": "rb$",
+    "tagline": "Applied AI Engineer · ML · Backends",
+    "description": "Interactive portfolio terminal for Rudraksh Bhardwaj",
+    "author": "Rudraksh Bhardwaj",
+    "license": "MIT",
+    "branding": {
+      "accent_color": "#00ff88",
+      "secondary_color": "#00bfff",
+      "background_color": "#0a0a0a",
+      "text_color": "#e0e0e0",
+      "font": "JetBrains Mono, Fira Code, monospace",
+      "cursor": "block",
+      "cursor_blink": true,
+      "theme": "cyberpunk-dark"
+    },
+    "startup": {
+      "show_banner": true,
+      "show_motd": true,
+      "show_hint": true,
+      "banner": [
+        "██████╗ ██████╗ ███████╗██╗  ██╗",
+        "██╔══██╗██╔══██╗██╔════╝██║  ██║",
+        "██████╔╝██████╔╝███████╗███████║",
+        "██╔══██╗██╔══██╗╚════██║██╔══██║",
+        "██║  ██║██████╔╝███████║██║  ██║",
+        "╚═╝  ╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝"
+      ],
+      "welcome_message": "Welcome to RBSH — the portfolio shell of Rudraksh Bhardwaj.",
+      "motd": "Applied AI Engineer focused on ML, backend systems, AI agents, and developer tooling. Type `help` to explore.",
+      "hint": "Tip: Try `whoami`, `projects`, or `skills` to get started. Tab to autocomplete.",
+      "init_commands": []
+    },
+    "shortcuts": {
+      "ctrl+l": "clear",
+      "ctrl+c": "cancel",
+      "tab": "autocomplete",
+      "up": "history_prev",
+      "down": "history_next",
+      "ctrl+r": "history_search"
+    }
+  },
+  "identity": {
+    "name": "Rudraksh Bhardwaj",
+    "handle": "rb",
+    "title": "Applied AI Engineer",
+    "tagline": "Applied AI Engineer · ML · Backends",
+    "description": "Applied AI engineer focused on machine learning, backend systems, AI agents, and developer tooling. Building real-world systems at the intersection of web, data, ML, and AI.",
+    "short_description": "AI/ML engineer building real-world intelligent systems.",
+    "email": "rudrakshbhardwaj01@gmail.com",
+    "location": "Jaipur, Rajasthan, India",
+    "timezone": "IST (UTC+5:30)",
+    "availability": "Open to internships and collaborations",
+    "keywords": [
+      "AI",
+      "ML",
+      "backend",
+      "LLMs",
+      "RAG",
+      "computer vision",
+      "Python",
+      "agentic AI"
+    ]
+  },
+  "links": {
+    "portfolio": {
+      "url": "https://rudrakshbhardwaj.vercel.app",
+      "label": "Portfolio",
+      "alias": [
+        "website",
+        "site",
+        "web",
+        "portfolio"
+      ]
+    },
+    "github": {
+      "url": "https://github.com/Rudrakshbhardwaj01",
+      "label": "GitHub",
+      "alias": [
+        "gh",
+        "github",
+        "code"
+      ]
+    },
+    "linkedin": {
+      "url": "https://www.linkedin.com/in/rudraksh-bhardwaj-55a337278/",
+      "label": "LinkedIn",
+      "alias": [
+        "li",
+        "linkedin"
+      ]
+    },
+    "twitter": {
+      "url": "https://x.com/Rudrakshb01",
+      "label": "Twitter / X",
+      "alias": [
+        "twitter",
+        "x"
+      ]
+    },
+    "email": {
+      "url": "mailto:rudrakshbhardwaj01@gmail.com",
+      "label": "Email",
+      "alias": [
+        "mail",
+        "email"
+      ]
+    }
+  },
+  "command_registry": {
+    "whoami": {
+      "command": "whoami",
+      "aliases": [
+        "about",
+        "me",
+        "identity",
+        "bio"
+      ],
+      "description": "Display identity, title, location, and availability.",
+      "short_description": "Who is Rudraksh?",
+      "category": "identity",
+      "hidden": false,
+      "example": "whoami",
+      "data_key": "identity"
+    },
+    "about": {
+      "command": "about",
+      "aliases": [
+        "whoami",
+        "intro"
+      ],
+      "description": "Extended introduction — background, focus areas, and mission.",
+      "short_description": "Extended intro.",
+      "category": "identity",
+      "hidden": false,
+      "example": "about",
+      "data_key": "identity"
+    },
+    "skills": {
+      "command": "skills",
+      "aliases": [
+        "stack",
+        "tech",
+        "tools",
+        "capabilities"
+      ],
+      "description": "List all technical skills grouped by category.",
+      "short_description": "View full tech stack.",
+      "category": "skills",
+      "hidden": false,
+      "example": "skills",
+      "data_key": "skills"
+    },
+    "skill": {
+      "command": "skill",
+      "aliases": [
+        "sk"
+      ],
+      "description": "Look up a specific skill or skill group. Usage: skill <name>",
+      "short_description": "Lookup a specific skill.",
+      "category": "skills",
+      "hidden": false,
+      "example": "skill python",
+      "data_key": "skills",
+      "accepts_args": true,
+      "arg_description": "<skill_name or group>"
+    },
+    "experience": {
+      "command": "experience",
+      "aliases": [
+        "exp",
+        "work",
+        "jobs",
+        "internships"
+      ],
+      "description": "List all professional experience and internships.",
+      "short_description": "Professional experience.",
+      "category": "experience",
+      "hidden": false,
+      "example": "experience",
+      "data_key": "experience"
+    },
+    "projects": {
+      "command": "projects",
+      "aliases": [
+        "proj",
+        "work",
+        "portfolio",
+        "builds"
+      ],
+      "description": "List all projects with summaries and tech stacks.",
+      "short_description": "All projects.",
+      "category": "projects",
+      "hidden": false,
+      "example": "projects",
+      "data_key": "projects"
+    },
+    "project": {
+      "command": "project",
+      "aliases": [
+        "proj",
+        "p"
+      ],
+      "description": "View detailed info on a specific project. Usage: project <name|alias>",
+      "short_description": "Inspect a single project.",
+      "category": "projects",
+      "hidden": false,
+      "example": "project youtubegpt",
+      "data_key": "projects",
+      "accepts_args": true,
+      "arg_description": "<project_name or alias>"
+    },
+    "featured": {
+      "command": "featured",
+      "aliases": [
+        "top",
+        "best",
+        "highlight",
+        "highlights"
+      ],
+      "description": "Show featured/highlighted projects.",
+      "short_description": "Featured projects.",
+      "category": "projects",
+      "hidden": false,
+      "example": "featured",
+      "data_key": "projects"
+    },
+    "education": {
+      "command": "education",
+      "aliases": [
+        "edu",
+        "study",
+        "college",
+        "school",
+        "degree"
+      ],
+      "description": "Display educational background.",
+      "short_description": "Education history.",
+      "category": "education",
+      "hidden": false,
+      "example": "education",
+      "data_key": "education"
+    },
+    "leadership": {
+      "command": "leadership",
+      "aliases": [
+        "lead",
+        "orgs",
+        "clubs",
+        "volunteer"
+      ],
+      "description": "Show leadership roles and organizational contributions.",
+      "short_description": "Leadership roles.",
+      "category": "leadership",
+      "hidden": false,
+      "example": "leadership",
+      "data_key": "leadership"
+    },
+    "writings": {
+      "command": "writings",
+      "aliases": [
+        "blog",
+        "articles",
+        "posts",
+        "write",
+        "reads"
+      ],
+      "description": "List all published technical writings.",
+      "short_description": "Technical blog posts.",
+      "category": "writings",
+      "hidden": false,
+      "example": "writings",
+      "data_key": "writings"
+    },
+    "writing": {
+      "command": "writing",
+      "aliases": [
+        "article",
+        "post",
+        "read",
+        "w"
+      ],
+      "description": "View details on a specific article. Usage: writing <slug|alias>",
+      "short_description": "Read an article.",
+      "category": "writings",
+      "hidden": false,
+      "example": "writing rag-101",
+      "data_key": "writings",
+      "accepts_args": true,
+      "arg_description": "<slug or alias>"
+    },
+    "contact": {
+      "command": "contact",
+      "aliases": [
+        "reach",
+        "hire",
+        "connect",
+        "ping"
+      ],
+      "description": "Show all contact options and actions.",
+      "short_description": "Get in touch.",
+      "category": "contact",
+      "hidden": false,
+      "example": "contact",
+      "data_key": "links"
+    },
+    "links": {
+      "command": "links",
+      "aliases": [
+        "socials",
+        "urls",
+        "profiles"
+      ],
+      "description": "List all social and profile links.",
+      "short_description": "All social links.",
+      "category": "contact",
+      "hidden": false,
+      "example": "links",
+      "data_key": "links"
+    },
+    "github": {
+      "command": "github",
+      "aliases": [
+        "gh",
+        "repos",
+        "code"
+      ],
+      "description": "Show GitHub profile summary and repository stats.",
+      "short_description": "GitHub profile.",
+      "category": "contact",
+      "hidden": false,
+      "example": "github",
+      "data_key": "github_profile"
+    },
+    "linkedin": {
+      "command": "linkedin",
+      "aliases": [
+        "li"
+      ],
+      "description": "Open LinkedIn profile.",
+      "short_description": "LinkedIn profile.",
+      "category": "contact",
+      "hidden": false,
+      "example": "linkedin",
+      "data_key": "links.linkedin"
+    },
+    "resume": {
+      "command": "resume",
+      "aliases": [
+        "cv",
+        "download",
+        "pdf"
+      ],
+      "description": "Display resume summary or download link.",
+      "short_description": "View/download resume.",
+      "category": "contact",
+      "hidden": false,
+      "example": "resume",
+      "data_key": "identity"
+    },
+    "search": {
+      "command": "search",
+      "aliases": [
+        "find",
+        "query",
+        "lookup",
+        "s"
+      ],
+      "description": "Search across projects, skills, writings, and experience. Usage: search <query>",
+      "short_description": "Search everything.",
+      "category": "navigation",
+      "hidden": false,
+      "example": "search RAG",
+      "accepts_args": true,
+      "arg_description": "<query>"
+    },
+    "help": {
+      "command": "help",
+      "aliases": [
+        "h",
+        "?",
+        "commands",
+        "man"
+      ],
+      "description": "Show all available commands with descriptions and aliases.",
+      "short_description": "List all commands.",
+      "category": "shell",
+      "hidden": false,
+      "example": "help"
+    },
+    "clear": {
+      "command": "clear",
+      "aliases": [
+        "cls",
+        "reset",
+        "clean"
+      ],
+      "description": "Clear the terminal screen.",
+      "short_description": "Clear screen.",
+      "category": "shell",
+      "hidden": false,
+      "example": "clear"
+    },
+    "history": {
+      "command": "history",
+      "aliases": [
+        "hist",
+        "log"
+      ],
+      "description": "Show command history for this session.",
+      "short_description": "Command history.",
+      "category": "shell",
+      "hidden": false,
+      "example": "history"
+    },
+    "autocomplete": {
+      "command": "autocomplete",
+      "aliases": [
+        "tab",
+        "complete"
+      ],
+      "description": "Show autocomplete suggestions for a partial command.",
+      "short_description": "Tab completion hints.",
+      "category": "shell",
+      "hidden": false,
+      "example": "autocomplete pro"
+    },
+    "banner": {
+      "command": "banner",
+      "aliases": [
+        "logo",
+        "ascii"
+      ],
+      "description": "Display the RBSH ASCII art banner.",
+      "short_description": "Show ASCII banner.",
+      "category": "shell",
+      "hidden": false,
+      "example": "banner"
+    },
+    "motd": {
+      "command": "motd",
+      "aliases": [
+        "message"
+      ],
+      "description": "Show the message of the day.",
+      "short_description": "Message of the day.",
+      "category": "shell",
+      "hidden": false,
+      "example": "motd"
+    },
+    "sudo": {
+      "command": "sudo",
+      "aliases": [],
+      "description": "Nice try.",
+      "short_description": "Nice try.",
+      "category": "easter_egg",
+      "hidden": true,
+      "example": "sudo rm -rf /",
+      "response": "Permission denied. Also, please don't do that."
+    },
+    "hack": {
+      "command": "hack",
+      "aliases": [
+        "hacker",
+        "matrix"
+      ],
+      "description": "Engage hacker mode.",
+      "short_description": "Go full hacker.",
+      "category": "easter_egg",
+      "hidden": true,
+      "example": "hack",
+      "response": "Initializing neural interface... just kidding. But the matrix is real."
+    },
+    "coffee": {
+      "command": "coffee",
+      "aliases": [
+        "brew",
+        "caffeine"
+      ],
+      "description": "Fuel source.",
+      "short_description": "Important.",
+      "category": "easter_egg",
+      "hidden": true,
+      "example": "coffee",
+      "response": "Brewing... ☕  Optimal AI engineer performance restored."
+    },
+    "exit": {
+      "command": "exit",
+      "aliases": [
+        "quit",
+        "q",
+        "bye",
+        "logout"
+      ],
+      "description": "Exit the terminal session.",
+      "short_description": "Exit shell.",
+      "category": "shell",
+      "hidden": false,
+      "example": "exit",
+      "response": "Goodbye. Come back anytime."
+    }
+  },
+  "autocomplete": {
+    "commands": [
+      "whoami",
+      "about",
+      "skills",
+      "skill",
+      "experience",
+      "projects",
+      "project",
+      "featured",
+      "education",
+      "leadership",
+      "writings",
+      "writing",
+      "contact",
+      "links",
+      "github",
+      "linkedin",
+      "resume",
+      "search",
+      "help",
+      "clear",
+      "history",
+      "banner",
+      "motd",
+      "exit",
+      "autocomplete"
+    ],
+    "project_slugs": [
+      "youtubegpt",
+      "roaddefect-dodge",
+      "gitgallery",
+      "rag-langchain",
+      "deep-learning",
+      "pyxelforge",
+      "research-paper-summarizer",
+      "ballotbox"
+    ],
+    "writing_slugs": [
+      "transferlearning",
+      "rag-101",
+      "how-bitcoin-is-mined"
+    ],
+    "skill_groups": [
+      "languages",
+      "ai_ml",
+      "web",
+      "databases",
+      "tools",
+      "concepts"
+    ],
+    "experience_ids": [
+      "ey-intern",
+      "vertexplus-intern",
+      "dotsquares-intern"
+    ]
+  },
+  "navigation": {
+    "primary": [
+      "whoami",
+      "experience",
+      "projects",
+      "skills",
+      "writings",
+      "contact"
+    ],
+    "secondary": [
+      "education",
+      "leadership",
+      "github",
+      "links"
+    ],
+    "shell": [
+      "help",
+      "clear",
+      "search",
+      "history",
+      "banner",
+      "motd",
+      "exit"
+    ],
+    "quick_links": {
+      "hire": "contact",
+      "work": "experience",
+      "code": "github",
+      "read": "writings",
+      "build": "projects"
+    }
+  },
+  "education": [
+    {
+      "id": "muj",
+      "institution": "Manipal University Jaipur",
+      "alias": [
+        "muj",
+        "manipal",
+        "university"
+      ],
+      "degree": "B.Tech",
+      "field": "Computer and Communication Engineering",
+      "period": "2023 – Present",
+      "status": "ongoing",
+      "display_order": 1,
+      "tags": [
+        "undergraduate",
+        "engineering",
+        "computer science"
+      ]
+    },
+    {
+      "id": "oxford-xii",
+      "institution": "Oxford International Public School",
+      "alias": [
+        "oxford",
+        "school"
+      ],
+      "level": "Class XII (CBSE)",
+      "period": "2022–23",
+      "status": "completed",
+      "display_order": 2,
+      "tags": [
+        "high school",
+        "CBSE"
+      ]
+    },
+    {
+      "id": "oxford-x",
+      "institution": "Oxford International Public School",
+      "alias": [
+        "oxford",
+        "school"
+      ],
+      "level": "Class X (CBSE)",
+      "period": "2020–21",
+      "status": "completed",
+      "display_order": 3,
+      "tags": [
+        "high school",
+        "CBSE"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "id": "ey-intern",
+      "alias": [
+        "ey",
+        "ernst",
+        "ernst-young",
+        "treasury"
+      ],
+      "company": "Ernst & Young (EY)",
+      "role": "Summer Intern",
+      "team": "Treasury Management Team",
+      "type": "Hybrid",
+      "period": "Apr 2026 – Present",
+      "status": "current",
+      "display_order": 1,
+      "featured": true,
+      "url": "https://www.ey.com",
+      "short_description": "Built LLM-powered document intelligence tools for enterprise treasury operations.",
+      "summary": "Designed a PDF processing pipeline and LLM-powered project intelligence dashboard for multi-region treasury operations at EY, reducing manual document review by ~50%.",
+      "highlights": [
+        "Designed an end-to-end PDF processing pipeline for enterprise treasury documents — layout-aware field extraction, schema normalization, and structured handoff to downstream workflow systems — reducing manual document review by ~50%.",
+        "Engineered an LLM-powered project intelligence dashboard that parses long enterprise email chains and extracts structured signals: go-live dates, testing status, dependencies, action items, milestones, and payment information — providing consolidated visibility across multi-region treasury operations.",
+        "Layered automated country-level and bank-level categorization with project segmentation logic on extraction output, enabling operations teams to surface and filter project status across entities without manual data entry."
+      ],
+      "metrics": {
+        "manual_review_reduction": "50%"
+      },
+      "tech": [
+        "Python",
+        "LLMs",
+        "PDF processing",
+        "NLP",
+        "document extraction",
+        "workflow automation"
+      ],
+      "tags": [
+        "LLM",
+        "NLP",
+        "document AI",
+        "enterprise",
+        "treasury",
+        "PDF",
+        "automation"
+      ],
+      "keywords": [
+        "EY",
+        "ernst young",
+        "treasury",
+        "PDF pipeline",
+        "LLM dashboard",
+        "email parsing"
+      ]
+    },
+    {
+      "id": "vertexplus-intern",
+      "alias": [
+        "vertexplus",
+        "vertex",
+        "cv-intern",
+        "yolo-intern"
+      ],
+      "company": "VertexPlus Technologies",
+      "role": "Machine Learning Intern",
+      "type": "Remote",
+      "period": "Jan 2026 – Mar 2026",
+      "status": "completed",
+      "display_order": 2,
+      "featured": true,
+      "url": null,
+      "short_description": "Developed and optimized a YOLO-based fire detection system end-to-end.",
+      "summary": "Owned the full CV development lifecycle for a YOLOv8 fire detection system at VertexPlus — improving detection reliability by 18% and reducing false positives by 15%.",
+      "highlights": [
+        "Owned the full CV development lifecycle for a YOLO-based fire detection system: dataset sourcing, bounding box annotation, augmentation strategy, training configuration, evaluation loop, and inference pipeline testing.",
+        "Diagnosed systematic false positive patterns through class-level analysis, resolving via targeted dataset re-curation and augmentation tuning — improved detection reliability by 18% and reduced false positive rate by 15%.",
+        "Evaluated model behaviour under varied lighting and occlusion conditions, establishing a validation protocol that guided iterative training and improved generalization on out-of-distribution samples."
+      ],
+      "metrics": {
+        "detection_reliability_improvement": "18%",
+        "false_positive_reduction": "15%"
+      },
+      "tech": [
+        "Python",
+        "YOLOv8",
+        "OpenCV",
+        "Computer Vision",
+        "dataset annotation",
+        "augmentation",
+        "model evaluation"
+      ],
+      "tags": [
+        "computer vision",
+        "YOLO",
+        "fire detection",
+        "object detection",
+        "dataset curation",
+        "ML"
+      ],
+      "keywords": [
+        "VertexPlus",
+        "fire detection",
+        "YOLOv8",
+        "computer vision",
+        "false positive",
+        "augmentation"
+      ]
+    },
+    {
+      "id": "dotsquares-intern",
+      "alias": [
+        "dotsquares",
+        "dots",
+        "langchain-intern",
+        "rag-intern"
+      ],
+      "company": "Dotsquares",
+      "role": "Winter Intern",
+      "type": "On-site",
+      "period": "Dec 2025 – Jan 2026",
+      "status": "completed",
+      "display_order": 3,
+      "featured": true,
+      "url": null,
+      "short_description": "Built agentic workflows and RAG pipelines using LangGraph and LangChain.",
+      "summary": "Built stateful agentic workflows with LangGraph and RAG pipelines with LangChain at Dotsquares, improving response consistency by 25%.",
+      "highlights": [
+        "Built stateful agentic workflows using LangGraph with explicit tool-calling architectures, conditional branching, and multi-turn conversation handling with session-scoped memory management.",
+        "Implemented RAG pipelines with LangChain integrating vector retrieval into LLM generation to ground outputs in document context and reduce hallucination — improved response consistency by 25%.",
+        "Developed reusable pipeline components for document ingestion, chunking strategy, and retrieval configuration, enabling rapid prototyping of new use cases without rebuilding core workflow scaffolding."
+      ],
+      "metrics": {
+        "response_consistency_improvement": "25%"
+      },
+      "tech": [
+        "Python",
+        "LangGraph",
+        "LangChain",
+        "RAG",
+        "vector stores",
+        "LLMs",
+        "agentic workflows"
+      ],
+      "tags": [
+        "RAG",
+        "LangChain",
+        "LangGraph",
+        "agentic AI",
+        "vector stores",
+        "LLM",
+        "chatbot"
+      ],
+      "keywords": [
+        "Dotsquares",
+        "LangGraph",
+        "LangChain",
+        "RAG",
+        "agentic",
+        "memory",
+        "tool calling"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "id": "youtubegpt",
+      "alias": [
+        "ygpt",
+        "youtube-gpt",
+        "ytgpt",
+        "youtube-qa",
+        "yt"
+      ],
+      "name": "YouTubeGPT",
+      "slug": "youtubegpt",
+      "tagline": "Full-stack GenAI RAG application for YouTube video Q&A",
+      "short_description": "Ask questions about any YouTube video using RAG + LLMs.",
+      "summary": "Full-stack GenAI app that ingests YouTube transcripts, generates dense embeddings into a vector index, and serves context-aware answers via a cyberpunk-themed React frontend.",
+      "description": "A full-stack Gen-AI application that ingests YouTube transcripts, generates dense embeddings into a vector index, and serves context-aware answers through a React frontend via REST API. Features a cyberpunk-inspired UI with a hacker aesthetic, dark terminal theme, and neon accents.",
+      "category": "genai",
+      "categories": [
+        "genai",
+        "fullstack",
+        "nlp",
+        "rag"
+      ],
+      "tags": [
+        "RAG",
+        "LLM",
+        "React",
+        "Flask",
+        "ChromaDB",
+        "NVIDIA",
+        "YouTube",
+        "GenAI"
+      ],
+      "keywords": [
+        "RAG",
+        "retrieval augmented generation",
+        "youtube",
+        "Q&A",
+        "vector embeddings",
+        "ChromaDB",
+        "NVIDIA AI",
+        "chatbot",
+        "transcript"
+      ],
+      "status": "completed",
+      "featured": true,
+      "featured_order": 1,
+      "display_order": 1,
+      "repository": "https://github.com/Rudrakshbhardwaj01/YouTubeGPT",
+      "demo": null,
+      "tech": {
+        "frontend": [
+          "React 18",
+          "Tailwind CSS",
+          "Framer Motion",
+          "Axios",
+          "Lucide React"
+        ],
+        "backend": [
+          "Python",
+          "Flask",
+          "LangChain",
+          "NVIDIA AI endpoints",
+          "ChromaDB",
+          "YouTube Transcript API"
+        ],
+        "concepts": [
+          "RAG",
+          "vector embeddings",
+          "semantic retrieval",
+          "LLM generation",
+          "REST API"
+        ]
+      },
+      "architecture": {
+        "backend_entry": "app.py",
+        "vector_store": "ChromaDB",
+        "embedding_provider": "NVIDIA AI",
+        "api_endpoints": [
+          "POST /api/process-video",
+          "POST /api/ask-question",
+          "GET /api/transcript",
+          "GET /api/history",
+          "POST /api/clear-history"
+        ]
+      },
+      "highlights": [
+        "Improved answer relevance by 30% over naive retrieval baselines.",
+        "Decoupled retrieval quality from generation quality for independent optimization.",
+        "Collapsible Q&A history panel with smooth Framer Motion animations.",
+        "Structured answer display with headlines, details, evidence, and gap analysis."
+      ],
+      "metrics": {
+        "answer_relevance_improvement": "30%"
+      },
+      "languages": {
+        "JavaScript": "81.7%",
+        "Python": "9.7%",
+        "CSS": "6.4%",
+        "HTML": "1.5%"
+      }
+    },
+    {
+      "id": "roaddefect-dodge",
+      "alias": [
+        "roaddefect",
+        "road",
+        "pothole",
+        "yolo-road",
+        "defect"
+      ],
+      "name": "RoadDefect-Dodge",
+      "slug": "roaddefect-dodge",
+      "tagline": "YOLOv8 multi-class road defect detector trained from scratch",
+      "short_description": "Detects potholes, cracks, and manholes using YOLOv8 from scratch.",
+      "summary": "Trained a YOLOv8 multi-class road defect detector from scratch across the full ML lifecycle — dataset curation to inference — for pothole, crack, and manhole detection.",
+      "description": "Trained a YOLOv8 multi-class road defect detector from scratch with no pretrained weights across the full ML lifecycle — dataset curation, bounding box annotation, augmentation pipeline, training, validation, and inference for pothole, crack, and manhole detection.",
+      "category": "computer-vision",
+      "categories": [
+        "computer-vision",
+        "ml",
+        "object-detection"
+      ],
+      "tags": [
+        "YOLO",
+        "YOLOv8",
+        "object detection",
+        "computer vision",
+        "road safety",
+        "Python"
+      ],
+      "keywords": [
+        "road defect",
+        "pothole",
+        "crack",
+        "manhole",
+        "YOLOv8",
+        "object detection",
+        "computer vision",
+        "from scratch",
+        "bounding box"
+      ],
+      "status": "completed",
+      "featured": true,
+      "featured_order": 2,
+      "display_order": 2,
+      "repository": "https://github.com/Rudrakshbhardwaj01/RoadDefect-Dodge",
+      "demo": null,
+      "tech": [
+        "Python",
+        "YOLOv8",
+        "OpenCV",
+        "Computer Vision"
+      ],
+      "defect_classes": [
+        "pothole",
+        "crack",
+        "manhole"
+      ],
+      "highlights": [
+        "Full ML lifecycle from scratch — no pretrained weights used.",
+        "Configurable confidence thresholds and NMS settings in inference pipeline.",
+        "Augmentation strategy designed to handle class imbalance and real-world lighting variation.",
+        "Trained simultaneously across all three defect categories."
+      ],
+      "languages": {
+        "Python": "100%"
+      }
+    },
+    {
+      "id": "gitgallery",
+      "alias": [
+        "git-gallery",
+        "gallery",
+        "photo",
+        "photos",
+        "github-photos"
+      ],
+      "name": "GitGallery",
+      "slug": "gitgallery",
+      "tagline": "Desktop app using GitHub repositories as a photo storage backend",
+      "short_description": "Desktop app that uses GitHub repos as cloud photo storage.",
+      "summary": "A layered desktop application that repurposes GitHub repositories as a photo storage backend with OAuth, thumbnail generation, folder organization, and multithreaded sync.",
+      "description": "A layered desktop application that repurposes GitHub repositories as a photo storage backend — OAuth authentication, repository lifecycle management, image upload, thumbnail generation, folder organization, and synchronization.",
+      "category": "desktop",
+      "categories": [
+        "desktop",
+        "tools",
+        "creative"
+      ],
+      "tags": [
+        "PySide6",
+        "GitHub",
+        "OAuth",
+        "desktop app",
+        "Python",
+        "multithreading",
+        "photo manager"
+      ],
+      "keywords": [
+        "GitHub photo storage",
+        "desktop app",
+        "PySide6",
+        "OAuth",
+        "git gallery",
+        "thumbnail",
+        "image sync"
+      ],
+      "status": "completed",
+      "featured": true,
+      "featured_order": 3,
+      "display_order": 3,
+      "repository": "https://github.com/Rudrakshbhardwaj01/GitGallery",
+      "demo": null,
+      "tech": [
+        "Python",
+        "PySide6",
+        "GitHub OAuth",
+        "Git CLI",
+        "Pillow",
+        "Multithreading"
+      ],
+      "highlights": [
+        "I/O-bound Git and sync operations offloaded to background worker threads for a non-blocking UI.",
+        "Local cache and repository index mapping folder hierarchies to Git tree structures.",
+        "Full GitHub OAuth authentication flow.",
+        "Thumbnail generation and folder organization built-in."
+      ],
+      "languages": {
+        "Python": "100%"
+      }
+    },
+    {
+      "id": "rag-langchain",
+      "alias": [
+        "rag",
+        "pdf-rag",
+        "local-rag",
+        "langchain-rag",
+        "pdfassist"
+      ],
+      "name": "RAG Implementation using LangChain",
+      "slug": "rag-langchain",
+      "tagline": "Local RAG system for PDF summarization and interactive Q&A",
+      "short_description": "100% local RAG pipeline for PDF Q&A using TinyLlama and Flan-T5.",
+      "summary": "Two Python workflows for PDF summarization and interactive Q&A using RAG and local LLMs — no API tokens required, fully on-device with persistent ChromaDB vector stores.",
+      "description": "Two distinct Python workflows for working with PDFs using Retrieval-Augmented Generation and local LLMs. Runs entirely on-device — no API tokens required. Each PDF gets its own persistent Chroma vector store.",
+      "category": "genai",
+      "categories": [
+        "genai",
+        "nlp",
+        "rag",
+        "local-ai"
+      ],
+      "tags": [
+        "RAG",
+        "LangChain",
+        "local LLM",
+        "PDF",
+        "ChromaDB",
+        "HuggingFace",
+        "TinyLlama",
+        "Flan-T5"
+      ],
+      "keywords": [
+        "RAG",
+        "LangChain",
+        "PDF Q&A",
+        "local LLM",
+        "TinyLlama",
+        "Flan-T5",
+        "ChromaDB",
+        "HuggingFace",
+        "on-device",
+        "summarizer"
+      ],
+      "status": "completed",
+      "featured": true,
+      "featured_order": 4,
+      "display_order": 4,
+      "repository": "https://github.com/Rudrakshbhardwaj01/RAG-implementation-using-LangChain",
+      "demo": null,
+      "tech": [
+        "Python",
+        "LangChain",
+        "HuggingFace",
+        "ChromaDB",
+        "PyPDFLoader",
+        "Flan-T5",
+        "TinyLlama"
+      ],
+      "components": [
+        {
+          "name": "PDF Summarizer",
+          "file": "pdfSummarizer.py",
+          "description": "Generates a concise 3–5 sentence summary for any PDF using a local Flan-T5 LLM."
+        },
+        {
+          "name": "PDF Assist",
+          "file": "pdfAssist.py",
+          "description": "Interactive Q&A over any PDF using a local TinyLlama LLM."
+        }
+      ],
+      "highlights": [
+        "100% local — no API tokens or external calls required.",
+        "Each PDF gets a unique persistent Chroma vector store.",
+        "Uses RecursiveCharacterTextSplitter for optimal chunking.",
+        "HuggingFace embedding models run entirely locally."
+      ],
+      "license": "MIT",
+      "languages": {
+        "Python": "100%"
+      }
+    },
+    {
+      "id": "deep-learning",
+      "alias": [
+        "dl",
+        "100days",
+        "deeplearning",
+        "neural-nets",
+        "nn"
+      ],
+      "name": "Deep-Learning",
+      "slug": "deep-learning",
+      "tagline": "Documented deep learning journey — 100 Days of Deep Learning",
+      "short_description": "100 Days of Deep Learning — perceptrons to CNNs, RNNs, and LSTMs.",
+      "summary": "Personal repository documenting the complete 100 Days of Deep Learning journey — every concept implemented hands-on in Jupyter notebooks from perceptrons to CNNs, RNNs, LSTMs, and transfer learning.",
+      "description": "A personal repository documenting the complete deep learning journey following the CampusX '100 Days of Deep Learning' series. Every concept is implemented hands-on in Jupyter notebooks — from perceptrons from scratch to CNNs, RNNs, LSTMs, transfer learning, and beyond. 35 commits, ongoing.",
+      "category": "ml-education",
+      "categories": [
+        "ml",
+        "deep-learning",
+        "education",
+        "notebooks"
+      ],
+      "tags": [
+        "deep learning",
+        "TensorFlow",
+        "PyTorch",
+        "CNN",
+        "RNN",
+        "LSTM",
+        "Jupyter",
+        "education"
+      ],
+      "keywords": [
+        "deep learning",
+        "100 days",
+        "CampusX",
+        "neural network",
+        "CNN",
+        "RNN",
+        "LSTM",
+        "perceptron",
+        "transfer learning",
+        "backpropagation"
+      ],
+      "status": "ongoing",
+      "featured": true,
+      "featured_order": 5,
+      "display_order": 5,
+      "repository": "https://github.com/Rudrakshbhardwaj01/Deep-Learning",
+      "demo": null,
+      "tech": [
+        "Python",
+        "TensorFlow",
+        "PyTorch",
+        "NumPy",
+        "Pandas",
+        "Matplotlib",
+        "Scikit-learn",
+        "Jupyter Notebook"
+      ],
+      "topics_covered": [
+        "Perceptron from scratch",
+        "Perceptron loss function from scratch",
+        "Perceptron trick from scratch",
+        "MNIST ANN",
+        "Functional API",
+        "Hyperparameter tuning",
+        "Customer Churn ANN",
+        "Breast Cancer Prediction ANN",
+        "Simple RNN",
+        "Deep RNNs",
+        "Bidirectional RNNs",
+        "LSTM-based Next Word Predictor",
+        "LeNet implementation",
+        "CNN Projects",
+        "Transfer Learning",
+        "Activation functions (Sigmoid, Tanh, ReLU)",
+        "Gradient Descent & optimization",
+        "Backpropagation & weight updates",
+        "Regularization techniques",
+        "Data preprocessing & augmentation",
+        "Loss functions & metrics",
+        "Model evaluation & experimentation"
+      ],
+      "modules": [
+        "CNN_Projects",
+        "LSTMbasedNextWordPredictor",
+        "LeNet_implementation",
+        "MNSIT_ANN",
+        "bidirectionalRNNs",
+        "breastCancerPredictionANN",
+        "customerChurnANN",
+        "deepRNNs",
+        "functionalAPI",
+        "hyperParameterTuning",
+        "perceptron",
+        "perceptron_loss_function_from_scratch",
+        "perceptron_trick_from_scratch",
+        "simpleRNN",
+        "transferLearning"
+      ],
+      "source": "CampusX — 100 Days of Deep Learning (YouTube)",
+      "languages": {
+        "Jupyter Notebook": "100%"
+      }
+    },
+    {
+      "id": "pyxelforge",
+      "alias": [
+        "pyxel",
+        "ascii",
+        "text-to-image",
+        "ascii-art"
+      ],
+      "name": "PyxelForge",
+      "slug": "pyxelforge",
+      "tagline": "Text-to-AI-image to ASCII art pipeline using Mistral",
+      "short_description": "Converts text prompts → AI images → ASCII art via Mistral.",
+      "summary": "End-to-end pipeline that transforms text prompts into AI-generated images using the Mistral API, then converts those images into ASCII art optimized for terminal display.",
+      "description": "Transforms text prompts into AI-generated images using the Mistral API, then converts those images into ASCII art optimized for terminal and text editor display. Saves both the original image and ASCII output.",
+      "category": "creative-tools",
+      "categories": [
+        "creative-tools",
+        "genai",
+        "cli"
+      ],
+      "tags": [
+        "Mistral",
+        "ASCII art",
+        "image generation",
+        "Python",
+        "terminal",
+        "creative AI"
+      ],
+      "keywords": [
+        "ASCII art",
+        "Mistral",
+        "image generation",
+        "text to image",
+        "terminal art",
+        "Pillow"
+      ],
+      "status": "completed",
+      "featured": false,
+      "display_order": 6,
+      "repository": "https://github.com/Rudrakshbhardwaj01/PyxelForge",
+      "demo": null,
+      "tech": [
+        "Python",
+        "Mistral API",
+        "Pillow"
+      ],
+      "structure": {
+        "image_gen": "imageGen/imageGen.py",
+        "ascii_gen": "ASCIIgen/ASCIIgen.py",
+        "entry": "main.py"
+      },
+      "highlights": [
+        "End-to-end pipeline: text prompt → AI image → ASCII art.",
+        "ASCII output optimized for readability in terminals.",
+        "Modular architecture separating image generation and ASCII conversion."
+      ],
+      "license": "MIT",
+      "languages": {
+        "Python": "100%"
+      }
+    },
+    {
+      "id": "research-paper-summarizer",
+      "alias": [
+        "paper-summarizer",
+        "research",
+        "paper",
+        "summarizer"
+      ],
+      "name": "Research Paper Summarizer",
+      "slug": "research-paper-summarizer",
+      "tagline": "Streamlit-based AI tool for structured research paper summaries",
+      "short_description": "AI-powered Streamlit app for structured research paper summarization.",
+      "summary": "Streamlit-based AI tool that generates structured research summaries using HuggingFace LLMs and LangChain workflows.",
+      "description": "Streamlit-based AI tool that generates structured research summaries using HuggingFace LLMs and LangChain workflows.",
+      "category": "genai",
+      "categories": [
+        "genai",
+        "nlp",
+        "tools"
+      ],
+      "tags": [
+        "Streamlit",
+        "LangChain",
+        "HuggingFace",
+        "NLP",
+        "summarization",
+        "research"
+      ],
+      "keywords": [
+        "research paper",
+        "summarizer",
+        "Streamlit",
+        "LangChain",
+        "HuggingFace",
+        "NLP"
+      ],
+      "status": "completed",
+      "featured": false,
+      "display_order": 7,
+      "repository": "https://github.com/Rudrakshbhardwaj01/research-paper-summarizer",
+      "demo": null,
+      "tech": [
+        "Python",
+        "Streamlit",
+        "LangChain",
+        "HuggingFace"
+      ],
+      "languages": {
+        "Python": "100%"
+      }
+    },
+    {
+      "id": "ballotbox",
+      "alias": [
+        "ballot",
+        "voting",
+        "vote",
+        "election"
+      ],
+      "name": "BallotBox",
+      "slug": "ballotbox",
+      "tagline": "Full-stack online voting platform",
+      "short_description": "Full-stack online voting platform with REST APIs and candidate management.",
+      "summary": "Full-stack online voting platform with secure REST APIs, candidate management, vote tracking, and responsive frontend.",
+      "description": "Full-stack online voting platform with secure REST APIs, candidate management, vote tracking, and responsive frontend architecture.",
+      "category": "fullstack",
+      "categories": [
+        "fullstack",
+        "web",
+        "backend"
+      ],
+      "tags": [
+        "Node.js",
+        "Express",
+        "Tailwind CSS",
+        "REST API",
+        "voting",
+        "fullstack",
+        "JavaScript"
+      ],
+      "keywords": [
+        "voting",
+        "election",
+        "ballot",
+        "Node.js",
+        "Express",
+        "REST API",
+        "fullstack"
+      ],
+      "status": "completed",
+      "featured": false,
+      "display_order": 8,
+      "repository": "https://github.com/Rudrakshbhardwaj01/BallotBox",
+      "demo": null,
+      "tech": [
+        "Node.js",
+        "Express.js",
+        "HTML",
+        "CSS",
+        "Tailwind CSS",
+        "JavaScript"
+      ],
+      "languages": {
+        "CSS": "83.3%",
+        "HTML": "13.4%",
+        "JavaScript": "3.3%"
+      }
+    }
+  ],
+  "project_categories": {
+    "genai": {
+      "label": "Generative AI",
+      "description": "LLM-powered applications, RAG systems, and AI tooling.",
+      "color": "#00ff88"
+    },
+    "computer-vision": {
+      "label": "Computer Vision",
+      "description": "Object detection, image processing, and CV pipelines.",
+      "color": "#00bfff"
+    },
+    "fullstack": {
+      "label": "Full-Stack",
+      "description": "End-to-end web applications with frontend and backend.",
+      "color": "#ff6b6b"
+    },
+    "ml": {
+      "label": "Machine Learning",
+      "description": "ML models, training pipelines, and evaluation workflows.",
+      "color": "#ffd93d"
+    },
+    "ml-education": {
+      "label": "ML Education",
+      "description": "Learning projects and documented ML journeys.",
+      "color": "#c77dff"
+    },
+    "desktop": {
+      "label": "Desktop Tools",
+      "description": "Native desktop applications.",
+      "color": "#ff9a3c"
+    },
+    "creative-tools": {
+      "label": "Creative Tools",
+      "description": "Tools at the intersection of AI and creativity.",
+      "color": "#ff6eb4"
+    },
+    "local-ai": {
+      "label": "Local AI",
+      "description": "On-device AI with no external API dependencies.",
+      "color": "#7bed9f"
+    },
+    "backend": {
+      "label": "Backend",
+      "description": "Server-side systems, APIs, and infrastructure.",
+      "color": "#70a1ff"
+    },
+    "web": {
+      "label": "Web",
+      "description": "Web-based projects and interfaces.",
+      "color": "#eccc68"
+    }
+  },
+  "writings": [
+    {
+      "id": "transferlearning",
+      "alias": [
+        "transfer-learning",
+        "cnn",
+        "fine-tuning",
+        "tl"
+      ],
+      "slug": "transferlearning",
+      "title": "CNN Transfer Learning: Feature Extraction and Fine-Tuning Explained",
+      "short_title": "CNN Transfer Learning Explained",
+      "short_description": "How pre-trained CNNs let you skip training from scratch.",
+      "summary": "A deep dive into transfer learning — how pre-trained CNNs, feature extraction, and fine-tuning let you adapt deep models to new tasks without training from scratch.",
+      "description": "How pre-trained CNNs, feature extraction, and fine-tuning let you adapt deep models without training from scratch.",
+      "url": "https://rudrakshbhardwaj.vercel.app/writings/transferlearning",
+      "published": "2026-06-04",
+      "read_time": "10 min",
+      "category": "Deep Learning",
+      "display_order": 1,
+      "featured": true,
+      "tags": [
+        "CNN",
+        "transfer learning",
+        "fine-tuning",
+        "feature extraction",
+        "deep learning",
+        "ResNet",
+        "VGG",
+        "TensorFlow"
+      ],
+      "keywords": [
+        "transfer learning",
+        "CNN",
+        "fine tuning",
+        "feature extraction",
+        "convolutional",
+        "ResNet50",
+        "VGG16",
+        "EfficientNet",
+        "MobileNet",
+        "ImageNet",
+        "freezing layers"
+      ],
+      "topics": [
+        "Transfer Learning",
+        "CNN architecture",
+        "Feature extraction",
+        "Fine-tuning",
+        "Convolutional base vs classifier head",
+        "Freezing layers",
+        "ImageNet pre-training",
+        "ResNet50",
+        "VGG16/VGG19",
+        "EfficientNet",
+        "MobileNet",
+        "TensorFlow implementation",
+        "Learning rate for fine-tuning"
+      ],
+      "key_concepts": {
+        "feature_extraction": "Freeze the entire convolutional base, train only the new classifier head. Computationally cheap, works well when new task is similar to original.",
+        "fine_tuning": "Freeze early layers, allow later layers to update. More expensive but better results when tasks differ significantly. Always use a smaller learning rate.",
+        "workflow": "Step 1: freeze base, train head. Step 2: evaluate. Step 3: unfreeze top conv layers. Step 4: fine-tune at low learning rate.",
+        "why_not_scratch": "Training from scratch needs millions of labeled images and days of GPU time. Transfer learning starts from a model that already understands the visual world."
+      },
+      "popular_models_covered": [
+        "VGG16",
+        "VGG19",
+        "ResNet50",
+        "EfficientNet",
+        "MobileNet"
+      ]
+    },
+    {
+      "id": "rag-101",
+      "alias": [
+        "rag",
+        "retrieval",
+        "rag-explained",
+        "rag-beginners"
+      ],
+      "slug": "rag-101",
+      "title": "RAG Explained for Beginners",
+      "short_title": "RAG Explained",
+      "short_description": "Beginner-friendly walkthrough of Retrieval Augmented Generation.",
+      "summary": "A beginner-friendly walkthrough of RAG — from why LLMs hallucinate to embeddings, chunking, vector databases, similarity search, and the full end-to-end pipeline.",
+      "description": "A beginner-friendly walkthrough of Retrieval Augmented Generation, from embeddings to the full pipeline.",
+      "url": "https://rudrakshbhardwaj.vercel.app/writings/rag-101",
+      "published": "2026-06-03",
+      "read_time": "12 min",
+      "category": "GenAI",
+      "display_order": 2,
+      "featured": true,
+      "tags": [
+        "RAG",
+        "LLM",
+        "embeddings",
+        "vector database",
+        "ChromaDB",
+        "FAISS",
+        "GenAI",
+        "beginners"
+      ],
+      "keywords": [
+        "RAG",
+        "retrieval augmented generation",
+        "embeddings",
+        "vector database",
+        "ChromaDB",
+        "FAISS",
+        "Pinecone",
+        "chunking",
+        "hallucination",
+        "cosine similarity",
+        "top-K"
+      ],
+      "topics": [
+        "RAG (Retrieval Augmented Generation)",
+        "Why LLMs hallucinate",
+        "Context ingestion",
+        "Text chunking strategies",
+        "Chunk size and chunk overlap",
+        "Embeddings",
+        "Embedding models",
+        "Vector databases",
+        "ChromaDB",
+        "FAISS",
+        "Pinecone",
+        "Persistence",
+        "System prompt design",
+        "Query embedding",
+        "Similarity search",
+        "Cosine similarity",
+        "Top-K retrieval",
+        "Prompt construction",
+        "Final answer generation"
+      ],
+      "key_concepts": {
+        "rag_definition": "Retrieve relevant context from a knowledge base, then generate a response grounded in that context. Solves the problem of generic LLMs lacking domain-specific knowledge.",
+        "chunking_strategies": [
+          "Sentence chunking",
+          "Fixed size chunking",
+          "Paragraph chunking",
+          "Recursive chunking (most effective)"
+        ],
+        "chunk_overlap": "Overlap between adjacent chunks preserves context at boundaries — prevents meaning from being cut off mid-idea.",
+        "embeddings": "Numerical vector representations of text. Similar meanings produce similar vectors. Enables mathematical comparison of semantic content.",
+        "similarity_search": "Query is converted to an embedding, then compared against all stored chunk embeddings. Most similar chunks become the context fed to the LLM.",
+        "top_k": "Controls how many retrieved chunks become context. More chunks = more context but more tokens.",
+        "persistence": "Embeddings calculated once and stored — not recomputed on every query.",
+        "misconceptions": [
+          "RAG does not eliminate hallucinations entirely — it significantly reduces them.",
+          "The entire document is not the context — only the top-K retrieved chunks are.",
+          "Embeddings do not need to be recalculated every time — persistence handles that."
+        ]
+      },
+      "pipeline_steps": [
+        "Load documents",
+        "Split into chunks",
+        "Generate embeddings for each chunk",
+        "Store in vector database",
+        "Convert user query to embedding",
+        "Run similarity search, retrieve top-K chunks",
+        "Build final prompt: system prompt + context + question",
+        "Send to LLM, get answer"
+      ]
+    },
+    {
+      "id": "how-bitcoin-is-mined",
+      "alias": [
+        "bitcoin",
+        "mining",
+        "btc",
+        "blockchain",
+        "proof-of-work"
+      ],
+      "slug": "how-bitcoin-is-mined",
+      "title": "How Bitcoin Is Mined",
+      "short_title": "How Bitcoin Is Mined",
+      "short_description": "Beginner-friendly breakdown of Bitcoin mining and Proof-of-Work.",
+      "summary": "A beginner-friendly explanation of Bitcoin mining — from transactions and mempools to Proof-of-Work, SHA-256, difficulty adjustment, and the 21M BTC supply cap.",
+      "description": "A beginner-friendly explanation of Bitcoin mining — from transactions and mempools to Proof-of-Work, SHA-256, and block rewards.",
+      "url": "https://rudrakshbhardwaj.vercel.app/writings/how-bitcoin-is-mined",
+      "published": "2025-08-15",
+      "read_time": "6 min",
+      "category": "Blockchain",
+      "display_order": 3,
+      "featured": false,
+      "tags": [
+        "Bitcoin",
+        "blockchain",
+        "mining",
+        "Proof-of-Work",
+        "SHA-256",
+        "Web3",
+        "crypto"
+      ],
+      "keywords": [
+        "bitcoin",
+        "mining",
+        "proof of work",
+        "SHA-256",
+        "mempool",
+        "UTXO",
+        "nonce",
+        "block reward",
+        "halving",
+        "blockchain",
+        "21 million"
+      ],
+      "topics": [
+        "Bitcoin mining",
+        "UTXOs",
+        "P2P network",
+        "Mempool",
+        "Transaction fees",
+        "Candidate block",
+        "Coinbase transaction",
+        "Block reward",
+        "Bitcoin halving",
+        "Proof-of-Work",
+        "Target (difficulty)",
+        "Difficulty adjustment (every 2016 blocks)",
+        "Nonce",
+        "Timestamp",
+        "Merkle root",
+        "SHA-256",
+        "Block validation",
+        "21 million BTC supply cap"
+      ],
+      "key_concepts": {
+        "utxo": "Unspent Transaction Output — the amount of bitcoin not yet spent from previous transactions.",
+        "mempool": "Waiting area for pending transactions. Every node maintains its own mempool. Miners pick transactions with the highest fees first.",
+        "block_reward": "Currently 3.125 BTC, halves every four years. After 2140, miners will earn only transaction fees.",
+        "target": "256-bit number defining maximum allowable hash value. Auto-adjusts every 2016 blocks (~2 weeks) to maintain one block per 10 minutes.",
+        "nonce": "32-bit number in the block header that miners vary to find a hash below the target.",
+        "sha256": "Bitcoin uses double SHA-256 on the block header. Each attempt generates a 256-bit hash. Valid when hash ≤ target.",
+        "supply_cap": "21 million BTC total. Controlled by the halving schedule to prevent inflation."
+      }
+    }
+  ],
+  "skills": {
+    "languages": {
+      "label": "Programming Languages",
+      "description": "Primary languages used across projects and internships.",
+      "alias": [
+        "langs",
+        "programming",
+        "coding"
+      ],
+      "items": [
+        "Python",
+        "C++",
+        "C",
+        "JavaScript",
+        "TypeScript"
+      ],
+      "keywords": [
+        "python",
+        "javascript",
+        "typescript",
+        "c++",
+        "c"
+      ]
+    },
+    "ai_ml": {
+      "label": "AI / ML",
+      "description": "Machine learning frameworks, deep learning libraries, LLM tooling, and MLOps.",
+      "alias": [
+        "ml",
+        "ai",
+        "machine-learning",
+        "deep-learning",
+        "llm"
+      ],
+      "items": [
+        "TensorFlow",
+        "Keras",
+        "PyTorch",
+        "Scikit-Learn",
+        "OpenCV",
+        "YOLOv8",
+        "LangChain",
+        "LangGraph",
+        "Hugging Face",
+        "NumPy",
+        "Pandas",
+        "Matplotlib",
+        "Vector Databases",
+        "RAG",
+        "LLMs",
+        "Agentic Workflows",
+        "Prompt Engineering"
+      ],
+      "keywords": [
+        "tensorflow",
+        "pytorch",
+        "keras",
+        "scikit-learn",
+        "opencv",
+        "yolo",
+        "langchain",
+        "langgraph",
+        "huggingface",
+        "numpy",
+        "pandas",
+        "matplotlib",
+        "RAG",
+        "LLM",
+        "agentic",
+        "prompt engineering"
+      ]
+    },
+    "web": {
+      "label": "Web & Frameworks",
+      "description": "Frontend and backend web technologies.",
+      "alias": [
+        "frontend",
+        "backend",
+        "web-dev",
+        "frameworks"
+      ],
+      "items": [
+        "React",
+        "Node.js",
+        "Express.js",
+        "Tailwind CSS",
+        "HTML5",
+        "CSS3",
+        "Streamlit",
+        "Flask"
+      ],
+      "keywords": [
+        "react",
+        "node",
+        "express",
+        "tailwind",
+        "html",
+        "css",
+        "streamlit",
+        "flask"
+      ]
+    },
+    "databases": {
+      "label": "Databases",
+      "description": "Relational, NoSQL, and vector databases.",
+      "alias": [
+        "db",
+        "storage",
+        "vector-db"
+      ],
+      "items": [
+        "MongoDB",
+        "PostgreSQL",
+        "MySQL",
+        "ChromaDB"
+      ],
+      "keywords": [
+        "mongodb",
+        "postgresql",
+        "mysql",
+        "chromadb",
+        "vector store",
+        "SQL",
+        "NoSQL"
+      ]
+    },
+    "tools": {
+      "label": "Dev Tools",
+      "description": "Development environment and workflow tools.",
+      "alias": [
+        "devtools",
+        "utilities",
+        "dev"
+      ],
+      "items": [
+        "Git",
+        "Jupyter Notebook",
+        "VS Code",
+        "Postman"
+      ],
+      "keywords": [
+        "git",
+        "jupyter",
+        "vscode",
+        "postman"
+      ]
+    },
+    "concepts": {
+      "label": "Core Concepts",
+      "description": "Foundational and applied engineering concepts.",
+      "alias": [
+        "fundamentals",
+        "theory",
+        "engineering"
+      ],
+      "items": [
+        "Retrieval-Augmented Generation (RAG)",
+        "Computer Vision",
+        "Object Detection",
+        "Natural Language Processing",
+        "Agentic AI",
+        "Document Processing",
+        "REST APIs",
+        "Multithreading",
+        "PDF Parsing",
+        "Vector Embeddings",
+        "Transfer Learning",
+        "Convolutional Neural Networks",
+        "Recurrent Neural Networks",
+        "LSTMs"
+      ],
+      "keywords": [
+        "RAG",
+        "computer vision",
+        "object detection",
+        "NLP",
+        "agentic AI",
+        "REST API",
+        "multithreading",
+        "PDF parsing",
+        "vector embeddings",
+        "transfer learning",
+        "CNN",
+        "RNN",
+        "LSTM"
+      ]
+    }
+  },
+  "leadership": [
+    {
+      "id": "ieee-wie",
+      "alias": [
+        "ieee",
+        "wie",
+        "editorial"
+      ],
+      "organization": "IEEE WIE MUJ",
+      "role": "Senior Coordinator – Editorial",
+      "period": "May 2024 – May 2025",
+      "status": "completed",
+      "display_order": 1,
+      "short_description": "Led technical content and editorial strategy for IEEE WIE chapter at MUJ.",
+      "highlights": [
+        "Led technical content strategy and promotional communications for IEEE WIE initiatives.",
+        "Managed editorial workflows across events and chapter activities.",
+        "Collaborated with organizers and design teams to deliver event campaigns, outreach materials, and branded communications for student engagement."
+      ],
+      "tags": [
+        "IEEE",
+        "editorial",
+        "leadership",
+        "technical writing",
+        "student org"
+      ]
+    }
+  ],
+  "github_profile": {
+    "username": "Rudrakshbhardwaj01",
+    "url": "https://github.com/Rudrakshbhardwaj01",
+    "total_repositories": 33,
+    "followers": 7,
+    "following": 15,
+    "avatar": "https://avatars.githubusercontent.com/u/155600652?v=4",
+    "pinned_repositories": [
+      "Deep-Learning",
+      "PyxelForge",
+      "RAG-implementation-using-LangChain",
+      "YoutubeLLM"
+    ],
+    "actions": {
+      "view_profile": "https://github.com/Rudrakshbhardwaj01",
+      "view_repos": "https://github.com/Rudrakshbhardwaj01?tab=repositories",
+      "follow": "https://github.com/Rudrakshbhardwaj01"
+    }
+  },
+  "contact_actions": {
+    "email": {
+      "label": "Send Email",
+      "action": "mailto:rudrakshbhardwaj01@gmail.com",
+      "alias": [
+        "mail",
+        "email"
+      ]
+    },
+    "linkedin": {
+      "label": "Connect on LinkedIn",
+      "action": "https://www.linkedin.com/in/rudraksh-bhardwaj-55a337278/",
+      "alias": [
+        "li",
+        "linkedin"
+      ]
+    },
+    "github": {
+      "label": "View GitHub",
+      "action": "https://github.com/Rudrakshbhardwaj01",
+      "alias": [
+        "gh",
+        "github"
+      ]
+    },
+    "twitter": {
+      "label": "Follow on X",
+      "action": "https://x.com/Rudrakshb01",
+      "alias": [
+        "twitter",
+        "x"
+      ]
+    },
+    "portfolio": {
+      "label": "Visit Portfolio",
+      "action": "https://rudrakshbhardwaj.vercel.app",
+      "alias": [
+        "site",
+        "portfolio",
+        "web"
+      ]
+    }
+  },
+  "search_index": {
+    "tokens": [
+      "rudraksh",
+      "bhardwaj",
+      "AI",
+      "ML",
+      "backend",
+      "LLM",
+      "RAG",
+      "python",
+      "react",
+      "flask",
+      "langchain",
+      "langgraph",
+      "yolo",
+      "computer vision",
+      "deep learning",
+      "neural network",
+      "TensorFlow",
+      "PyTorch",
+      "HuggingFace",
+      "ChromaDB",
+      "vector",
+      "embeddings",
+      "agentic",
+      "intern",
+      "EY",
+      "VertexPlus",
+      "Dotsquares",
+      "MUJ",
+      "Manipal",
+      "Jaipur",
+      "YouTubeGPT",
+      "RoadDefect",
+      "GitGallery",
+      "PyxelForge",
+      "BallotBox",
+      "transfer learning",
+      "CNN",
+      "RNN",
+      "LSTM",
+      "object detection",
+      "pothole",
+      "fire detection",
+      "PDF",
+      "treasury",
+      "document AI",
+      "NLP",
+      "prompt engineering",
+      "REST API",
+      "MongoDB",
+      "PostgreSQL",
+      "MySQL",
+      "Node.js",
+      "Express",
+      "Tailwind",
+      "Streamlit"
+    ]
+  }
+}

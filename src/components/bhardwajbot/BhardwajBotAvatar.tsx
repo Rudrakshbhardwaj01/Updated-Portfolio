@@ -5,13 +5,14 @@ import { useState } from "react";
 import { profileAvatar } from "@/lib/bhardwajbot/assets";
 
 type BhardwajBotAvatarProps = {
-  size?: "sm" | "md";
+  size?: "sm" | "md" | "launcher";
   className?: string;
 };
 
 const sizeClasses = {
   sm: "h-7 w-7 rounded-xl",
   md: "h-8 w-8 rounded-2xl",
+  launcher: "h-full w-full rounded-none",
 };
 
 export function BhardwajBotAvatar({
@@ -36,8 +37,8 @@ export function BhardwajBotAvatar({
     <Image
       src={profileAvatar}
       alt="BhardwajBot"
-      width={size === "md" ? 32 : 28}
-      height={size === "md" ? 32 : 28}
+      width={size === "launcher" ? 32 : size === "md" ? 32 : 28}
+      height={size === "launcher" ? 32 : size === "md" ? 32 : 28}
       className={`${sizeClass} shrink-0 object-cover ${className}`}
       onError={() => setAvatarError(true)}
     />

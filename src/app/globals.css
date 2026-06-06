@@ -8,6 +8,8 @@
   --secondary: #5c5c6d;
   --border: #e8e6df;
   --accent: #2563eb;
+  --rbsh-orange: #fa5200;
+  --rbsh-orange-muted: #d94400;
 }
 
 .dark {
@@ -16,6 +18,8 @@
   --secondary: #a1a1aa;
   --border: #27272a;
   --accent: #60a5fa;
+  --rbsh-orange: #fa5200;
+  --rbsh-orange-muted: #e85d04;
 }
 
 @theme inline {
@@ -171,4 +175,400 @@ body {
 .post-content code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 0.875em;
+}
+
+/* Portfolio utility launchers — RBSH + BhardwajBot */
+
+.utility-launcher-wrap {
+  position: fixed;
+  bottom: 1.5rem;
+  z-index: 40;
+}
+
+.utility-launcher-wrap--left {
+  left: 1.5rem;
+}
+
+.utility-launcher-wrap--right {
+  right: 1.5rem;
+}
+
+.utility-launcher {
+  display: flex;
+  width: 2.5rem;
+  height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  background: var(--background);
+  padding: 0.3125rem;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.utility-launcher:hover {
+  border-color: color-mix(in srgb, var(--foreground) 22%, var(--border));
+  background: color-mix(in srgb, var(--foreground) 3%, var(--background));
+}
+
+.utility-launcher-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+.utility-panel-wrap {
+  position: fixed;
+  bottom: 4.75rem;
+  z-index: 40;
+}
+
+.utility-panel-wrap--right {
+  right: 1.5rem;
+}
+
+/* RBSH — Rudraksh Bhardwaj SHell */
+
+.rbsh-window {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 50;
+  display: flex;
+  width: min(calc(100vw - 3rem), 860px);
+  height: min(calc(100vh - 3rem), 620px);
+  flex-direction: column;
+  border: 2px solid var(--border);
+  background: var(--background);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--foreground);
+  opacity: 0;
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease;
+}
+
+.rbsh-window-open {
+  opacity: 1;
+}
+
+@media (min-width: 768px) {
+  .rbsh-window {
+    transform: translate(
+      calc(-50% + var(--rbsh-drag-x, 0px)),
+      calc(-50% + var(--rbsh-drag-y, 0px) + 4px)
+    );
+  }
+
+  .rbsh-window-open {
+    transform: translate(
+      calc(-50% + var(--rbsh-drag-x, 0px)),
+      calc(-50% + var(--rbsh-drag-y, 0px))
+    );
+  }
+}
+
+.rbsh-titlebar {
+  display: grid;
+  flex-shrink: 0;
+  grid-template-columns: auto auto 1fr auto;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 2px solid var(--border);
+  background: color-mix(in srgb, var(--foreground) 5%, var(--background));
+  padding: 0.4375rem 0.75rem;
+  user-select: none;
+}
+
+@media (min-width: 768px) {
+  .rbsh-titlebar {
+    cursor: move;
+  }
+}
+
+.rbsh-titlebar-logo {
+  display: block;
+  width: 3rem;
+  height: 0.875rem;
+  flex-shrink: 0;
+  object-fit: contain;
+  object-position: left center;
+  image-rendering: pixelated;
+}
+
+.rbsh-titlebar-divider {
+  color: var(--secondary);
+}
+
+.rbsh-titlebar-caption {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.6875rem;
+  color: var(--secondary);
+}
+
+.rbsh-close {
+  display: flex;
+  height: 1.25rem;
+  width: 1.25rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  background: var(--background);
+  padding: 0;
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1;
+  color: var(--secondary);
+  cursor: pointer;
+}
+
+.rbsh-close:hover {
+  color: var(--foreground);
+}
+
+.rbsh-terminal {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.rbsh-scroll {
+  min-height: 0;
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: auto;
+  padding: 2rem 2.25rem 1.75rem;
+}
+
+.rbsh-welcome {
+  margin-bottom: 2.5rem;
+}
+
+.rbsh-welcome-logo {
+  display: block;
+  width: min(100%, 22rem);
+  height: auto;
+  margin-bottom: 1.75rem;
+}
+
+.rbsh-welcome-title {
+  margin: 0 0 0.75rem;
+  font-size: 0.875rem;
+  color: var(--foreground);
+}
+
+.rbsh-welcome-lead {
+  margin: 0 0 0.625rem;
+  color: var(--foreground);
+}
+
+.rbsh-welcome-motd {
+  margin: 0 0 0.5rem;
+  color: var(--secondary);
+}
+
+.rbsh-welcome-hint {
+  margin: 0 0 1.75rem;
+  color: var(--secondary);
+  font-size: 0.75rem;
+}
+
+.rbsh-welcome-em {
+  color: var(--rbsh-orange);
+}
+
+.rbsh-welcome-section {
+  margin: 0;
+}
+
+.rbsh-welcome-label {
+  margin: 0 0 0.625rem;
+  color: var(--secondary);
+}
+
+.rbsh-welcome-shortcuts {
+  margin: 0;
+  line-height: 1.8;
+}
+
+.rbsh-shortcut {
+  border: none;
+  background: none;
+  padding: 0;
+  font: inherit;
+  color: var(--foreground);
+  cursor: pointer;
+}
+
+.rbsh-shortcut:hover {
+  color: var(--rbsh-orange);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.rbsh-session {
+  margin-bottom: 0.5rem;
+}
+
+.rbsh-session-line,
+.rbsh-active-line {
+  display: block;
+  margin: 0 0 0.75rem;
+  white-space: pre;
+  line-height: 1.6;
+}
+
+.rbsh-prompt {
+  color: var(--rbsh-orange);
+}
+
+.rbsh-command {
+  color: var(--foreground);
+}
+
+.rbsh-output-block {
+  margin: 0 0 1.25rem;
+  padding-left: 0;
+  white-space: pre-wrap;
+  color: var(--secondary);
+}
+
+.rbsh-output-error {
+  color: var(--rbsh-orange-muted);
+}
+
+.rbsh-shell-link {
+  color: var(--secondary);
+  text-decoration: none;
+  transition: color 0.12s ease;
+}
+
+.rbsh-shell-link:hover {
+  color: var(--foreground);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.rbsh-active-line {
+  outline: none;
+  cursor: text;
+  user-select: none;
+}
+
+.rbsh-active-line:focus {
+  outline: none;
+}
+
+.rbsh-input-buffer {
+  display: inline;
+  white-space: pre;
+}
+
+.rbsh-input-text {
+  color: var(--foreground);
+}
+
+.rbsh-cursor-cell {
+  display: inline;
+  white-space: pre;
+  background-color: var(--rbsh-orange);
+  color: var(--background);
+  animation: rbsh-cursor-blink 1.06s step-end infinite;
+}
+
+@keyframes rbsh-cursor-blink {
+  0%,
+  49% {
+    background-color: var(--rbsh-orange);
+    color: var(--background);
+  }
+
+  50%,
+  100% {
+    background-color: transparent;
+    color: var(--foreground);
+  }
+}
+
+.rbsh-scroll-anchor {
+  height: 0;
+}
+
+@media (max-width: 767px) {
+  .utility-launcher-wrap {
+    bottom: 1rem;
+  }
+
+  .utility-launcher-wrap--left {
+    left: 1rem;
+  }
+
+  .utility-launcher-wrap--right {
+    right: 1rem;
+  }
+
+  .utility-panel-wrap--right {
+    right: 1rem;
+    bottom: 4.25rem;
+  }
+
+  .rbsh-window {
+    top: 0.625rem;
+    right: 0.625rem;
+    bottom: 0.625rem;
+    left: 0.625rem;
+    width: auto;
+    height: auto;
+    transform: translateY(4px);
+  }
+
+  .rbsh-window-open {
+    transform: translateY(0);
+  }
+
+  .rbsh-scroll {
+    padding: 1.25rem 1rem 1rem;
+  }
+
+  .rbsh-welcome {
+    margin-bottom: 1.75rem;
+  }
+
+  .rbsh-welcome-logo {
+    width: min(100%, 13rem);
+    margin-bottom: 1.25rem;
+  }
+
+  .rbsh-welcome-title {
+    font-size: 0.8125rem;
+  }
+
+  .rbsh-scroll,
+  .rbsh-window {
+    font-size: 0.75rem;
+  }
+
+  .rbsh-titlebar-caption {
+    display: none;
+  }
+
+  .rbsh-titlebar {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .rbsh-titlebar-divider {
+    display: none;
+  }
 }
