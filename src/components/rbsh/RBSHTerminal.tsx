@@ -22,7 +22,8 @@ type RBSHTerminalProps = {
     key: string,
     modifiers: { ctrl: boolean; meta: boolean },
   ) => boolean;
-  onInsert: (value: string) => void;
+  onSyncBuffer: (buffer: string, cursor: number) => void;
+  onSetCursor: (cursor: number) => void;
 };
 
 function ShellLink({
@@ -113,8 +114,9 @@ function TerminalInputLine({
   buffer,
   cursor,
   inputRef,
+  onChange,
+  onSelect,
   onKeyDown,
-  onInput,
   onPaste,
   onCompositionStart,
   onCompositionEnd,
@@ -123,8 +125,9 @@ function TerminalInputLine({
   buffer: string;
   cursor: number;
   inputRef: React.RefObject<HTMLInputElement | null>;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSelect: (event: React.SyntheticEvent<HTMLInputElement>) => void;
   onKeyDown: (event: KeyboardEvent<HTMLInputElement>) => void;
-  onInput: (event: React.FormEvent<HTMLInputElement>) => void;
   onPaste: (event: ClipboardEvent<HTMLInputElement>) => void;
   onCompositionStart: () => void;
   onCompositionEnd: (event: CompositionEvent<HTMLInputElement>) => void;
@@ -134,9 +137,11 @@ function TerminalInputLine({
   const afterCursor = buffer.slice(cursor + 1);
 
   return (
-    <div className="rbsh-active-line" aria-hidden="true">
-      <span className="rbsh-prompt">{prompt}</span>
-      <span className="rbsh-input-buffer">
+    <div className="rbsh-active-line">
+      <span className="rbsh-prompt" aria-hidden="true">
+        {prompt}
+      </span>
+      <span className="rbsh-input-buffer" aria-hidden="true">
         <span className="rbsh-input-text">{beforeCursor}</span>
         <span className="rbsh-cursor-cell">{cursorChar || "\u00A0"}</span>
         <span className="rbsh-input-text">{afterCursor}</span>
@@ -145,14 +150,16 @@ function TerminalInputLine({
         ref={inputRef}
         type="text"
         className="rbsh-hidden-input"
+        value={buffer}
         aria-label="RBSH command input"
         autoComplete="off"
         autoCorrect="off"
         autoCapitalize="off"
         spellCheck={false}
         enterKeyHint="go"
+        onChange={onChange}
+        onSelect={onSelect}
         onKeyDown={onKeyDown}
-        onInput={onInput}
         onPaste={onPaste}
         onCompositionStart={onCompositionStart}
         onCompositionEnd={onCompositionEnd}
@@ -170,13 +177,13 @@ export function RBSHTerminal({
   onSubmit,
   onShortcut,
   onKey,
-  onInsert,
+  onSyncBuffer,
+  onSetCursor,
 }: RBSHTerminalProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const endRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const isComposingRef = useRef(false);
-  const keydownHandledRef = useRef(false);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -186,8 +193,35 @@ export function RBSHTerminal({
     inputRef.current?.focus({ preventScroll: true });
   }, []);
 
+  useEffect(() => {
+    const input = inputRef.current;
+    if (!input || document.activeElement !== input) {
+      return;
+    }
+
+    input.setSelectionRange(cursor, cursor);
+  }, [buffer, cursor]);
+
   function focusInput() {
     inputRef.current?.focus({ preventScroll: true });
+  }
+
+  function readCursor(element: HTMLInputElement): number {
+    const start = element.selectionStart;
+    return start ?? element.value.length;
+  }
+
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    if (isComposingRef.current) {
+      return;
+    }
+
+    const element = event.target;
+    onSyncBuffer(element.value, readCursor(element));
+  }
+
+  function handleSelect(event: React.SyntheticEvent<HTMLInputElement>) {
+    onSetCursor(readCursor(event.currentTarget));
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
@@ -197,20 +231,7 @@ export function RBSHTerminal({
 
     if (event.key === "Enter") {
       event.preventDefault();
-      if (inputRef.current) {
-        inputRef.current.value = "";
-      }
       onSubmit(buffer);
-      return;
-    }
-
-    if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
-      event.preventDefault();
-      keydownHandledRef.current = true;
-      onInsert(event.key);
-      if (inputRef.current) {
-        inputRef.current.value = "";
-      }
       return;
     }
 
@@ -221,39 +242,22 @@ export function RBSHTerminal({
 
     if (handled) {
       event.preventDefault();
-      if (inputRef.current) {
-        inputRef.current.value = "";
-      }
-    }
-  }
-
-  function handleNativeInput(event: React.FormEvent<HTMLInputElement>) {
-    if (isComposingRef.current) {
-      return;
-    }
-
-    if (keydownHandledRef.current) {
-      keydownHandledRef.current = false;
-      event.currentTarget.value = "";
-      return;
-    }
-
-    const value = event.currentTarget.value;
-    if (value) {
-      onInsert(value);
-      event.currentTarget.value = "";
     }
   }
 
   function handlePaste(event: ClipboardEvent<HTMLInputElement>) {
     event.preventDefault();
     const text = event.clipboardData.getData("text/plain").replace(/\r?\n/g, "");
-    if (text) {
-      onInsert(text);
+    if (!text) {
+      return;
     }
-    if (inputRef.current) {
-      inputRef.current.value = "";
-    }
+
+    const element = event.currentTarget;
+    const start = element.selectionStart ?? buffer.length;
+    const end = element.selectionEnd ?? buffer.length;
+    const nextValue = buffer.slice(0, start) + text + buffer.slice(end);
+    const nextCursor = start + text.length;
+    onSyncBuffer(nextValue, nextCursor);
   }
 
   function handleCompositionStart() {
@@ -262,12 +266,9 @@ export function RBSHTerminal({
 
   function handleCompositionEnd(event: CompositionEvent<HTMLInputElement>) {
     isComposingRef.current = false;
-    event.preventDefault();
     if (event.data) {
-      onInsert(event.data);
-    }
-    if (inputRef.current) {
-      inputRef.current.value = "";
+      const element = event.currentTarget;
+      onSyncBuffer(element.value, readCursor(element));
     }
   }
 
@@ -313,8 +314,9 @@ export function RBSHTerminal({
           buffer={buffer}
           cursor={cursor}
           inputRef={inputRef}
+          onChange={handleChange}
+          onSelect={handleSelect}
           onKeyDown={handleKeyDown}
-          onInput={handleNativeInput}
           onPaste={handlePaste}
           onCompositionStart={handleCompositionStart}
           onCompositionEnd={handleCompositionEnd}

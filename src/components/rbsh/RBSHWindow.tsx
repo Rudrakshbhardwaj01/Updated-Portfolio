@@ -17,7 +17,8 @@ export function RBSHWindow({ onClose }: RBSHWindowProps) {
     showWelcome,
     prompt,
     handleKey,
-    insertText,
+    syncBuffer,
+    setCursor,
   } = useRBSH(onClose);
 
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -144,7 +145,8 @@ export function RBSHWindow({ onClose }: RBSHWindowProps) {
         onSubmit={runCommand}
         onShortcut={runCommand}
         onKey={handleKey}
-        onInsert={insertText}
+        onSyncBuffer={syncBuffer}
+        onSetCursor={setCursor}
       />
     </section>
   );

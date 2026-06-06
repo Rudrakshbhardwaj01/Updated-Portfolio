@@ -143,6 +143,14 @@ export function useRBSH(onExit?: () => void) {
     dispatchInput({ type: "insert", value });
   }, []);
 
+  const syncBuffer = useCallback((buffer: string, cursor: number) => {
+    dispatchInput({ type: "sync", buffer, cursor });
+  }, []);
+
+  const setCursor = useCallback((cursor: number) => {
+    dispatchInput({ type: "set-cursor", cursor });
+  }, []);
+
   return {
     lines,
     input: inputState as InputState,
@@ -151,6 +159,8 @@ export function useRBSH(onExit?: () => void) {
     prompt: shell.prompt,
     handleKey,
     insertText,
+    syncBuffer,
+    setCursor,
     resetInput,
   };
 }

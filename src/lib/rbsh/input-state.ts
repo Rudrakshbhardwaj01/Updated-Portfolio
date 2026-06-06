@@ -31,6 +31,8 @@ export function createInputState(initial = ""): InputState {
 
 export type InputAction =
   | { type: "insert"; value: string }
+  | { type: "sync"; buffer: string; cursor: number }
+  | { type: "set-cursor"; cursor: number }
   | { type: "backspace" }
   | { type: "delete" }
   | { type: "move"; direction: "left" | "right" | "home" | "end" }
@@ -62,6 +64,18 @@ export function inputReducer(
       }
       return clearHistoryMeta(state, insertAtCursor(state, action.value));
     }
+    case "sync":
+      return {
+        ...setBuffer(state, action.buffer, action.cursor),
+        historyIndex: -1,
+        draft: "",
+        autocompleteCycle: 0,
+      };
+    case "set-cursor":
+      return {
+        ...state,
+        cursor: Math.max(0, Math.min(state.buffer.length, action.cursor)),
+      };
     case "backspace":
       return clearHistoryMeta(state, deleteBeforeCursor(state));
     case "delete":

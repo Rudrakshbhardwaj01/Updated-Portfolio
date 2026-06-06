@@ -12,8 +12,8 @@ export function RBSHWelcome({ onShortcut }: RBSHWelcomeProps) {
         src="/assets/RBSH.svg"
         alt="RBSH"
         className="rbsh-welcome-logo"
-        width={288}
-        height={64}
+        width={260}
+        height={48}
         decoding="async"
       />
 
