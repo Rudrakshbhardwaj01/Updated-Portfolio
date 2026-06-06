@@ -182,6 +182,7 @@ export function RBSHTerminal({
   const scrollRef = useRef<HTMLDivElement>(null);
   const isComposingRef = useRef(false);
   const inputOriginRef = useRef(false);
+  const suppressNativeSyncRef = useRef(false);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -198,6 +199,10 @@ export function RBSHTerminal({
     }
 
     function handleNativeInput(event: Event) {
+      if (suppressNativeSyncRef.current) {
+        return;
+      }
+
       const target = event.currentTarget;
       if (!(target instanceof HTMLInputElement)) {
         return;
@@ -221,6 +226,9 @@ export function RBSHTerminal({
 
     if (inputOriginRef.current) {
       inputOriginRef.current = false;
+      if (input.value !== buffer) {
+        input.value = buffer;
+      }
       if (document.activeElement === input) {
         input.setSelectionRange(cursor, cursor);
       }
@@ -256,8 +264,19 @@ export function RBSHTerminal({
 
     if (event.key === "Enter") {
       event.preventDefault();
-      const submitted = inputRef.current?.value ?? buffer;
+      const input = inputRef.current;
+      const submitted = input?.value ?? buffer;
+      suppressNativeSyncRef.current = true;
       onSubmit(submitted);
+      if (input) {
+        input.value = "";
+        input.setSelectionRange(0, 0);
+      }
+      inputOriginRef.current = false;
+      isComposingRef.current = false;
+      requestAnimationFrame(() => {
+        suppressNativeSyncRef.current = false;
+      });
       return;
     }
 
@@ -292,6 +311,9 @@ export function RBSHTerminal({
 
   function handleCompositionEnd(event: CompositionEvent<HTMLInputElement>) {
     isComposingRef.current = false;
+    if (suppressNativeSyncRef.current) {
+      return;
+    }
     const element = event.currentTarget;
     inputOriginRef.current = true;
     onSyncBuffer(element.value, readCursor(element));
