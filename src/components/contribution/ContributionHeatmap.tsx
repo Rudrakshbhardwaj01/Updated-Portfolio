@@ -45,42 +45,44 @@ export function ContributionHeatmap({ contributions }: ContributionHeatmapProps)
         } as CSSProperties
       }
     >
-      <div className="contribution-heatmap-chart">
-        <div className="contribution-heatmap-months" aria-hidden="true">
-          {monthLabels.map(({ label, weekIndex }) => (
-            <span
-              key={`${label}-${weekIndex}`}
-              className="contribution-heatmap-month"
-              style={
-                {
-                  "--week-index": weekIndex,
-                } as CSSProperties
-              }
-            >
-              {label}
-            </span>
-          ))}
-        </div>
+      <div className="contribution-heatmap-scroll">
+        <div className="contribution-heatmap-chart">
+          <div className="contribution-heatmap-months" aria-hidden="true">
+            {monthLabels.map(({ label, weekIndex }) => (
+              <span
+                key={`${label}-${weekIndex}`}
+                className="contribution-heatmap-month"
+                style={
+                  {
+                    "--week-index": weekIndex,
+                  } as CSSProperties
+                }
+              >
+                {label}
+              </span>
+            ))}
+          </div>
 
-        <div className="contribution-heatmap-grid" aria-hidden="true">
-          {weeks.map((week, weekIndex) =>
-            week.days.map((day, dayIndex) => {
-              const level = getIntensityLevel(day.count);
+          <div className="contribution-heatmap-grid" aria-hidden="true">
+            {weeks.map((week, weekIndex) =>
+              week.days.map((day, dayIndex) => {
+                const level = getIntensityLevel(day.count);
 
-              return (
-                <span
-                  key={day.date}
-                  className="contribution-heatmap-cell"
-                  data-level={level}
-                  title={formatCellLabel(day.date, day.count)}
-                  style={{
-                    gridColumn: weekIndex + 1,
-                    gridRow: dayIndex + 1,
-                  }}
-                />
-              );
-            }),
-          )}
+                return (
+                  <span
+                    key={day.date}
+                    className="contribution-heatmap-cell"
+                    data-level={level}
+                    title={formatCellLabel(day.date, day.count)}
+                    style={{
+                      gridColumn: weekIndex + 1,
+                      gridRow: dayIndex + 1,
+                    }}
+                  />
+                );
+              }),
+            )}
+          </div>
         </div>
       </div>
 
