@@ -114,23 +114,21 @@ function TerminalInputLine({
   buffer,
   cursor,
   inputRef,
-  onChange,
-  onSelect,
   onKeyDown,
   onPaste,
   onCompositionStart,
   onCompositionEnd,
+  onSelect,
 }: {
   prompt: string;
   buffer: string;
   cursor: number;
   inputRef: React.RefObject<HTMLInputElement | null>;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onSelect: (event: React.SyntheticEvent<HTMLInputElement>) => void;
   onKeyDown: (event: KeyboardEvent<HTMLInputElement>) => void;
   onPaste: (event: ClipboardEvent<HTMLInputElement>) => void;
   onCompositionStart: () => void;
   onCompositionEnd: (event: CompositionEvent<HTMLInputElement>) => void;
+  onSelect: (event: React.SyntheticEvent<HTMLInputElement>) => void;
 }) {
   const beforeCursor = buffer.slice(0, cursor);
   const cursorChar = buffer[cursor] ?? "";
@@ -138,6 +136,23 @@ function TerminalInputLine({
 
   return (
     <div className="rbsh-active-line">
+      <input
+        ref={inputRef}
+        type="text"
+        className="rbsh-hidden-input"
+        defaultValue=""
+        aria-label="RBSH command input"
+        autoComplete="off"
+        autoCorrect="off"
+        autoCapitalize="off"
+        spellCheck={false}
+        enterKeyHint="go"
+        onKeyDown={onKeyDown}
+        onPaste={onPaste}
+        onCompositionStart={onCompositionStart}
+        onCompositionEnd={onCompositionEnd}
+        onSelect={onSelect}
+      />
       <span className="rbsh-prompt" aria-hidden="true">
         {prompt}
       </span>
@@ -146,24 +161,6 @@ function TerminalInputLine({
         <span className="rbsh-cursor-cell">{cursorChar || "\u00A0"}</span>
         <span className="rbsh-input-text">{afterCursor}</span>
       </span>
-      <input
-        ref={inputRef}
-        type="text"
-        className="rbsh-hidden-input"
-        value={buffer}
-        aria-label="RBSH command input"
-        autoComplete="off"
-        autoCorrect="off"
-        autoCapitalize="off"
-        spellCheck={false}
-        enterKeyHint="go"
-        onChange={onChange}
-        onSelect={onSelect}
-        onKeyDown={onKeyDown}
-        onPaste={onPaste}
-        onCompositionStart={onCompositionStart}
-        onCompositionEnd={onCompositionEnd}
-      />
     </div>
   );
 }
@@ -184,6 +181,7 @@ export function RBSHTerminal({
   const endRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const isComposingRef = useRef(false);
+  const inputOriginRef = useRef(false);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -195,11 +193,51 @@ export function RBSHTerminal({
 
   useEffect(() => {
     const input = inputRef.current;
-    if (!input || document.activeElement !== input) {
+    if (!input) {
       return;
     }
 
-    input.setSelectionRange(cursor, cursor);
+    function handleNativeInput(event: Event) {
+      if (isComposingRef.current) {
+        return;
+      }
+
+      const target = event.currentTarget;
+      if (!(target instanceof HTMLInputElement)) {
+        return;
+      }
+
+      inputOriginRef.current = true;
+      const nextValue = target.value;
+      const nextCursor = target.selectionStart ?? nextValue.length;
+      onSyncBuffer(nextValue, nextCursor);
+    }
+
+    input.addEventListener("input", handleNativeInput);
+    return () => input.removeEventListener("input", handleNativeInput);
+  }, [onSyncBuffer]);
+
+  useEffect(() => {
+    const input = inputRef.current;
+    if (!input) {
+      return;
+    }
+
+    if (inputOriginRef.current) {
+      inputOriginRef.current = false;
+      if (document.activeElement === input) {
+        input.setSelectionRange(cursor, cursor);
+      }
+      return;
+    }
+
+    if (input.value !== buffer) {
+      input.value = buffer;
+    }
+
+    if (document.activeElement === input) {
+      input.setSelectionRange(cursor, cursor);
+    }
   }, [buffer, cursor]);
 
   function focusInput() {
@@ -209,15 +247,6 @@ export function RBSHTerminal({
   function readCursor(element: HTMLInputElement): number {
     const start = element.selectionStart;
     return start ?? element.value.length;
-  }
-
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    if (isComposingRef.current) {
-      return;
-    }
-
-    const element = event.target;
-    onSyncBuffer(element.value, readCursor(element));
   }
 
   function handleSelect(event: React.SyntheticEvent<HTMLInputElement>) {
@@ -231,7 +260,8 @@ export function RBSHTerminal({
 
     if (event.key === "Enter") {
       event.preventDefault();
-      onSubmit(buffer);
+      const submitted = inputRef.current?.value ?? buffer;
+      onSubmit(submitted);
       return;
     }
 
@@ -266,10 +296,9 @@ export function RBSHTerminal({
 
   function handleCompositionEnd(event: CompositionEvent<HTMLInputElement>) {
     isComposingRef.current = false;
-    if (event.data) {
-      const element = event.currentTarget;
-      onSyncBuffer(element.value, readCursor(element));
-    }
+    const element = event.currentTarget;
+    inputOriginRef.current = true;
+    onSyncBuffer(element.value, readCursor(element));
   }
 
   function handleTerminalPointerDown(
@@ -314,12 +343,11 @@ export function RBSHTerminal({
           buffer={buffer}
           cursor={cursor}
           inputRef={inputRef}
-          onChange={handleChange}
-          onSelect={handleSelect}
           onKeyDown={handleKeyDown}
           onPaste={handlePaste}
           onCompositionStart={handleCompositionStart}
           onCompositionEnd={handleCompositionEnd}
+          onSelect={handleSelect}
         />
 
         <div ref={endRef} className="rbsh-scroll-anchor" />

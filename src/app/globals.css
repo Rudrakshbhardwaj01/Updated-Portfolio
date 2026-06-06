@@ -472,6 +472,7 @@ body {
 .rbsh-hidden-input {
   position: absolute;
   inset: 0;
+  z-index: 0;
   width: 100%;
   height: 100%;
   margin: 0;
@@ -483,8 +484,17 @@ body {
   caret-color: transparent;
   font-size: 16px;
   outline: none;
+  user-select: text;
+  -webkit-user-select: text;
   -webkit-appearance: none;
   appearance: none;
+}
+
+.rbsh-prompt,
+.rbsh-input-buffer {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
 }
 
 .rbsh-active-line:focus {
