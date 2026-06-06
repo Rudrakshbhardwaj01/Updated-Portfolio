@@ -198,10 +198,6 @@ export function RBSHTerminal({
     }
 
     function handleNativeInput(event: Event) {
-      if (isComposingRef.current) {
-        return;
-      }
-
       const target = event.currentTarget;
       if (!(target instanceof HTMLInputElement)) {
         return;
