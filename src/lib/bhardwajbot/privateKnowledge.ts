@@ -41,7 +41,19 @@ Key Contributions:
 - Improved response consistency by 25%.
 - Built reusable ingestion, chunking, retrieval, and document processing components.`;
 
-export const PRIVATE_PROJECTS = `YouTubeGPT
+export const PRIVATE_PROJECTS = `LLM Consulate
+
+Technologies:
+Next.js 15, TypeScript, Tailwind CSS, Zustand, Framer Motion, shadcn/ui, FastAPI, Python, asyncio, httpx, Pydantic, NVIDIA Inference API, SSE
+
+Details:
+- Built a multi-model AI consensus engine that consults a council of open-source LLMs in parallel.
+- Measures inter-model agreement and preserves dissenting viewpoints when consensus is weak.
+- Synthesizes answers only when meaningful consensus exists.
+- Streams results in real time via Server-Sent Events.
+- Production-grade FastAPI backend with async orchestration and NVIDIA Inference API integration.
+
+YouTubeGPT
 
 Technologies:
 Python, LangChain, RAG, Vector Embeddings, React, REST APIs
@@ -75,25 +87,7 @@ Details:
 - Implemented OAuth authentication and repository lifecycle management.
 - Added thumbnail generation, synchronization, and folder organization.
 - Offloaded Git operations to worker threads for a responsive UI.
-- Built local caching and repository-tree indexing systems.
-
-BallotBox
-
-Technologies:
-React, Node.js, REST APIs, MongoDB
-
-Details:
-- Built a full-stack online voting platform with secure REST APIs.
-- Implemented candidate management, vote tracking, and a responsive frontend architecture.
-
-Research Paper Summarizer
-
-Technologies:
-Python, Streamlit, Hugging Face, LangChain
-
-Details:
-- Built a Streamlit-based AI tool that generates structured research summaries.
-- Used Hugging Face LLMs and LangChain workflows for document processing.`;
+- Built local caching and repository-tree indexing systems.`;
 
 export const PRIVATE_EDUCATION = `Manipal University Jaipur
 B.Tech, Computer and Communication Engineering

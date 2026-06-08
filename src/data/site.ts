@@ -11,7 +11,7 @@ export const siteConfig = {
     description:
       "technical and non technical blogs",
   },
-  lastUpdated: "May 30, 2026",
+  lastUpdated: "June 08, 2026",
   email: "mailto:hello@rudrakshbhardwaj.com",
 } as const;
 

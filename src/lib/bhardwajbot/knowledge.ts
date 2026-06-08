@@ -49,7 +49,7 @@ const SECTION_PATTERNS: Record<
     },
     {
       pattern:
-        /\b(youtubegpt|roaddefect|gitgallery|ballotbox|research paper summarizer)\b/i,
+        /\b(llm consulate|llmconsulate|youtubegpt|roaddefect|gitgallery)\b/i,
       weight: 10,
     },
     {
@@ -133,10 +133,11 @@ const PORTFOLIO_INTENT_TERMS = [
   "resume",
   "linkedin",
   "github",
+  "llmconsulate",
+  "consulate",
   "youtubegpt",
   "roaddefect",
   "gitgallery",
-  "ballotbox",
   "leadership",
   "ieee",
 ];

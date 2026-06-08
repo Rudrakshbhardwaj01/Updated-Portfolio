@@ -3,9 +3,18 @@ export type Project = {
   description: string;
   githubUrl: string;
   demoUrl?: string;
+  previewImage?: string;
 };
 
 export const projects: Project[] = [
+  {
+    name: "LLM Consulate",
+    description:
+      "multi-model ai consensus platform that consults open-source llms in parallel and synthesizes answers when meaningful agreement exists.",
+    githubUrl: "https://github.com/Rudrakshbhardwaj01/LLM-consulate",
+    demoUrl: "https://llm-consulate.vercel.app/",
+    previewImage: "/assets/LLMconsulate.png",
+  },
   {
     name: "YouTubeGPT",
     description:
@@ -13,15 +22,9 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/Rudrakshbhardwaj01/YouTubeGPT",
   },
   {
-    name: "BallotBox",
+    name: "Git Gallery",
     description:
-      "full-stack online voting platform with secure rest apis, candidate management, vote tracking, and responsive frontend architecture.",
-    githubUrl: "https://github.com/Rudrakshbhardwaj01/BallotBox",
-  },
-  {
-    name: "Research Paper Summarizer",
-    description:
-      "streamlit-based ai tool that generates structured research summaries using hugging face llms and langchain workflows.",
-    githubUrl: "https://github.com/Rudrakshbhardwaj01/research-paper-summarizer",
+      "desktop application that repurposes github repositories as a photo storage backend with oauth authentication, thumbnail generation, and multithreaded synchronization.",
+    githubUrl: "https://github.com/Rudrakshbhardwaj01/GitGallery",
   },
 ];

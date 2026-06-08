@@ -18,7 +18,7 @@ export const navigationTargets: NavigationTarget[] = [
   {
     path: "/#projects-heading",
     label: "Projects",
-    description: "YouTubeGPT, BallotBox, Research Paper Summarizer",
+    description: "LLM Consulate, YouTubeGPT, Git Gallery",
   },
   {
     path: "/#education-heading",

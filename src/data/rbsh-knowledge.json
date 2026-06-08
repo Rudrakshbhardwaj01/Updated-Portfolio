@@ -542,6 +542,7 @@
       "autocomplete"
     ],
     "project_slugs": [
+      "llm-consulate",
       "youtubegpt",
       "roaddefect-dodge",
       "gitgallery",
@@ -819,6 +820,95 @@
   ],
   "projects": [
     {
+      "id": "llm-consulate",
+      "alias": [
+        "llmconsulate",
+        "consulate",
+        "consensus",
+        "multi-model",
+        "council"
+      ],
+      "name": "LLM Consulate",
+      "slug": "llm-consulate",
+      "tagline": "Multi-Model AI Consensus Platform",
+      "short_description": "Multi-model AI consensus engine with parallel inference and dissent preservation.",
+      "summary": "Multi-model AI consensus engine that consults a council of open-source LLMs, measures agreement, preserves dissenting viewpoints, and synthesizes answers only when meaningful consensus exists.",
+      "description": "Multi-model AI consensus engine that consults a council of open-source LLMs, measures agreement, preserves dissenting viewpoints, and synthesizes answers only when meaningful consensus exists.",
+      "category": "genai",
+      "categories": [
+        "genai",
+        "fullstack",
+        "distributed-systems",
+        "ai-infrastructure"
+      ],
+      "tags": [
+        "multi-model",
+        "consensus",
+        "LLM",
+        "SSE",
+        "FastAPI",
+        "Next.js",
+        "NVIDIA",
+        "orchestration"
+      ],
+      "keywords": [
+        "multi-model orchestration",
+        "consensus",
+        "AI council",
+        "parallel inference",
+        "distributed reasoning",
+        "SSE streaming",
+        "dissent preservation",
+        "open-source LLM"
+      ],
+      "status": "completed",
+      "featured": true,
+      "featured_order": 1,
+      "display_order": 1,
+      "repository": "https://github.com/Rudrakshbhardwaj01/LLM-consulate",
+      "demo": "https://llm-consulate.vercel.app/",
+      "tech": {
+        "frontend": [
+          "Next.js 15",
+          "TypeScript",
+          "Tailwind CSS",
+          "Zustand",
+          "Framer Motion",
+          "shadcn/ui"
+        ],
+        "backend": [
+          "FastAPI",
+          "Python",
+          "asyncio",
+          "httpx",
+          "Pydantic"
+        ],
+        "infrastructure": [
+          "NVIDIA Inference API",
+          "Server-Sent Events (SSE)"
+        ],
+        "concepts": [
+          "multi-model orchestration",
+          "consensus-based AI",
+          "parallel inference",
+          "distributed reasoning",
+          "real-time streaming"
+        ]
+      },
+      "highlights": [
+        "Consults a council of open-source LLMs in parallel rather than returning a single model response.",
+        "Measures inter-model agreement and preserves dissenting viewpoints when consensus is weak.",
+        "Synthesizes answers only when meaningful consensus exists.",
+        "Streams results in real time via Server-Sent Events.",
+        "Production-grade FastAPI backend with async orchestration."
+      ],
+      "languages": {
+        "TypeScript": "55%",
+        "Python": "40%",
+        "CSS": "5%"
+      }
+    },
+    {
       "id": "youtubegpt",
       "alias": [
         "ygpt",
@@ -863,8 +953,8 @@
       ],
       "status": "completed",
       "featured": true,
-      "featured_order": 1,
-      "display_order": 1,
+      "featured_order": 2,
+      "display_order": 2,
       "repository": "https://github.com/Rudrakshbhardwaj01/YouTubeGPT",
       "demo": null,
       "tech": {
@@ -960,8 +1050,7 @@
         "bounding box"
       ],
       "status": "completed",
-      "featured": true,
-      "featured_order": 2,
+      "featured": false,
       "display_order": 2,
       "repository": "https://github.com/Rudrakshbhardwaj01/RoadDefect-Dodge",
       "demo": null,
@@ -1094,8 +1183,7 @@
         "summarizer"
       ],
       "status": "completed",
-      "featured": true,
-      "featured_order": 4,
+      "featured": false,
       "display_order": 4,
       "repository": "https://github.com/Rudrakshbhardwaj01/RAG-implementation-using-LangChain",
       "demo": null,
@@ -1176,8 +1264,7 @@
         "backpropagation"
       ],
       "status": "ongoing",
-      "featured": true,
-      "featured_order": 5,
+      "featured": false,
       "display_order": 5,
       "repository": "https://github.com/Rudrakshbhardwaj01/Deep-Learning",
       "demo": null,
@@ -2010,6 +2097,7 @@
       "MUJ",
       "Manipal",
       "Jaipur",
+      "LLM Consulate",
       "YouTubeGPT",
       "RoadDefect",
       "GitGallery",
