@@ -8,7 +8,7 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    name: "LLM Consulate",
+    name: "LLM-Consulate",
     description:
       "multi-model ai consensus platform that consults open-source llms in parallel and synthesizes answers when meaningful agreement exists.",
     githubUrl: "https://github.com/Rudrakshbhardwaj01/LLM-consulate",
@@ -22,9 +22,9 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/Rudrakshbhardwaj01/YouTubeGPT",
   },
   {
-    name: "Git Gallery",
+    name: "GitGallery",
     description:
       "desktop application that repurposes github repositories as a photo storage backend with oauth authentication, thumbnail generation, and multithreaded synchronization.",
-    githubUrl: "https://github.com/Rudrakshbhardwaj01/GitGallery",
+    githubUrl: "https://github.com/Rudrakshbhardwaj01/GitGallery-Your-own-photo-vault",
   },
 ];
