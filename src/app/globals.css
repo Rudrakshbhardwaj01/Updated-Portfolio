@@ -1017,7 +1017,7 @@ body {
   }
 }
 
-.poster-1 {
+.poster1 {
   width: 100%;
   height: 250px;
 
@@ -1029,4 +1029,18 @@ body {
   margin: 2rem 0 3rem;
 
   filter: grayscale(80%) contrast(1.25) brightness(0.95);
+}
+
+.poster3 {
+  width: 100%;
+  height: 300px;
+
+  object-fit: cover;
+  object-position: left 20%;
+
+  display: block;
+
+  margin: 2rem 0 3rem;
+
+  filter: grayscale(45%) contrast(1.25) brightness(0.95);
 }

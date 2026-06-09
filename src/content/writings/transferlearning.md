@@ -9,7 +9,7 @@ category: "Deep Learning"
 <img
   src="/assets/poster1.png"
   alt="CNN Transfer Learning Banner"
-  class="poster-1"
+  class="poster1"
 />
 
 You have probably heard people talk about pre-trained models, fine-tuning, or adapting existing neural networks for a specific task. Instead of training a deep neural network from scratch, we can take advantage of models that have already learned useful features from massive datasets.

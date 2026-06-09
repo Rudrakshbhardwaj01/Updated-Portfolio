@@ -6,8 +6,11 @@ category: "Blockchain"
 ---
 # How Bitcoin is Mined: A Beginner’s POV
 
-**Rudraksh Bhardwaj**  
-*5 min read · Aug 15, 2025*
+<img
+  src="/assets/poster3.png"
+  alt="Bitcoin Banner"
+  class="poster3"
+/>
 
 Have you ever thought, *"How on Earth does a new bitcoin come into existence?"* or *"How do bitcoin transactions take place?"* If yes, then this blog is the answer to your questions.
 
