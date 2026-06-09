@@ -62,7 +62,16 @@ function ProjectRow({
       <ProjectCard project={project} onPreview={onPreview} />
 
       <div>
-        <h3 className="brutal-project-title text-primary">{project.name}</h3>
+        <h3 className="brutal-project-title">
+          {project.highlight ? (
+            <>
+              {project.name.replace(project.highlight, "")}
+              <span className="text-red-500">{project.highlight}</span>
+            </>
+          ) : (
+            project.name
+          )}
+        </h3>
         <p className="brutal-label mt-2">{project.tagline}</p>
 
         <p className="brutal-body-lg mt-5">{project.description}</p>
@@ -123,7 +132,7 @@ export function FeaturedProjects() {
     <>
       <section id="work" aria-labelledby="work-heading" className="section">
         <hr className="brutal-divider mb-12" />
-        <SectionHeading id="work-heading">Projects</SectionHeading>
+        <SectionHeading id="work-heading">Featured Projects</SectionHeading>
 
         <div className="space-y-20 lg:space-y-28">
           {featuredProjects.map((project, index) => (

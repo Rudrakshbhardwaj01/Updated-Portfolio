@@ -21,7 +21,7 @@ const plexMono = IBM_Plex_Mono({
 });
 
 const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://rudrakshbhardwaj.com";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://rudraksh.is-a.dev";
 
 export const metadata: Metadata = {
   title: "Rudraksh Bhardwaj | Applied AI Engineer",

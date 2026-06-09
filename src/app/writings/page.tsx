@@ -21,21 +21,35 @@ export default function WritingsPage() {
     <div className="mx-auto min-h-screen max-w-6xl px-6 py-14 sm:px-10 sm:py-20">
       <main>
         <header className="mb-12 max-w-2xl">
-          <TextLink href="/">← Home</TextLink>
+          <nav className="mb-8 font-mono text-xs uppercase tracking-[0.2em] text-secondary">
+            <TextLink href="/">Home</TextLink>
+            <span className="mx-2">/</span>
+            <span className="text-primary">Writings</span>
+          </nav>
 
-          <h1 className="brutal-section-title mt-8 text-primary">Writings</h1>
-
-          <p className="mt-4 font-mono text-sm text-secondary">
-            Technical and non-technical blogs.
+          <p className="font-mono text-xs uppercase tracking-[0.3em] text-accent">
+            Essays · Notes · Technical Deep Dives
           </p>
 
-          {posts.length > 0 && lastUpdated && (
-            <p className="mt-4 font-mono text-xs leading-relaxed text-secondary">
-              {formatArticleCount(posts.length)}
-              <br />
-              Last updated: {formatDate(lastUpdated)}
-            </p>
-          )}
+          <h1 className="brutal-section-title mt-4 text-primary">WRITINGS</h1>
+
+          <div className="mt-8 flex flex-wrap gap-8 border-l-4 border-accent pl-4">
+            <div>
+              <p className="font-mono text-[10px] uppercase text-secondary">
+                Articles
+              </p>
+              <p className="font-mono text-lg text-primary">{posts.length}</p>
+            </div>
+
+            <div>
+              <p className="font-mono text-[10px] uppercase text-secondary">
+                Updated
+              </p>
+              <p className="font-mono text-lg text-primary">
+                {formatDate(lastUpdated)}
+              </p>
+            </div>
+          </div>
         </header>
 
         <section aria-label="Articles" className="max-w-2xl">
@@ -43,25 +57,43 @@ export default function WritingsPage() {
             <p className="font-mono text-sm text-secondary">No articles yet.</p>
           ) : (
             <ol>
-              {posts.map((post) => (
+              {posts.map((post, index) => (
                 <li
                   key={post.slug}
-                  className="border-t-2 border-foreground py-10 first:border-t-0 first:pt-0"
+                  className="
+            group
+            border-t border-foreground
+            py-10
+            transition-all
+            duration-300
+            hover:translate-x-2
+            first:border-t-0
+            first:pt-0
+          "
                 >
-                  <article>
-                    <h2 className="brutal-project-title text-primary">
-                      <a href={`/writings/${post.slug}`} className="brutal-link">
-                        {post.title}
-                      </a>
-                    </h2>
+                  <article className="flex gap-6">
+                    <span className="mt-1 font-mono text-xs text-secondary">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
 
-                    <p className="mt-2 font-mono text-xs text-secondary">
-                      {formatPostMetaLine(post)}
-                    </p>
+                    <div className="flex-1">
+                      <h2 className="brutal-project-title text-primary transition-colors duration-300 group-hover:text-accent">
+                        <a
+                          href={`/writings/${post.slug}`}
+                          className="brutal-link"
+                        >
+                          {post.title}
+                        </a>
+                      </h2>
 
-                    <p className="mt-3 font-mono text-sm leading-relaxed text-secondary">
-                      {post.description}
-                    </p>
+                      <p className="mt-2 font-mono text-xs text-secondary">
+                        {formatPostMetaLine(post)}
+                      </p>
+
+                      <p className="mt-3 font-mono text-sm leading-relaxed text-secondary">
+                        {post.description}
+                      </p>
+                    </div>
                   </article>
                 </li>
               ))}

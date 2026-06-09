@@ -1,5 +1,6 @@
 export type Project = {
   name: string;
+  highlight?: string;
   tagline: string;
   description: string;
   highlights: string[];
@@ -13,6 +14,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     name: "LLM-Consulate",
+    highlight: "Consulate",
     tagline: "Multi-model AI consensus platform",
     description:
       "Consults a council of open-source LLMs in parallel, measures inter-model agreement, preserves dissenting viewpoints, and synthesizes answers only when meaningful consensus exists.",
@@ -29,6 +31,7 @@ export const projects: Project[] = [
   },
   {
     name: "YouTubeGPT",
+    highlight: "GPT",
     tagline: "Video-grounded RAG for YouTube Q&A",
     description:
       "Full-stack GenAI application that ingests YouTube transcripts, indexes dense embeddings in ChromaDB, and serves context-aware answers through a REST API with structured evidence display.",
@@ -43,6 +46,7 @@ export const projects: Project[] = [
   },
   {
     name: "GitGallery",
+    highlight: "Gallery",
     tagline: "GitHub-backed photo vault",
     description:
       "Desktop application that repurposes GitHub repositories as a photo storage backend with OAuth authentication, thumbnail generation, multithreaded synchronization, and folder organization.",
@@ -58,6 +62,7 @@ export const projects: Project[] = [
   },
   {
     name: "RoadDefect-Dodge",
+    highlight: "Dodge",
     tagline: "YOLOv8 road defect detector trained from scratch",
     description:
       "End-to-end computer vision pipeline for pothole, crack, and manhole detection — dataset curation, bounding box annotation, augmentation, training, validation, and inference with no pretrained weights.",

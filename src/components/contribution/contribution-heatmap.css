@@ -1,10 +1,12 @@
 .contribution-heatmap {
   --heatmap-cell-gap: 3px;
+
+  /* Tiger Claw palette */
   --level-0: #e8e6dc;
-  --level-1: #c8c6bc;
-  --level-2: #9a9890;
-  --level-3: #5a5a54;
-  --level-4: #0a0a0a;
+  --level-1: #dccccc;
+  --level-2: #c48b8b;
+  --level-3: #a02828;
+  --level-4: #4d0000;
 
   width: 100%;
   min-width: 0;
@@ -13,11 +15,11 @@
 }
 
 .dark .contribution-heatmap {
-  --level-0: #1a1a18;
-  --level-1: #2e2e2a;
-  --level-2: #4a4a44;
-  --level-3: #8a8a82;
-  --level-4: #f2f0e6;
+  --level-0: #232323;
+  --level-1: #4a3333;
+  --level-2: #733f3f;
+  --level-3: #b33636;
+  --level-4: #e10613;
 }
 
 .contribution-heatmap-scroll {
@@ -38,9 +40,8 @@
 .contribution-heatmap-month {
   position: absolute;
   top: 0;
-  left: calc(
-    var(--week-index) / var(--heatmap-weeks) * 100%
-  );
+  left: calc(var(--week-index) / var(--heatmap-weeks) * 100%);
+
   font-size: 0.7rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -52,8 +53,11 @@
 .contribution-heatmap-grid {
   display: grid;
   width: 100%;
+
   grid-template-columns: repeat(var(--heatmap-weeks), minmax(0, 1fr));
+
   grid-template-rows: repeat(7, minmax(0, 1fr));
+
   gap: var(--heatmap-cell-gap);
   aspect-ratio: calc(var(--heatmap-weeks) / 7);
 }
@@ -63,12 +67,17 @@
   height: 100%;
   min-height: 0;
   padding: 0;
-  border: 0;
+
   background: var(--level-0);
+
+  border: 1px solid color-mix(in srgb, var(--foreground) 8%, transparent);
+
   cursor: default;
+
   transition:
-    filter 120ms ease,
-    transform 120ms ease;
+    background-color 120ms ease,
+    transform 120ms ease,
+    border-color 120ms ease;
 }
 
 .contribution-heatmap-cell[data-level="1"] {
@@ -89,38 +98,51 @@
 
 .contribution-heatmap-cell:hover,
 .contribution-heatmap-cell:focus-visible {
-  filter: brightness(1.12);
-  transform: scale(1.08);
-  outline: 1px solid color-mix(in srgb, var(--foreground) 35%, transparent);
-  outline-offset: 1px;
+  transform: translateY(-1px);
+
+  border-color: color-mix(in srgb, var(--foreground) 25%, transparent);
+
+  outline: none;
 }
 
 .contribution-heatmap-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   gap: 1rem;
   width: 100%;
+
   margin-top: 1rem;
 }
 
 .contribution-heatmap-summary {
   margin: 0;
+
   font-size: 0.8rem;
   line-height: 1.4;
+
   color: var(--foreground);
-  opacity: 0.75;
+
+  opacity: 0.85;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
   flex-shrink: 0;
 }
 
 .contribution-heatmap-legend {
   display: flex;
   align-items: center;
+
   gap: 0.5rem;
   margin-left: auto;
+
   flex-shrink: 0;
+
   font-size: 0.7rem;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   color: var(--secondary);
 }
 
@@ -138,7 +160,10 @@
 .contribution-heatmap-legend-cell {
   width: 0.75rem;
   height: 0.75rem;
+
   background: var(--level-0);
+
+  border: 1px solid color-mix(in srgb, var(--foreground) 8%, transparent);
 }
 
 .contribution-heatmap-legend-cell[data-level="1"] {

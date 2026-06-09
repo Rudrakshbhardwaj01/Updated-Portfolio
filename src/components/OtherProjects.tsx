@@ -8,7 +8,9 @@ export function OtherProjects() {
   return (
     <section aria-labelledby="other-work-heading" className="section">
       <hr className="brutal-divider mb-12" />
-      <SectionHeading id="other-work-heading">Other Work</SectionHeading>
+      <SectionHeading id="other-work-heading">
+        Other <span className="text-red-600">Projects</span>
+      </SectionHeading>
 
       <ol className="space-y-5">
         {otherProjects.map((project) => (
