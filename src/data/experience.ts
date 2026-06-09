@@ -18,15 +18,15 @@ export const experiences: Experience[] = [
   {
     period: "Jan 2026 – Mar 2026",
     role: "ML Intern",
-    company: "VertexPlus",
+    company: "VertexPlus Technologies",
     description:
-      "Computer vision with YOLO-based fire detection, data pipelines, and model optimization.",
+      "Developed an end-to-end YOLO-based fire detection pipeline spanning dataset engineering, model training, validation, and performance optimization.",
   },
   {
     period: "Dec 2025 – Jan 2026",
     role: "Winter Intern",
     company: "Dotsquares",
     description:
-      "LLM chatbots, LangGraph agents, and RAG systems with LangChain.",
+      "Built agentic AI workflows using LangGraph, LangChain, and RAG architectures, enabling stateful multi-turn reasoning, document-grounded responses, and reusable LLM application development.",
   },
 ];

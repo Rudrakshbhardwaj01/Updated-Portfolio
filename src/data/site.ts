@@ -2,18 +2,17 @@ export const siteConfig = {
   name: "Rudraksh Bhardwaj",
   displayName: ["RUDRAKSH", "BHARDWAJ"],
   tagline: "Applied AI Engineer",
-  specialization: "LLM Systems · RAG Pipelines · Backend Infrastructure",
+  specialization: "ML · LLMs · Backends",
   ticker: [
-    "APPLIED AI ENGINEER",
-    "LLM SYSTEMS",
-    "RAG PIPELINES",
-    "MULTI-MODEL ORCHESTRATION",
-    "COMPUTER VISION",
-    "BACKEND INFRASTRUCTURE",
-  ],
+  "APPLIED AI ENGINEER",
+  "LLM ORCHESTRATION",
+  "RAG PIPELINES",
+  "INFORMATION EXTRACTION",
+  "BACKEND SYSTEMS",
+],
   resumeUrl:
-    "https://drive.google.com/file/d/1iuoysXyKycYGElJW5xJAz0MfohSLvaiK/view?usp=sharing",
-  ctaEmail: "mailto:hello@rudrakshbhardwaj.com",
+    "https://drive.google.com/file/d/1SGKo28VxnhsG32YYUfcUV4HDh3pvhvPn/view?usp=sharing",
+  ctaEmail: "mailto:rudrakshbhardwaj01@gmail.com",
   bio: {
     lead: "I'm an Applied AI Engineer building",
     highlight: "production-grade AI systems",
@@ -27,10 +26,10 @@ export const siteConfig = {
   writing: {
     label: "Writings",
     url: "/writings",
-    description: "Technical essays on GenAI, ML, and systems",
+    description: "Technical & non-technical essays. ",
   },
   lastUpdated: "June 08, 2026",
-  email: "mailto:hello@rudrakshbhardwaj.com",
+  email: "mailto:rudrakshbhardwaj01@gmail.com",
 } as const;
 
 export type SocialLink = {
