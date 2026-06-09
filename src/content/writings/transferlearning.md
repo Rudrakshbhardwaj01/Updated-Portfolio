@@ -6,6 +6,12 @@ category: "Deep Learning"
 ---
 # CNN Transfer Learning: Feature Extraction and Fine-Tuning Explained
 
+<img
+  src="/assets/poster1.png"
+  alt="CNN Transfer Learning Banner"
+  class="poster-1"
+/>
+
 You have probably heard people talk about pre-trained models, fine-tuning, or adapting existing neural networks for a specific task. Instead of training a deep neural network from scratch, we can take advantage of models that have already learned useful features from massive datasets.
 
 This idea is known as **transfer learning**.

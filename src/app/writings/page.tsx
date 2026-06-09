@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Footer } from "@/components/Footer";
 import { TextLink } from "@/components/TextLink";
 import {
-  formatArticleCount,
   formatDate,
   formatPostMetaLine,
   getAllPosts,
@@ -33,7 +33,21 @@ export default function WritingsPage() {
 
           <h1 className="brutal-section-title mt-4 text-primary">WRITINGS</h1>
 
-          <div className="mt-8 flex flex-wrap gap-8 border-l-4 border-accent pl-4">
+          <div
+            className="relative mt-10 aspect-[14/5] w-full overflow-hidden sm:mt-12"
+            aria-hidden="true"
+          >
+            <Image
+              src="/assets/banner.png"
+              alt=""
+              fill
+              priority
+              sizes="(max-width: 1000px) 100vw, 1000px"
+              className="object-cover object-[62%_50%] sm:object-[58%_50%]"
+            />
+          </div>
+
+          <div className="mt-12 flex flex-wrap gap-8 border-l-4 border-accent pl-4 sm:mt-14">
             <div>
               <p className="font-mono text-[10px] uppercase text-secondary">
                 Articles

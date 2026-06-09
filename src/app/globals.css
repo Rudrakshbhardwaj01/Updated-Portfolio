@@ -1016,3 +1016,17 @@ body {
     display: none;
   }
 }
+
+.poster-1 {
+  width: 100%;
+  height: 250px;
+
+  object-fit: cover;
+  object-position: center 40%;
+
+  display: block;
+
+  margin: 2rem 0 3rem;
+
+  filter: grayscale(80%) contrast(1.25) brightness(0.95);
+}

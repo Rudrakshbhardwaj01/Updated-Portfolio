@@ -72,6 +72,8 @@
 
   border: 1px solid color-mix(in srgb, var(--foreground) 8%, transparent);
 
+  border-radius: 5px;
+  
   cursor: default;
 
   transition:
