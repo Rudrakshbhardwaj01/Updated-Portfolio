@@ -7,7 +7,7 @@ category: "Blockchain"
 # How Bitcoin is Mined: A Beginner’s POV
 
 <img
-  src="/assets/poster3.png"
+  src="/assets/poster3_new.png"
   alt="Bitcoin Banner"
   class="poster3"
 />
