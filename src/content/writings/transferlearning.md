@@ -7,7 +7,7 @@ category: "Deep Learning"
 # CNN Transfer Learning: Feature Extraction and Fine-Tuning Explained
 
 <img
-  src="/assets/poster1.png"
+  src="/assets/poster1_new.png"
   alt="CNN Transfer Learning Banner"
   class="poster1"
 />
