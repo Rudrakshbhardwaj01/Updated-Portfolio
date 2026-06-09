@@ -42,7 +42,7 @@ export function ProjectPreviewModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-background/90 p-4 backdrop-blur-sm sm:p-6"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 p-4 sm:p-6"
       role="dialog"
       aria-modal="true"
       aria-label={`${imageAlt} preview`}
@@ -59,17 +59,19 @@ export function ProjectPreviewModal({
       </button>
 
       <div
-        className="w-full max-w-4xl overflow-hidden rounded-3xl border border-white/10 shadow-2xl"
+        className="brutal-card-stack w-full max-w-4xl"
         onClick={(event) => event.stopPropagation()}
       >
-        <Image
-          src={imageSrc}
-          alt={imageAlt}
-          width={1280}
-          height={720}
-          className="h-auto max-h-[85vh] w-full object-contain"
-          priority
-        />
+        <div className="brutal-card relative !aspect-auto border-2 border-foreground bg-card-dark">
+          <Image
+            src={imageSrc}
+            alt={imageAlt}
+            width={1280}
+            height={720}
+            className="h-auto max-h-[85vh] w-full object-contain"
+            priority
+          />
+        </div>
       </div>
     </div>
   );

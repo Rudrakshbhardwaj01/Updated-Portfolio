@@ -1,22 +1,21 @@
+import { Education } from "@/components/Education";
 import { Experience } from "@/components/Experience";
+import { FeaturedProjects } from "@/components/FeaturedProjects";
 import { Footer } from "@/components/Footer";
 import { Hero } from "@/components/Hero";
-import { Education } from "@/components/Education";
-import { Projects } from "@/components/Projects";
-import { WritingBanner } from "@/components/WritingBanner";
+import { OtherProjects } from "@/components/OtherProjects";
+import { Skills } from "@/components/Skills";
 
 export default function Home() {
   return (
-    <div className="mx-auto min-h-screen max-w-5xl px-6 py-12 sm:px-8 sm:py-16">
+    <div className="mx-auto min-h-screen max-w-6xl px-6 pb-16 pt-10 sm:px-10 sm:pb-20 sm:pt-14">
       <main>
         <Hero />
-        <WritingBanner />
-
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-8">
-          <Experience />
-          <Projects />
-          <Education />
-        </div>
+        <Experience />
+        <FeaturedProjects />
+        <Skills />
+        <Education />
+        <OtherProjects />
       </main>
 
       <Footer />

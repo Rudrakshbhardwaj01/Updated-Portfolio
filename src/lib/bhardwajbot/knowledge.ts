@@ -169,10 +169,13 @@ const PRIVATE_SECTION_MAP: Partial<
 
 const POSTS = getAllPosts();
 
+const { bio } = siteConfig;
+
 const ABOUT_CONTENT = [
   `Name: ${siteConfig.name}`,
   `Tagline: ${siteConfig.tagline}`,
-  ...siteConfig.bio.map((paragraph) => `Bio: ${paragraph}`),
+  `Bio: ${bio.lead} ${bio.highlight} ${bio.middle} ${bio.squiggle}${bio.tail}`,
+  `Bio: ${siteConfig.bioSecondary}`,
 ].join("\n");
 
 const EXPERIENCE_CONTENT = experiences

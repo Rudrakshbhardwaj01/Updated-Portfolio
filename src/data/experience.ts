@@ -8,25 +8,25 @@ export type Experience = {
 
 export const experiences: Experience[] = [
   {
-    period: "Apr 2026 - Present",
+    period: "Apr 2026 – Present",
     role: "Summer Intern",
     company: "EY",
     companyUrl: "https://www.ey.com",
     description:
-      "building toolkits for internal treasury platforms and ai-assisted workflow automation.",
+      "Building toolkits for internal treasury platforms and AI-assisted workflow automation.",
   },
   {
-    period: "Jan 2026 - Mar 2026",
+    period: "Jan 2026 – Mar 2026",
     role: "ML Intern",
     company: "VertexPlus",
     description:
-      "computer vision with yolo-based fire detection, data pipelines, and model optimization.",
+      "Computer vision with YOLO-based fire detection, data pipelines, and model optimization.",
   },
   {
-    period: "Dec 2025 - Jan 2026",
+    period: "Dec 2025 – Jan 2026",
     role: "Winter Intern",
     company: "Dotsquares",
     description:
-      "llm chatbots, langgraph agents, and rag systems with langchain.",
+      "LLM chatbots, LangGraph agents, and RAG systems with LangChain.",
   },
 ];

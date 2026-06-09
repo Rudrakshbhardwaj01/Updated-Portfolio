@@ -5,21 +5,21 @@ export function WritingBanner() {
   const { writing } = siteConfig;
 
   return (
-    <section
+    <div
       aria-label="Writing"
-      className="-mx-8 mb-10 border-y border-accent/10 bg-accent/5 px-6 py-3 text-base sm:-mx-8 sm:px-8"
+      className="writing-banner flex min-w-0 flex-1 items-center border-2 border-foreground shadow-[5px_5px_0_var(--foreground)]"
     >
-      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+      <span className="writing-banner-accent" aria-hidden="true" />
+      <div className="flex min-w-0 flex-wrap items-baseline gap-x-3 gap-y-1 px-4 py-3 sm:px-5 sm:py-3.5">
         <TextLink href={writing.url}>
-          <span className="text-xs font-semibold tracking-[0.15em] uppercase">
+          <span className="brutal-role-title text-[1.35rem] sm:text-[1.5rem]">
             {writing.label}
           </span>
         </TextLink>
-
-        <span className="text-secondary">
+        <span className="brutal-body text-sm sm:text-base">
           {writing.description}
         </span>
       </div>
-    </section>
+    </div>
   );
 }

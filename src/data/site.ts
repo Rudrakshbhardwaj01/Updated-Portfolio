@@ -1,15 +1,33 @@
 export const siteConfig = {
   name: "Rudraksh Bhardwaj",
-  tagline: "Applied AI Engineer · ML · Backends",
-  bio: [
-    "Applied ai engineer focused on machine learning, backend systems, ai agents, and developer tooling.",
-    "Currently building internal treasury tooling as a summer intern at EY.",
+  displayName: ["RUDRAKSH", "BHARDWAJ"],
+  tagline: "Applied AI Engineer",
+  specialization: "LLM Systems · RAG Pipelines · Backend Infrastructure",
+  ticker: [
+    "APPLIED AI ENGINEER",
+    "LLM SYSTEMS",
+    "RAG PIPELINES",
+    "MULTI-MODEL ORCHESTRATION",
+    "COMPUTER VISION",
+    "BACKEND INFRASTRUCTURE",
   ],
+  resumeUrl:
+    "https://drive.google.com/file/d/1iuoysXyKycYGElJW5xJAz0MfohSLvaiK/view?usp=sharing",
+  ctaEmail: "mailto:hello@rudrakshbhardwaj.com",
+  bio: {
+    lead: "I'm an Applied AI Engineer building",
+    highlight: "production-grade AI systems",
+    middle:
+      "— multi-model orchestration, RAG pipelines, and distributed backends — for",
+    squiggle: "engineering teams shipping real products",
+    tail: ".",
+  },
+  bioSecondary:
+    "Currently a Summer Intern at EY, building internal treasury tooling and AI-assisted workflow automation.",
   writing: {
-    label: "WRITINGS",
+    label: "Writings",
     url: "/writings",
-    description:
-      "technical and non technical blogs",
+    description: "Technical essays on GenAI, ML, and systems",
   },
   lastUpdated: "June 08, 2026",
   email: "mailto:hello@rudrakshbhardwaj.com",
@@ -22,21 +40,27 @@ export type SocialLink = {
 };
 
 export const socialLinks: SocialLink[] = [
-  { label: "Resume", href: "https://drive.google.com/file/d/1iuoysXyKycYGElJW5xJAz0MfohSLvaiK/view?usp=sharing", external: true },
   {
-    label: "Github",
+    label: "GitHub",
     href: "https://github.com/Rudrakshbhardwaj01",
     external: true,
   },
-  {
-    label: "Linkedin",
-    href: "https://www.linkedin.com/in/rudraksh-bhardwaj-55a337278/",
-    external: true,
-  },
-  { label: "Email", href: siteConfig.email },
   {
     label: "X",
     href: "https://x.com/Rudrakshb01",
     external: true,
   },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/rudraksh-bhardwaj-55a337278/",
+    external: true,
+  },
+  { label: "Email", href: siteConfig.email },
 ];
+
+export const navLinks = [
+  { label: "Experience", href: "#experience" },
+  { label: "Work", href: "#work" },
+  { label: "Skills", href: "#skills" },
+  { label: "Writings", href: "/writings" },
+] as const;

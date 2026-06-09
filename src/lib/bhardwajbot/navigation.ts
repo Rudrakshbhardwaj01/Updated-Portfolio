@@ -11,14 +11,19 @@ export const navigationTargets: NavigationTarget[] = [
     description: "Portfolio overview with experience, projects, and education",
   },
   {
-    path: "/#experience-heading",
+    path: "/#experience",
     label: "Experience",
     description: "Work history and internships",
   },
   {
-    path: "/#projects-heading",
-    label: "Projects",
-    description: "LLM Consulate, YouTubeGPT, Git Gallery",
+    path: "/#work",
+    label: "Selected Work",
+    description: "LLM-Consulate, YouTubeGPT, RoadDefect-Dodge",
+  },
+  {
+    path: "/#skills",
+    label: "Skills",
+    description: "AI/ML, backend, and systems expertise",
   },
   {
     path: "/#education-heading",
@@ -78,8 +83,9 @@ export function isValidNavigationPath(path: string): boolean {
 
   if (path.startsWith("/#")) {
     const validHashes = [
-      "/#experience-heading",
-      "/#projects-heading",
+      "/#experience",
+      "/#work",
+      "/#skills",
       "/#education-heading",
     ];
     return validHashes.includes(path);
