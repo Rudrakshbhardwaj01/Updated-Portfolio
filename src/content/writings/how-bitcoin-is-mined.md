@@ -1,7 +1,7 @@
 ---
-title: "How Bitcoin Is Mined"
+title: "The Machinery Behind Bitcoin"
 date: "2025-08-15"
-description: "A beginner-friendly explanation of Bitcoin mining."
+description: "An exploration of the processes and machinery that power Bitcoin mining."
 category: "Blockchain"
 ---
 # How Bitcoin is Mined: A Beginner’s POV

@@ -1,10 +1,10 @@
 ---
-title: "CNN Transfer Learning: Feature Extraction and Fine-Tuning Explained"
+title: "The Art of Transfer Learning"
 date: "2026-06-04"
 description: "How pre-trained CNNs, feature extraction, and fine-tuning let you adapt deep models without training from scratch."
 category: "Deep Learning"
 ---
-# CNN Transfer Learning: Feature Extraction and Fine-Tuning Explained
+# The Art of Transfer Learning
 
 <img
   src="/assets/poster1_new.png"
