@@ -1027,7 +1027,7 @@ body {
 
   display: block;
 
-  filter: grayscale(10%) contrast(1.10) brightness(1.05);
+  filter: grayscale(10%) contrast(1.10) brightness(1.05) opacity(0.9);
 }
 
 .poster3 {
