@@ -26,9 +26,23 @@ export function Hero() {
             {siteConfig.tagline} · {siteConfig.specialization}
           </p>
 
+          {/* Hero Banner */}
+          <div className="relative mt-8 max-w-lg aspect-[10/5] overflow-hidden border-2 border-foreground bg-card shadow-[5px_5px_0_var(--foreground)]">
+            <Image
+              src="/assets/heroBanner.png"
+              alt="Learning by doing"
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 32rem"
+              className="object-cover grayscale-[15%] object-cover object-[center_65%]"
+            />
+          </div>
+
           <p className="brutal-body-lg mt-8 max-w-lg">
             {bio.lead}{" "}
-            <span className="brutal-highlight text-primary">{bio.highlight}</span>
+            <span className="brutal-highlight text-primary">
+              {bio.highlight}
+            </span>
             {bio.middle}{" "}
             <span className="brutal-squiggle text-primary">{bio.squiggle}</span>
             {bio.tail}
@@ -42,6 +56,7 @@ export function Hero() {
                 Let&apos;s Talk →
               </BrutalistButton>
             </div>
+
             <WritingBanner />
           </div>
 
