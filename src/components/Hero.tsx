@@ -34,7 +34,7 @@ export function Hero() {
               fill
               priority
               sizes="(max-width: 768px) 100vw, 32rem"
-              className="object-cover grayscale-[15%] object-cover object-[center_60%]"
+              className="object-cover grayscale-[15%] object-cover object-[center_58%]"
             />
           </div>
 
