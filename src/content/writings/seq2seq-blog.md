@@ -16,7 +16,7 @@ For the longest time, NLP problems involving variable length input-output sequen
 
 Then, researchers introduced a new architecture to deal with these sequence-to-sequence problems, problems with variable length inputs and outputs. They tested their newly designed architecture on a machine translation task from English to French, and they broke the curve by achieving a BLEU score higher than the state of the art at that time.
 
-We will get to what exactly they proposed, but let's just understand what exactly we are dealing with right now. Let's just understand what could be a task involving variable length input and output.
+We will get to what exactly they proposed, but let's just understand what exactly we are dealing with right now, what could be a task involving variable length input and output.
 
 A prominent example of such a task would be machine translation, i.e., language translation, translating text from one language to another.
 
@@ -49,9 +49,9 @@ When it does that for the whole sequence, the whole sentence, by the time the en
 
 A context vector is nothing but the semantic meaning, it is just the essence of what the sentence inputted into the encoder is trying to deliver, in vectorized format. A vector is nothing but a set of numbers.
 
-Now, to be a bit more precise about where this context vector actually comes from: it is the encoder's final hidden state (and cell state for LSTMs) at the last time step. So by the time the encoder has gone through every token of the input sentence, this final hidden state (and cell state for LSTMs) is what gets passed on to the decoder as the context vector.
+To be more precise, the context vector is simply the encoder's final hidden state (and cell state for LSTMs) at the last time step. By the time the encoder has processed every token in the input sentence, these final states are passed to the decoder as the context vector.
 
-Now, here's a small caveat worth keeping in mind: this context vector is the encoder's attempt to squeeze the meaning of the entire input sentence into one fixed-size vector. For short sentences like ours, that's fine. But for long sentences, cramming everything into this single vector becomes a bottleneck, the encoder just doesn't have enough room to hold on to all the details. This is one of the main motivations behind attention, which we'll get into later.
+Now, here's a small caveat worth keeping in mind: this context vector is the encoder's attempt to squeeze the meaning of the entire input sentence into one fixed-size vector. For short sentences like ours, that's fine. But for long sentences, cramming everything into this single vector becomes a bottleneck, the encoder just doesn't have enough room to hold on to all the details. This is one of the main motivations behind attention, which we'll get into in the later blogs.
 
 ### 3. Decoder
 
@@ -65,7 +65,7 @@ This is a high-level overview of what this encoder-decoder architecture is.
 
 ### What's Under the Hood?
 
-Under the hood, the encoder and decoder are nothing but LSTM cells or GRU cells. We do not use plain RNNs because they have the vanishing gradient problem, so we don't use them. We use either an LSTM or a GRU. The researchers in the original paper used LSTMs.
+Under the hood, the encoder and decoder are nothing but LSTM cells or GRU cells. We do not use plain RNNs because they have the vanishing gradient problem. The researchers in the original paper used LSTMs.
 
 ## Preparing the Data: Tokenization and Vocabulary
 
@@ -79,7 +79,7 @@ For the English side, it would be a five-word vocabulary:
 think, about, it, come, in
 ```
 
-Now, the simplest way of representing each word uniquely in this five-word vocabulary would be **one-hot encoding**. What we do is we take a vector of five dimensions, and for each word, we one-hot encode it. The word that the vector is representing will be denoted as 1, and the rest of the words will be denoted with 0.
+Now, the simplest way of representing each word uniquely in this five-word vocabulary is through **one-hot encoding**. We take a five-dimensional vector, and for each word, the position assigned to that word is marked as 1 while all the remaining positions are set to 0. This gives every word a unique representation.
 
 So for "think", it would be:
 
@@ -95,7 +95,7 @@ in → [0, 0, 0, 0, 1]
 
 And that is how it would go for all the other words in the English vocabulary.
 
-Now let's come to the Hindi vocabulary. Ideally, this Hindi vocabulary also has five words: सोच, लो, अंदर, आ, जाओ, but since this is the target language, we need two additional words in it. These words are special symbols: the **start token** and the **end token**.
+Now let's come to the Hindi vocabulary. Ideally, this Hindi vocabulary also has five words: सोच, लो, अंदर, आ, जाओ, but since this is the target language, we need two additional words in it. These words are special symbols: the **`<start>` token** and the **`<end>` token**.
 
 These are really important as they signal the decoder when to start generating the output and when to stop generating the output. As soon as the decoder sees the start token, it starts generating the output. As soon as it sees the end token, it stops generating the output.
 
@@ -105,20 +105,11 @@ So we are going to one-hot encode this as well, but now the Hindi vocabulary is 
 
 The encoder is nothing but a bunch of LSTM cells connected to each other sequentially.
 
-As you already know, there are two states in an LSTM, the **hidden state** and the **cell state**. Typically, the hidden state and cell state are initialized to zeros, although some implementations may use learned initial states. We send our first token as input along with these initial cell state and hidden state values into the encoder.
+As you already know, an LSTM maintains two states: the **hidden state** and the **cell state**. At the beginning of the encoding process, these states are typically initialized to zeros, although some implementations use learned initial states instead. The first token, **"think"**, is then fed into the encoder together with these initial hidden and cell state values.
 
-The corrected dataset for this example is:
+The LSTM cells process the input sequence one time step at a time. At the first time step, we feed the token **"think"** into the encoder. At the second time step, we feed **"about"**, at the third time step **"it"**, and so on.
 
-| English        | Hindi      |
-| --------------- | ----------- |
-| Think about it  | सोच लो      |
-| Come in         | अंदर आ जाओ  |
-
-So, the initial values of the cell state and hidden state for the encoder are typically zeros (or learned initial states, in some implementations), and we send the first token, which is "think", as input along with these initial cell state and hidden state values into the encoder.
-
-The LSTM cells start generating outputs sequentially, time step wise. On time step one, they generate something. On time step two, we feed "about". On time step three, we feed "it". And so on.
-
-The cells receive these inputs along with the hidden states and cell states, and these states are updated based on the same logic by which they are updated in any LSTM, we are not going into the details of that here.
+At each time step, the LSTM receives the current input token along with the hidden state and cell state from the previous time step. Based on the standard LSTM update equations, these states are updated and passed on to the next time step. We will not go into the details of those updates here.
 
 Now, when we say that "think", "about", or "it" is going as input, it is not the words themselves that are going in, it is the **one-hot encoded versions** of them.
 
@@ -144,7 +135,7 @@ Here is the interesting bit: we make sure to attach a **softmax layer** on top o
 
 Very important: the number of units in this softmax layer will be exactly equal to the number of words in the decoder vocabulary, seven, in our case.
 
-Now, assuming we gave the context vector and the start token to the decoder, and this softmax layer generated some probabilities. Let's say the second parameter got the highest value. Based on the probabilities generated by the softmax layer, the output comes out to be "लो". But for "think", the actual translated output should have been "सोच".
+Now, assuming we gave the context vector and the `<start>` token to the decoder, and this softmax layer generated some probabilities. Let's say the second parameter got the highest value. Based on the probabilities generated by the softmax layer, the output comes out to be "लो". But for "think", the actual translated output should have been "सोच".
 
 ```text
 Decoder step 1:
@@ -171,7 +162,7 @@ Predicted output: लो (correct, by chance)
 
 This is teacher forcing, regardless of whatever output comes, we always feed the ground-truth target token from the dataset as the next time step's input.
 
-Remember, this teacher forcing step is done only during the **training phase**, not while predicting. If we did this during prediction, it would defeat the entire purpose, since we wouldn't have the "correct" answer available at prediction time.
+Remember, this teacher forcing step is done only during the **training phase**, not while predicting. If we did this during prediction, it would defeat the entire purpose.
 
 So during training, you send the correct one-hot encoding of what the dataset says the translation should be.
 
