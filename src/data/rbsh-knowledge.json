@@ -1548,6 +1548,100 @@
   },
   "writings": [
     {
+      "id": "seq2seq-encoder-decoder",
+      "alias": [
+        "seq2seq",
+        "encoder-decoder",
+        "sequence-to-sequence",
+        "lstm-translation",
+        "machine-translation"
+      ],
+      "slug": "seq2seq-encoder-decoder",
+      "title": "The Encoder-Decoder Architecture: Building Sequence-to-Sequence Models",
+      "short_title": "Encoder-Decoder Architecture Explained",
+      "short_description": "A complete walkthrough of the original Seq2Seq encoder-decoder architecture, from context vectors and teacher forcing to training and inference.",
+      "summary": "A deep dive into the original sequence-to-sequence encoder-decoder architecture, covering tokenization, context vectors, teacher forcing, loss calculation, backpropagation through time, inference, and the key improvements introduced in the original paper.",
+      "description": "Learn how Seq2Seq encoder-decoder models work under the hood, from LSTM-based encoding and decoding to teacher forcing, cross-entropy loss, BPTT, embeddings, stacked LSTMs, and input sequence reversal.",
+      "url": "https://rudrakshbhardwaj.vercel.app/writings/seq2seq-encoder-decoder",
+      "published": "2026-06-15",
+      "read_time": "16 min",
+      "category": "Deep Learning",
+      "display_order": 1,
+      "featured": true,
+      "tags": [
+        "Seq2Seq",
+        "Encoder Decoder",
+        "LSTM",
+        "Machine Translation",
+        "Teacher Forcing",
+        "NLP",
+        "Deep Learning",
+        "Sequence Models",
+        "RNN",
+        "GRU"
+      ],
+      "keywords": [
+        "sequence to sequence",
+        "encoder decoder architecture",
+        "seq2seq model",
+        "teacher forcing",
+        "context vector",
+        "machine translation",
+        "lstm encoder decoder",
+        "decoder inference",
+        "bptt",
+        "backpropagation through time",
+        "categorical cross entropy",
+        "sequence learning",
+        "input reversal",
+        "stacked lstm",
+        "embeddings"
+      ],
+      "topics": [
+        "Sequence-to-Sequence Learning",
+        "Encoder Architecture",
+        "Decoder Architecture",
+        "Context Vectors",
+        "Machine Translation",
+        "Teacher Forcing",
+        "Training vs Inference",
+        "Categorical Cross Entropy",
+        "Backpropagation Through Time",
+        "Embeddings",
+        "Stacked LSTMs",
+        "Input Sequence Reversal",
+        "Sequence Modeling",
+        "Natural Language Processing"
+      ],
+      "key_concepts": {
+        "encoder": "Processes the source sequence token by token and compresses the information into a context vector represented by the final hidden state (and cell state for LSTMs).",
+        "context_vector": "A fixed-size representation of the input sequence that is passed from the encoder to the decoder. It becomes a bottleneck for long sequences.",
+        "decoder": "Generates the target sequence one token at a time using the context vector and previously generated outputs.",
+        "teacher_forcing": "During training, the decoder receives the ground-truth token from the dataset as the next input rather than its own prediction, improving convergence and stability.",
+        "cross_entropy": "Loss is computed at every decoder timestep by comparing predicted probabilities against the correct target token using categorical cross entropy.",
+        "bptt": "Gradients flow backward through all decoder and encoder timesteps via Backpropagation Through Time, allowing the entire model to learn jointly.",
+        "inference": "During prediction, the decoder feeds its own previous output back as input until it generates the end token.",
+        "limitations": "Compressing an entire sequence into a single fixed-size context vector creates an information bottleneck, especially for long sentences."
+      },
+      "architecture_improvements": {
+        "embeddings": "Replace sparse one-hot vectors with dense learned representations that are more compact and capture semantic relationships between words.",
+        "stacked_lstms": "Use multiple LSTM layers instead of a single layer to learn increasingly abstract sequence representations.",
+        "input_reversal": "Reverse the source sequence before encoding to shorten dependency paths between corresponding input and output tokens, improving optimization."
+      },
+      "popular_concepts_covered": [
+        "Context Vector",
+        "Teacher Forcing",
+        "Encoder LSTM",
+        "Decoder LSTM",
+        "Cross Entropy Loss",
+        "Backpropagation Through Time",
+        "Embedding Layers",
+        "Stacked LSTMs",
+        "Input Reversal",
+        "Machine Translation"
+      ]
+    },
+    {
       "id": "transferlearning",
       "alias": [
         "transfer-learning",
@@ -1565,7 +1659,7 @@
       "published": "2026-06-04",
       "read_time": "10 min",
       "category": "Deep Learning",
-      "display_order": 1,
+      "display_order": 2,
       "featured": true,
       "tags": [
         "CNN",
