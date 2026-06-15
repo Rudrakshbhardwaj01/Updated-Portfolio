@@ -5,9 +5,9 @@ export const siteConfig = {
   specialization: "ML · LLMs · Backends",
   ticker: [
   "APPLIED AI ENGINEER",
-  "LLM ORCHESTRATION",
-  "RAG PIPELINES",
-  "INFORMATION EXTRACTION",
+  "ML",
+  "LLMs",
+  "RAG PIPELINES",,
   "BACKEND SYSTEMS",
 ],
   resumeUrl:

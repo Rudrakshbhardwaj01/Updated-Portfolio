@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "katex/dist/katex.min.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -591,6 +592,98 @@ body {
   font-size: 0.875em;
 }
 
+.post-content pre {
+  overflow-x: auto;
+  border: 2px solid var(--border);
+  background: color-mix(in srgb, var(--foreground) 4%, var(--background));
+  padding: 0.875rem 1rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--secondary);
+  -webkit-overflow-scrolling: touch;
+}
+
+.post-content pre code {
+  font-family: inherit;
+  font-size: inherit;
+  background: transparent;
+  padding: 0;
+  color: inherit;
+}
+
+.post-content img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.post-content table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  border: 2px solid var(--border);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.post-content th,
+.post-content td {
+  padding: 0.625rem 0.875rem;
+  text-align: left;
+  vertical-align: top;
+  border: 1px solid color-mix(in srgb, var(--border) 40%, transparent);
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.post-content th {
+  color: var(--foreground);
+  font-weight: 600;
+  background: color-mix(in srgb, var(--foreground) 5%, var(--background));
+}
+
+.post-content td {
+  color: var(--secondary);
+}
+
+.post-content .post-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.post-content .post-table-scroll table {
+  min-width: 100%;
+}
+
+@media (max-width: 640px) {
+  .post-content th,
+  .post-content td {
+    padding: 0.5rem 0.625rem;
+    font-size: 0.8125rem;
+  }
+}
+
+.post-content .katex {
+  color: var(--foreground);
+  font-size: 1.05em;
+}
+
+.post-content .katex-display {
+  display: block;
+  margin: 1.25rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  text-align: center;
+}
+
+.post-content .katex-display > .katex {
+  text-align: center;
+  white-space: nowrap;
+}
+
 /* Portfolio utility launchers — RBSH + BhardwajBot */
 
 .utility-launcher-wrap {
@@ -1054,4 +1147,17 @@ body {
   display: block;
 
   filter: grayscale(10%) contrast(1.25) brightness(0.95);
+}
+
+.tigerpng {
+  width: 100%;
+  aspect-ratio: 14 / 5;
+  height: auto;
+
+  object-fit: cover;
+  object-position: center 71%;
+
+  display: block;
+
+  filter: grayscale(20%) contrast(1.0) brightness(0.95);
 }
