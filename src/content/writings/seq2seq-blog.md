@@ -216,25 +216,28 @@ $$
 
 Here, $y_i$ is the one-hot encoded target, so only the term where $y_i = 1$ (i.e., the correct token) survives the sum, meaning the loss at each timestep is simply the negative log of the probability the model assigned to the correct token.
 
-Once we have these individual, per-token losses for the whole sequence, we sum them up (or take their average) to get a single loss value for that sequence. This sequence-level loss is what we then use for backpropagation.
+Once we have these individual, per-token losses for the whole sequence, we sum them up (or take their average) to get a single loss value for that sequence.
+
+If we are training with batches, we then average these sequence losses across all examples in the batch to obtain a single **batch loss**.
 
 ## Forward Propagation and Backpropagation
 
-Once we have completed one full cycle, encoder, context vector, decoder, for one batch of data points (this is the batching setup we talked about), we can say one forward propagation pass is done.
+Once we have passed a batch of input sentences through the encoder, run the decoder, and calculated the batch loss, we can say one forward propagation pass is complete.
 
 The next step is **backpropagation**. We have calculated the loss, and now we try to minimize it, that's the standard approach in deep learning.
 
-Now, when we backpropagate, the gradients flow backward through all the decoder timesteps and then all the encoder timesteps too. This whole process of running gradients backward through time like this has a name, it's called Backpropagation Through Time, or BPTT for short.
+Now, when we backpropagate, the gradients flow backward through all the decoder timesteps, through the context vector, and then through all the encoder timesteps too. This whole process of running gradients backward through time like this has a name, it's called Backpropagation Through Time, or BPTT for short.
 
 And here's the neat part: the gradients coming from the decoder don't just stop at the decoder, they flow through the context vector and continue right into the encoder. So both the encoder and the decoder end up learning together, as one connected system.
 
-For backpropagation, we calculate the gradients, and then we run an optimizer, it can be Adam, RMSprop, or whichever you want. Adam is the chosen one in the original paper.
+For backpropagation, we calculate the gradients, and then we run an optimizer, it can be SGD, Adam, RMSprop, or whichever you want.
 
 You run the optimizer with a set learning rate, and you get updated weights for the whole architecture. Then you start forward propagation again.
 
 This is how training is done, for however many epochs you might like.
 
 Just a quick note on terminology before we move on: one iteration is basically one forward pass plus one backward pass over a single batch, that's it. An epoch, on the other hand, is when you've gone through your entire dataset once, batch by batch, doing this forward-backward thing for all of them. So if your dataset has, say, 10 batches, then 10 iterations make up one epoch.
+
 
 ## Prediction
 
