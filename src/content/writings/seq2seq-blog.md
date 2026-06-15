@@ -12,7 +12,7 @@ category: "Deep Learning"
   class="tigerpng"
 />
 
-For the longest time, NLP problems involving variable length input-output sequences used to be tackled with the help of unidirectional and bidirectional  LSTMs, GRUs, RNNs.
+For the longest time, NLP problems involving variable length input-output sequences used to be tackled with the help of unidirectional and bidirectional  LSTMs, GRUs and RNNs.
 
 Then, researchers introduced a new architecture to deal with these sequence-to-sequence problems, problems with variable length inputs and outputs. They tested their newly designed architecture on a machine translation task from English to French, and they broke the curve by achieving a BLEU score higher than the state of the art at that time.
 
@@ -272,9 +272,9 @@ We can make some improvements in this architecture to achieve better results.
 
 ### 1. Embeddings Instead of One-Hot Encoding
 
-Instead of using one-hot encoding, we use an **embedding layer**. Why? Because in our example, we had a very small vocabulary, but what if we are dealing with actual data, vocabularies of hundreds of thousands of words? We can't have a one-hot encoding that long; it would be pointless.
+Instead of using one-hot encoding, we use an embedding layer. Why? Because in our example, we had a very small vocabulary. In real-world datasets, however, vocabularies can contain tens or even hundreds of thousands of words. Representing each word as a one-hot vector would be highly inefficient, since the vector would be extremely large while containing only a single non-zero value.
 
-Instead, we use embeddings. We can set a fixed size or dimension for them, say, a 3-dimensional or 5-dimensional embedding. Since these embeddings are dense instead of sparse, we get better results, and training time reduces.
+Instead, we map each token to a dense embedding vector of a fixed size, such as 128, 256, or 512 dimensions. Unlike one-hot vectors, embeddings can learn meaningful relationships between words and represent them in a much more compact form. This reduces memory usage, makes computations more efficient, and provides the model with richer representations of the input tokens.
 
 ### 2. Deep (Stacked) LSTMs or GRUs
 
