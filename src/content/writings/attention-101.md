@@ -13,13 +13,17 @@ category: "Deep Learning"
   class="blog5"
 />
 
-To everyone reading this blog, I assume you either have read the previous encoder-decoder architecture blog on my website, or at least have a decent idea of how the encoder-decoder architecture or seq2seq models work. Because whatever we are going to talk about in this blog builds on top of that. You can read it [here](/writings/seq2seq-blog). Now that you have a basic idea of how the encoder-decoder architecture works, let's move forward.
+Before we begin, I am going to assume that you either have read my previous blog on encoder-decoder architectures or already have a decent understanding of how Seq2Seq models work. Everything we discuss in this blog builds directly on top of those ideas.
+
+ You can read it [here↗](/writings/seq2seq-blog).
+
+Now, with that foundation in place, let's look at why the attention mechanism was needed in the first place.
 
 ## Why do we even need attention?
 
 You must be wondering, why do we even need a new mechanism or a new architecture when the encoder-decoder architecture solved the sequence-to-sequence problems? Example, summary generation, machine translation, etc.
 
-Here is the answer. Although the encoder-decoder architecture works well on these kinds of tasks, its output quality starts to degrade the moment the sentence length increases, the moment the sentences become large, let's say more than 30 words.
+Here is the answer. Although the encoder-decoder architecture works well on these kinds of tasks, its output quality starts to degrade the moment the sentence length increases, the moment the sentences become lengthy, let's say more than 30 words.
 
 Why does this happen? This happens because of the context vector. Remember, we saw that the context vector is, in layman terms, the summary or the essence of the whole sentence that has been processed by the encoder, that is later fed to the decoder. Now what happens is, as the sentence length grows, the context vector starts failing in catching up with the nuanced or minute details in the long sentences, which is pretty obvious because if we want to summarize a whole paragraph in a fixed-size vector, it will lose its quality. It will lose details. So this is one issue, and this issue is from the encoder side.
 
@@ -31,7 +35,7 @@ What is the solution? The solution is, at every time step of the decoder, we hav
 
 ## Building intuition with an example
 
-Now, before we take a deep dive into the world of attention, let's take an example. Let's build intuition. Let's take an example that we will carry forward throughout this blog, to make things more intuitive and to make sure that everything clicks.
+Now, before we take a deep dive into the world of attention, let's take an example. Let's build intuition. We will carry forward throughout this blog, to make things more intuitive and to make sure that everything clicks.
 
 The task is machine translation. We have a sentence in English, and we have to translate it into Hindi. The sentence is "turn off the lights." Its Hindi translation would be "लाइट बंद करो."
 
@@ -54,7 +58,9 @@ Now, before we move forward, let us set some notation that will help us througho
 * $y_i$ is the $i^{th}$ input label of the decoder.
 * $c_i$ is something new — it is the $i^{th}$ attention input for the $i^{th}$ time step.
 
-It is this $c_i$ which is the attention bit of this architecture. You must be seeing that along with $y_i$ and $s_i$ in the decoder, there is another thing, $c_i$. This $c_i$ is the attention context supplied to the decoder at every $i^{th}$ time step.
+The key addition here is $c_i$, the attention context. You can see that, along with $y_i$ and $s_i$, the decoder now receives another input: $c_i$.
+
+This $c_i$ is supplied at every decoding step and tells the decoder which parts of the input sequence are most relevant at that particular moment. In many ways, it is the heart of the attention mechanism.
 
 So, to be precise, attention no longer relies on just that one fixed context vector for the entire decoding process. Instead, at every step, a fresh $c_i$ is computed and fed in, based on what the decoder thinks it needs at that particular moment.
 
@@ -72,11 +78,20 @@ We already know that $h_j$ is the $j^{th}$ hidden state of the encoder. The new 
 
 $\alpha_{ij}$ is called the attention weight, and it contains the information of which encoder hidden states are useful for a particular decoder time step to generate output. Basically, what we are doing while calculating $c_i$ is we are taking a weighted sum of the hidden states of the encoder. So these weights are nothing but the $\alpha_{ij}$'s.
 
-Now, where do these $\alpha_{ij}$'s actually come from? They don't come directly out of nowhere. They come from a raw score first, called the alignment score, $e_{ij}$, which then gets normalized into $\alpha_{ij}$. We'll get into exactly how in a bit, but just keep this in mind for now: $e_{ij}$ is the raw, unnormalized version, and $\alpha_{ij}$ is what you actually use as the weight.
+Now, where do these $\alpha_{ij}$'s actually come from? They come from a raw score, called the alignment score, $e_{ij}$, which then gets normalized into $\alpha_{ij}$. We'll get into exactly how in a bit, but just keep this in mind for now: $e_{ij}$ is the raw, unnormalized version, and $\alpha_{ij}$ is what you actually use as the weight.
 
 This $e_{ij}$ depends on two things: $h_j$, which is the current encoder hidden state, and $s_{i-1}$, which is the previous hidden state of the decoder.
 
-Now the question comes, why does this depend on the previous hidden state of the decoder? It's because our goal is not to generate the next token or the next word's translation in isolation. Given everything the decoder has produced so far, how useful would the $j^{th}$ hidden state of the encoder be for generating the output at this $i^{th}$ step? You get it? So you can see that the next word outputted by the decoder doesn't only depend on the encoder, it also depends on what's already been outputted by the decoder so far. Because the quality of the translation depends on the context built up till that point.
+Now, you might be wondering: why does the alignment score depend on the previous hidden state of the decoder?
+
+The reason is that translation is not performed one word at a time in isolation. When generating the output at decoder step $i$, the model must take into account everything it has produced so far. In other words, the question attention is trying to answer is:
+
+> Given the current state of the decoder, how useful is the $j^{th}$ encoder hidden state for generating the next output word?
+
+This is why the alignment score depends not only on the encoder hidden state $h_j$, but also on the previous decoder hidden state $s_{i-1}$. The decoder's hidden state contains information about the translation generated up to that point, allowing attention to decide which parts of the input sentence are most relevant right now.
+
+So, the next word produced by the decoder depends not only on the information coming from the encoder, but also on the context that the decoder has built throughout the translation process.
+
 
 ## Back to our example
 
@@ -148,7 +163,7 @@ This is actually a pretty neat way to think about it. The decoder isn't picking 
 
 Once we have these $\alpha_{ij}$'s, that's when we go back and compute $c_i$ the way we discussed earlier, as the weighted sum of the encoder's hidden states.
 
-How are these alignment-score networks trained, though? There are two techniques. First is Bahdanau attention, the second is Luong attention. They are the topics of the upcoming blogs, so we will not go into that detail as of now. This blog is mostly just intuition.
+How are these alignment-score networks trained, though? There are two techniques. First is **Bahdanau attention**, the second is **Luong attention**. They are the topics of the upcoming blogs, so we will not go into that detail as of now. This blog is mostly just intuition.
 
 One important thing: the number of alignment scores (and therefore attention weights) that need to be calculated for a particular sentence pair is equal to the number of words in the input sentence multiplied by the number of words in the output sentence.
 
