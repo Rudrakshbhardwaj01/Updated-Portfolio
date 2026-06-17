@@ -1174,3 +1174,16 @@ body {
 
   filter: grayscale(4%) contrast(1.0) brightness(0.85);
 }
+
+.blog6 {
+  width: 100%;
+  aspect-ratio: 14 / 5;
+  height: auto;
+
+  object-fit: cover;
+  object-position: center 25%;
+
+  display: block;
+
+  filter: grayscale(4%) contrast(1.0) brightness(0.85);
+}
