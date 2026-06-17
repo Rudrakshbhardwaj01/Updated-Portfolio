@@ -58,8 +58,8 @@ export const socialLinks: SocialLink[] = [
 ];
 
 export const navLinks = [
-  { label: "Experience", href: "#experience" },
-  { label: "Work", href: "#work" },
-  { label: "Skills", href: "#skills" },
+  { label: "Experience", href: "/#experience" },
+  { label: "Work", href: "/#work" },
+  { label: "Skills", href: "/#skills" },
   { label: "Writings", href: "/writings" },
 ] as const;
