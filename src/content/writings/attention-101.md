@@ -50,13 +50,15 @@ So, on the basis of what we know already, according to the encoder-decoder archi
 </div>
 
 ## Setting up notation
-
 Now, before we move forward, let us set some notation that will help us throughout this blog.
 
 * $h_i$ is the $i^{th}$ hidden state of the encoder.
-* $s_i$ is the $i^{th}$ hidden state of the decoder.
-* $y_i$ is the $i^{th}$ input label of the decoder.
-* $c_i$ is something new — it is the $i^{th}$ attention input for the $i^{th}$ time step.
+* $s_i$ is the hidden state of the decoder at decoder time step $i$.
+* $y_i$ is the decoder input token at decoder time step $i$.
+* $\hat{y}_i$ is the output token predicted by the decoder at decoder time step $i$.
+* $c_i$ is the attention context vector computed for decoder step $i$.
+
+> At decoder step $i$, the decoder receives $y_{i-1}$ as input and produces the output token $\hat{y}_i$.
 
 The key addition here is $c_i$, the attention context. You can see that, along with $y_i$ and $s_i$, the decoder now receives another input: $c_i$.
 

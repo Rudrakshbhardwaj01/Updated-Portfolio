@@ -107,12 +107,12 @@ This looks different from the concatenation-based version we're using, $e_{ij} =
 
 ## Computing the Attention Weights for $c_1$
 
-Now, we can actually calculate the attention weights required for computing $c_1$.
+Now, we can calculate the attention weights needed to construct \(c_1\).
 
-Every alignment score depends on the previous decoder hidden state and one encoder hidden state:
+To do this, we compare the previous decoder hidden state \(s_0\) with every encoder hidden state \(h_j\), producing a set of alignment scores:
 
 $$
-e_{ij} = f(s_{i-1}, h_j)
+e_{1j} = f(s_0, h_j)
 $$
 
 Since we are calculating the context vector for the first decoder step, we need the attention weights:
@@ -326,7 +326,7 @@ $$
 c_2 = \alpha_{21}h_1 + \alpha_{22}h_2 + \alpha_{23}h_3 + \alpha_{24}h_4
 $$
 
-giving us the context vector for decoder time step 2. We now have everything needed by the decoder: $c_2$, the previous decoder state $s_1$, and the previous output token $y_1$ ("लाइट"), which gets fed into the decoder LSTM to produce the next output token $y_2$ ("बंद") and an updated decoder hidden state $s_2$.
+giving us the context vector for decoder time step 2. We now have everything needed by the decoder: $c_2$, the previous decoder state $s_1$, and the previously generated output token "लाइट", which is fed back as the decoder input token $y_1$.
 
 So by the end of decoder time step 2, we have successfully generated the second output word and updated the decoder's internal state once again, and the same cycle continues for the next decoder time step.
 
@@ -544,7 +544,7 @@ Nothing mysterious going on here, it's exactly the pipeline we just walked throu
 This attentional hidden state is what is ultimately used to generate the output token. In other words:
 
 $$
-s_1 \rightarrow c_1 \rightarrow \bar{s}_1 \rightarrow y_1
+s_1 \rightarrow c_1 \rightarrow \bar{s}_1 \rightarrow \hat{y}_1
 $$
 
 rather than directly using $s_1$ alone. The decoder first forms its own opinion about what should be generated next by computing $s_1$. Then attention is applied, relevant information is gathered from the encoder through $c_1$, and finally both pieces of information are combined to form the attentional hidden state $\bar{s}_1$, which is then used to generate the first output token.
