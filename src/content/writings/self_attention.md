@@ -44,6 +44,20 @@ For example, consider the following two sentences:
 * Apple is a red-colored fruit.
 * Apple makes good phones.
 
+<div style="text-align: center; margin: 2.5rem 0;">
+  <img
+    src="/assets/apple_humor.png"
+    alt="Apple ambiguity illustration"
+    style="
+      width: 80%;
+      max-width: 600px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    "
+  />
+</div>
+
 Although the word *Apple* appears in both sentences, it clearly refers to two entirely different things. Therefore, the embedding generated for *Apple* in the first sentence should be different from the embedding generated for *Apple* in the second sentence.
 
 In other words, the representation of a word should be influenced not only by the word itself but also by the words surrounding it. This is exactly what contextualized representations aim to achieve.
