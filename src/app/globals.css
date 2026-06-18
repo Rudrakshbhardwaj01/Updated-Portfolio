@@ -1190,15 +1190,22 @@ body {
 
 .self-attention {
   width: 100%;
-  aspect-ratio: 15 / 5;
+  aspect-ratio: 14 / 5;
   height: auto;
 
   object-fit: cover;
-  object-position: center 25%;
+  object-position: center 12%;
 
   display: block;
 
-  filter: grayscale(4%) contrast(1.0) brightness(0.85);
+  filter:
+    brightness(0.88)
+    contrast(1.08)
+    saturate(0.85);
+
+  opacity: 0.95;
+
+  transform: scale(1.02);
 }
 
 .qkv-illustration {
