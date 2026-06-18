@@ -107,9 +107,9 @@ This looks different from the concatenation-based version we're using, $e_{ij} =
 
 ## Computing the Attention Weights for $c_1$
 
-Now, we can calculate the attention weights needed to construct \(c_1\).
+Now, we can calculate the attention weights needed to construct $c_1$.
 
-To do this, we compare the previous decoder hidden state \(s_0\) with every encoder hidden state \(h_j\), producing a set of alignment scores:
+To do this, we compare the previous decoder hidden state $s_0$ with every encoder hidden state $h_j$, producing a set of alignment scores:
 
 $$
 e_{1j} = f(s_0, h_j)
