@@ -1207,7 +1207,8 @@ body {
 }
 
 .qkv-illustration img {
-  width: 180px;
+  width: 100%;
+  max-width: 180px;
   height: auto;
   display: block;
   margin: 0 auto;
@@ -1226,5 +1227,34 @@ html.dark .qkv-illustration .light-image,
 
 html.dark .qkv-illustration .dark-image,
 .dark .qkv-illustration .dark-image {
-  display: inline-block;
+  display: block;
+}
+
+.qkv-illustration2 {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.qkv-illustration2 img {
+  width: 100%;
+  max-width: 580px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Light Mode */
+.qkv-illustration2 .dark-image2 {
+  display: none;
+}
+
+/* Dark Mode */
+html.dark .qkv-illustration2 .light-image2,
+.dark .qkv-illustration2 .light-image2 {
+  display: none;
+}
+
+html.dark .qkv-illustration2 .dark-image2,
+.dark .qkv-illustration2 .dark-image2 {
+  display: block;
 }

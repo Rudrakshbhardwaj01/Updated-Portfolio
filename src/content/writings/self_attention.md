@@ -44,17 +44,17 @@ For example, consider the following two sentences:
 * Apple is a red-colored fruit.
 * Apple makes good phones.
 
-<div style="text-align: center; margin: 2.5rem 0;">
+<div class="qkv-illustration2">
   <img
-    src="/assets/apple_humor.png"
-    alt="Apple ambiguity illustration"
-    style="
-      width: 80%;
-      max-width: 600px;
-      height: auto;
-      display: block;
-      margin: 0 auto;
-    "
+    src="/assets/apple_illustration.png"
+    class="light-image2"
+    alt="QKV Illustration"
+  />
+
+  <img
+    src="/assets/apple_illustration_dark.png"
+    class="dark-image2"
+    alt="QKV Illustration"
   />
 </div>
 
