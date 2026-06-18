@@ -547,22 +547,6 @@ This matters because many real-world tasks require more than contextualization. 
 
 In other words, gathering information from surrounding words is a necessary first step, but without learning from data, the model has no way of knowing which of those words actually matter for the task at hand.
 
-## Why Is It Called Self-Attention?
-
-At this point, it is worth pausing to address a question that often arises when people first encounter this mechanism.
-
-Why is it called *self*-attention?
-
-The answer lies in where the Queries, Keys, and Values come from.
-
-In the mechanism we have been building, all three of these quantities are derived from the same input sequence. When we compute the contextual representation of a word in the phrase *Money bank grows*, both the query and the things being queried are tokens from that same phrase. Each token attends to all other tokens within the same sequence, including itself.
-
-This is what the word *self* refers to. The sequence is attending to itself.
-
-This distinguishes self-attention from cross-attention, which is used in the encoder-decoder attention layers of the original Transformer. In cross-attention, the Queries come from one sequence (for example, the sequence being generated), while the Keys and Values come from a different sequence, such as the encoded source sentence. In self-attention, all three come from the same sequence.
-
-Keeping this distinction in mind will make the architecture of the full Transformer considerably easier to understand when you encounter it.
-
 ## The Same Embedding, Three Different Roles
 
 Upon observing this architecture more carefully, we arrive at an important realization.
@@ -580,6 +564,8 @@ Before we do that, however, let us make an interesting observation.
 Notice that the same embedding of a word is being used three different times while computing its contextual embedding.
 
 Consider the leftmost block, where we are trying to generate the contextual embedding of the word *money*, namely $y_{money}$.
+
+![Word-by-word attention computation](/assets/self_attention1.png)
 
 If you look closely, the embedding $e_{money}$ appears three times:
 
@@ -599,7 +585,7 @@ Why are we using the same embedding three times?
 
 The answer is that, although all three boxes contain the same embedding, they are actually playing three completely different roles.
 
-Let us focus on the leftmost block, where we are trying to generate $y_{money}$.
+Looking at the leftmost block, where we are trying to generate $y_{money}$.
 
 The green embedding is responsible for comparing itself against all other embeddings in the sentence in order to determine how relevant each of them is.
 
@@ -646,6 +632,22 @@ These three roles are what eventually become the Query, Key, and Value vectors u
 > **Key (K):** The vector that is compared against a Query to produce a relevance score. Relevance is determined by the Query-Key interaction, not by the Key alone.
 >
 > **Value (V):** The vector containing the actual information that will be aggregated using the attention weights: "What information should I contribute to the final contextualized representation?"
+
+## Why Is It Called Self-Attention?
+
+At this point, it is worth pausing to address a question that often arises when people first encounter this mechanism.
+
+Why is it called *self*-attention?
+
+The answer lies in where the Queries, Keys, and Values come from.
+
+In the mechanism we have been building, all three of these quantities are derived from the same input sequence. When we compute the contextual representation of a word in the phrase *Money bank grows*, both the query and the things being queried are tokens from that same phrase. Each token attends to all other tokens within the same sequence, including itself.
+
+This is what the word *self* refers to. The sequence is attending to itself.
+
+This distinguishes self-attention from cross-attention, which is used in the encoder-decoder attention layers of the original Transformer. In cross-attention, the Queries come from one sequence (for example, the sequence being generated), while the Keys and Values come from a different sequence, such as the encoded source sentence. In self-attention, all three come from the same sequence.
+
+Keeping this distinction in mind will make the architecture of the full Transformer considerably easier to understand when you encounter it.
 
 It is worth pausing here to make the division of labor explicit, since it is easy to wonder why we need two separate roles, Key and Value, instead of just one.
 
