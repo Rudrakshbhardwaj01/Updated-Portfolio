@@ -445,17 +445,31 @@ There are two important observations to make about this mechanism.
 
 ### Observation 1: Everything can be computed in parallel
 
-If you look carefully at the computations involved, every operation is independent of the others.
+If you look carefully at the mechanism we have constructed so far, every computation is independent of the others.
 
-The computation of $S_{11}$ does not depend on $S_{21}$. The computation of $A_{12}$ does not depend on $A_{31}$. Similarly, the contextual embedding of one word does not need to wait for the contextual embedding of another word to be computed.
+The similarity score between one pair of embeddings can be computed without waiting for the similarity score of any other pair. Likewise, the attention weights for one word can be computed independently of the attention weights for every other word. And once those weights have been obtained, the contextual embedding of a word can be formed without needing the contextual embeddings of the remaining words.
 
-As a result, all these computations can be performed simultaneously. Instead of processing words one after another, we can process the entire sequence at once using linear algebra operations.
+As a result, there is no inherent sequential dependency in the computation.
 
-This is one of the biggest advantages of this approach, and one of the reasons why Transformer-based models are significantly more efficient than recurrent architectures when dealing with long sequences.
+Unlike recurrent architectures, which process tokens one after another, the mechanism we have built allows every word in the sequence to perform its computations simultaneously.
 
-However, this advantage comes with a trade-off.
+This means that instead of processing:
 
-Since all words are processed simultaneously, the mechanism itself has no notion of sequence order. From its perspective:
+*Money → bank → grows*
+
+one word at a time, we can process the entire sequence in parallel.
+
+This property turns out to be extremely important.
+
+Modern hardware such as GPUs is highly optimized for performing large numbers of mathematical operations simultaneously. Since the computations in our attention mechanism do not depend on one another, they can be expressed as matrix operations and executed very efficiently in parallel.
+
+This parallelism is one of the key reasons attention-based architectures scale so effectively to large datasets and long sequences.
+
+However, this advantage comes with an important trade-off.
+
+Because every word is processed simultaneously, the mechanism itself has no built-in notion of sequence order.
+
+From its perspective, the phrases
 
 *Money bank grows*
 
@@ -463,91 +477,63 @@ and
 
 *Grows bank money*
 
-contain exactly the same set of embeddings. The mechanism knows which words are present, but it has no way of knowing the order in which those words appeared.
+contain exactly the same set of embeddings.
 
-In other words, we lose sequential information, which is extremely important when working with textual data.
+The mechanism can determine how strongly words should influence one another, but nothing in the computations we have described so far tells it which word appeared first, second, or third.
 
-Fortunately, Transformers have a clever solution for this problem, which we will cover in a later blog.
+In other words, the attention mechanism by itself does not encode positional information.
 
-That solution is called positional encoding. Before self-attention is applied, positional information is injected into the token embeddings. This allows the model to distinguish between sentences containing the same words in different orders, ensuring that word order information is not lost despite the highly parallel nature of self-attention.
+Fortunately, Transformer architectures solve this problem through a technique known as **positional encoding**, which injects information about token positions into the embeddings before attention is applied.
+
+We will not cover positional encoding in this blog, but it is worth keeping in mind that attention alone is not sufficient for modeling word order.
 
 ## Scaling to Longer Sequences
 
-Now that we have expressed the entire mechanism using matrices, it becomes clear just how cleanly the computation scales to longer sequences.
+Up until now, we have intentionally described everything from the perspective of individual words.
 
-Recall that our sentence:
+For example, when constructing the contextual embedding of *bank*, we manually computed similarity scores, converted those scores into attention weights, and then used those weights to form a weighted combination of embeddings.
+
+This word-by-word view is extremely useful because it exposes the underlying intuition.
+
+However, Observation 1 reveals something important.
+
+None of the computations we performed actually need to be carried out one word at a time.
+
+The similarity scores for all pairs of words can be computed simultaneously.
+
+The attention weights for all words can be computed simultaneously.
+
+And the contextual embeddings for all words can be constructed simultaneously.
+
+In practice, we therefore replace the word-by-word view with a matrix-based formulation that performs exactly the same computations for the entire sequence at once.
+
+Matrices are not introducing a new mechanism.
+
+They are simply a compact way of expressing the same operations we have already derived.
+
+Recall our running example:
 
 *Money bank grows*
 
-contains three words.
-
-We begin by stacking the embeddings of all three words into a single embedding matrix:
+We can stack the embeddings of all three words into a single embedding matrix:
 
 $$
-E = \begin{bmatrix} e_{\langle money \rangle} \\ e_{\langle bank \rangle} \\ e_{\langle grows \rangle} \end{bmatrix}
+E =
+\begin{bmatrix}
+e_{\langle money \rangle} \
+e_{\langle bank \rangle} \
+e_{\langle grows \rangle}
+\end{bmatrix}
 $$
 
-This is a $3 \times n$ matrix.
+This is a $3 \times n$ matrix, where:
 
-The number $3$ represents the number of words in the sentence, while $n$ represents the dimensionality of the embedding vectors.
+* $3$ is the number of words in the sequence.
+* $n$ is the dimensionality of each embedding vector.
 
-Depending on the model, $n$ could be 3, 50, 100, 512, 768, or any other embedding size.
-
-Similarly, all Query vectors are stacked together to form the matrix $Q$, all Key vectors are stacked together to form the matrix $K$, and all Value vectors are stacked together to form the matrix $V$.
-
-Now recall what we were originally doing.
-
-For every pair of words, we computed a dot product between a Query vector and a Key vector in order to obtain a similarity score. Instead of computing these scores one by one, we can compute all of them simultaneously through a single matrix multiplication:
-
-$$
-QK^T
-$$
-
-If $Q$ is a $3 \times n$ matrix and $K^T$ is an $n \times 3$ matrix, then the result is a $3 \times 3$ matrix:
-
-$$
-\begin{bmatrix} S_{11} & S_{12} & S_{13} \\ S_{21} & S_{22} & S_{23} \\ S_{31} & S_{32} & S_{33} \end{bmatrix}
-$$
-
-Notice what just happened.
-
-With a single matrix multiplication, we generated every similarity score required by the attention mechanism.
-
-Next, we divide the scores by $\sqrt{d_k}$ and apply Softmax to obtain the attention-weight matrix. To keep this matrix distinct from the projection matrices $W_Q$, $W_K$, and $W_V$, let us call it $A$:
-
-$$
-A = \begin{bmatrix} A_{11} & A_{12} & A_{13} \\ A_{21} & A_{22} & A_{23} \\ A_{31} & A_{32} & A_{33} \end{bmatrix}
-$$
-
-And finally, instead of performing weighted sums one word at a time, we again use a single matrix multiplication:
-
-$$
-AV
-$$
-
-to obtain
-
-$$
-\begin{bmatrix} y_{\langle money \rangle} \\ y_{\langle bank \rangle} \\ y_{\langle grows \rangle} \end{bmatrix}
-$$
-
-which contains the contextualized representations for all words in the sentence.
-
-The following diagram illustrates this end-to-end matrix flow. The $3 \times n$ embedding matrix and the $n \times 3$ transpose combine into the $3 \times 3$ similarity matrix, which is divided by $\sqrt{d_k}$, then Softmax turns it into the attention matrix $A$, which is then combined with the Value vectors to produce the final $3 \times n$ output matrix:
+The diagram below expresses the same attention mechanism we previously built, but now in matrix form.
 
 ![Matrix dimensions through the self-attention pipeline](/assets/self_attention2.png)
-
-The beautiful part is that none of these operations care whether the sentence contains 3 words, 30 words, or 300 words.
-
-The exact same sequence of matrix operations still works.
-
-Everything is computed together.
-
-Everything is computed in parallel.
-
-And because modern GPUs are extremely good at performing large matrix multiplications, the entire self-attention mechanism can be executed very efficiently.
-
-In short, self-attention is not only powerful because it produces contextualized representations. It is also remarkably efficient because the entire computation can be expressed as a handful of highly parallel matrix operations.
 
 ### Observation 2: There are no learnable parameters
 
