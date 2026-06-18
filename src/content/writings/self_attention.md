@@ -561,6 +561,20 @@ This matters because many real-world tasks require more than contextualization. 
 
 In other words, gathering information from surrounding words is a necessary first step, but without learning from data, the model has no way of knowing which of those words actually matter for the task at hand.
 
+<div class="qkv-illustration">
+  <img
+    src="/assets/qkv.png"
+    class="light-image"
+    alt="QKV Illustration"
+  />
+
+  <img
+    src="/assets/qkv_dark.png"
+    class="dark-image"
+    alt="QKV Illustration"
+  />
+</div>
+
 ## The Same Embedding, Three Different Roles
 
 Upon observing this architecture more carefully, we arrive at an important realization.

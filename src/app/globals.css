@@ -1200,3 +1200,31 @@ body {
 
   filter: grayscale(4%) contrast(1.0) brightness(0.85);
 }
+
+.qkv-illustration {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.qkv-illustration img {
+  width: 180px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Default (Light Mode) */
+.qkv-illustration .dark-image {
+  display: none;
+}
+
+/* Dark Mode */
+html.dark .qkv-illustration .light-image,
+.dark .qkv-illustration .light-image {
+  display: none;
+}
+
+html.dark .qkv-illustration .dark-image,
+.dark .qkv-illustration .dark-image {
+  display: inline-block;
+}
