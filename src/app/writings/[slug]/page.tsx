@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { BlogFeedbackForm } from "@/components/BlogFeedbackForm";
 import { Footer } from "@/components/Footer";
 import { PostContent } from "@/components/PostContent";
 import { TextLink } from "@/components/TextLink";
@@ -41,6 +42,10 @@ export default async function PostPage({ params }: PageProps) {
     notFound();
   }
 
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://rudraksh.is-a.dev";
+  const blogUrl = `${siteUrl}/writings/${slug}`;
+
   return (
     <div className="mx-auto min-h-screen max-w-5xl px-6 py-12 sm:px-8 sm:py-16">
       <main>
@@ -53,6 +58,12 @@ export default async function PostPage({ params }: PageProps) {
         </header>
 
         <PostContent content={post.content} />
+
+        <BlogFeedbackForm
+          blogTitle={post.title}
+          blogSlug={post.slug}
+          blogUrl={blogUrl}
+        />
       </main>
 
       <Footer />
