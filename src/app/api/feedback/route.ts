@@ -95,48 +95,51 @@ export async function POST(request: Request) {
     const receiverEmail = process.env.FEEDBACK_RECEIVER_EMAIL?.trim();
     const fromEmail = process.env.RESEND_FROM_EMAIL?.trim();
 
-    console.log({
-      hasApiKey: !!apiKey,
-      receiverEmail,
-      fromEmail,
-    });
+    if (!apiKey || !receiverEmail || !fromEmail) {
+      return NextResponse.json(
+        { error: "Email service is not configured." },
+        { status: 503 },
+      );
+    }
 
-    const body = await request.json();
-    console.log("BODY:", body);
+    const body = (await request.json()) as FeedbackRequest;
+    const validationError = validatePayload(body);
+
+    if (validationError) {
+      return NextResponse.json({ error: validationError }, { status: 400 });
+    }
+
+    const payload = {
+      name: body.name!.trim(),
+      email: body.email!.trim(),
+      message: body.message!.trim(),
+      blogTitle: body.blogTitle!.trim(),
+      blogSlug: body.blogSlug!.trim(),
+      blogUrl: body.blogUrl!.trim(),
+      timestamp: body.timestamp!.trim(),
+    };
 
     const resend = new Resend(apiKey);
-
     const response = await resend.emails.send({
-      from: fromEmail!,
-      to: receiverEmail!,
-      replyTo: body.email,
-      subject: "Test Feedback",
-      text: "Hello",
+      from: fromEmail,
+      to: receiverEmail,
+      replyTo: payload.email,
+      subject: `Blog Feedback: ${payload.blogTitle}`,
+      text: buildEmailBody(payload),
     });
 
-    console.log("RESEND RESPONSE:", JSON.stringify(response, null, 2));
-
     if (response.error) {
-      console.error("RESEND ERROR:", response.error);
-
       return NextResponse.json(
-        { error: response.error.message },
-        { status: 500 }
+        { error: "Failed to send feedback." },
+        { status: 500 },
       );
     }
 
     return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error("CAUGHT ERROR:", error);
-
+  } catch {
     return NextResponse.json(
-      {
-        error:
-          error instanceof Error
-            ? error.message
-            : String(error),
-      },
-      { status: 500 }
+      { error: "Failed to send feedback." },
+      { status: 500 },
     );
   }
 }
