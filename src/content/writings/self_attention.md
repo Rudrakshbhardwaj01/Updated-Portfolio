@@ -1168,7 +1168,7 @@ In other words, instead of relying on a single self-attention mechanism, we use 
 
 <div class="multihead-diagram">
   <img
-    src="/assets/MultiHead_Attention1.png"
+    src="/assets/multiHead_attention1.png"
     alt="Multi-Head Attention Architecture"
   />
 </div>
