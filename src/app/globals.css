@@ -1266,3 +1266,10 @@ html.dark .qkv-illustration2 .dark-image2,
   display: block;
 }
 
+.multihead-diagram img {
+  width: 90%;
+  max-width: 1000px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}

@@ -1071,3 +1071,465 @@ And it all started with a simple question:
 What if the representation of a word could adapt itself based on the words around it?
 
 Self-attention is the mechanism that makes that possible, and now you know, from first principles, exactly how.
+
+## Epilogue: Why Self-Attention Is Not Always Enough
+
+If you have made it this far, I believe you must have developed a fairly solid understanding of what self-attention is and how it works.
+
+Read this final section as an epilogue to the article.
+
+Based on everything we have discussed so far, self-attention appears to be the perfect solution to all of our embedding-related problems.
+
+And it is.
+
+For the most part.
+
+Why for the most part?
+
+Because, as it turns out, self-attention has a limitation of its own.
+
+The mechanism works exceptionally well for sentences whose meaning can be understood through a single, clear interpretation. In such cases, self-attention is often able to gather the relevant contextual information and construct highly effective contextualized representations.
+
+However, things become more interesting when a sentence can be interpreted from multiple perspectives.
+
+As soon as self-attention encounters an ambiguous sentence, the quality of the representations it produces can begin to degrade.
+
+You might be wondering:
+
+*What exactly is an ambiguous sentence?*
+
+Consider the following example:
+
+> The man saw an astronomer with a telescope.
+
+Anyone with a basic understanding of English can interpret this sentence in at least two different ways.
+
+The first interpretation is that there was a man who used a telescope to observe an astronomer.
+
+The second interpretation is that there was a man who saw an astronomer who happened to be carrying a telescope.
+
+Did you notice the issue?
+
+Neither interpretation is incorrect.
+
+Neither interpretation is more valid than the other.
+
+Both are perfectly reasonable readings of the same sentence.
+
+And that is precisely where the problem begins.
+
+As humans, we can effortlessly construct multiple interpretations from a single piece of text. We can keep several possible meanings in our minds simultaneously and use additional context, if available, to decide which interpretation is most likely.
+
+Machines, however, are not naturally equipped with this ability.
+
+When a sentence admits multiple valid interpretations, a single self-attention mechanism has only one set of Query, Key, and Value projections through which it can analyze the sentence. As a result, it is forced to compress all of its understanding into a single attention pattern.
+
+This does not mean that the model completely loses one interpretation. Rather, it means that the mechanism is limited in how many different relationships it can focus on simultaneously. Some relationships may end up receiving more emphasis, while others receive less.
+
+### A More General Perspective
+
+The ambiguity example above provides an intuitive way to think about why a single attention mechanism might not always be sufficient. However, the motivation for using multiple attention heads is broader than ambiguity alone.
+
+A single attention head is often sufficient to capture some important relationships within a sentence. However, language contains many different kinds of relationships simultaneously: syntactic relationships, semantic relationships, long-range dependencies, coreferences, positional patterns, and more.
+
+While a single attention head can learn some of these patterns, it must represent everything through a single set of Query, Key, and Value projections. This limits the variety of relationships it can model at the same time.
+
+As sentences become more complex, it becomes useful for different attention mechanisms to specialize in different types of relationships and representation subspaces.
+
+You can think of the ambiguity example as one particular situation where multiple perspectives may be useful. More generally, multiple attention heads give the model additional flexibility to learn different ways of interpreting and relating tokens within the same sequence.
+
+As sentences become more complex, this limitation becomes increasingly important.
+
+So what is the solution?
+
+Let us think about it intuitively.
+
+Suppose a single self-attention mechanism is capable of focusing on one particular set of relationships within a sentence.
+
+Then why not use multiple self-attention mechanisms at the same time?
+
+Going back to our example, imagine having two independent self-attention blocks processing the same sentence simultaneously.
+
+One might focus more heavily on the relationship between *man* and *telescope*.
+
+Another might focus more heavily on the relationship between *astronomer* and *telescope*.
+
+Each mechanism would be free to develop its own perspective on the sentence.
+
+And when all of these perspectives are combined together, we obtain a richer representation than any single self-attention mechanism could produce on its own.
+
+Bingo.
+
+The idea we just arrived at is exactly what the industry calls **Multi-Head Attention**.
+
+In other words, instead of relying on a single self-attention mechanism, we use multiple self-attention mechanisms simultaneously. Each of these mechanisms is free to learn its own attention patterns and focus on its own set of relationships within the sentence. Collectively, this allows the model to capture multiple perspectives that may be present in the same piece of text, producing richer and more expressive contextualized representations than a single attention mechanism could produce on its own.
+
+---
+
+<div class="multihead-diagram">
+  <img
+    src="/assets/MultiHead_Attention1.png"
+    alt="Multi-Head Attention Architecture"
+  />
+</div>
+
+## Making the Idea Concrete
+
+Let us make this idea more concrete with a simpler example.
+
+Rather than working with a full sentence, let us consider the phrase:
+
+> Money bank
+
+The phrase is intentionally simple because it allows us to focus entirely on the core idea behind multi-head attention without getting distracted by too many tokens.
+
+Suppose we feed this phrase into two independent self-attention mechanisms, which we will call **Head 1** and **Head 2**.
+
+Even though both heads receive the exact same input embeddings, they do not share the same projection matrices.
+
+Head 1 has its own:
+
+$$
+W_Q^{(1)}, \quad W_K^{(1)}, \quad W_V^{(1)}
+$$
+
+while Head 2 has its own:
+
+$$
+W_Q^{(2)}, \quad W_K^{(2)}, \quad W_V^{(2)}
+$$
+
+Because the projection matrices are different, the two heads are free to learn entirely different ways of looking at the same phrase.
+
+One head might learn to focus heavily on the financial relationship between *money* and *bank*.
+
+Another head might learn a different pattern altogether.
+
+Both heads are observing the same input, but each is free to develop its own perspective.
+
+And that is the central idea behind multi-head attention.
+
+---
+
+## Applying Self-Attention — Head by Head
+
+Now, we already understand how self-attention works. So rather than introducing an entirely new mechanism, let us simply apply everything we already know to this example.
+
+Recall our phrase:
+
+> Money bank
+
+The first step remains exactly the same.
+
+We begin by generating embedding vectors for the two words:
+
+$$
+e_{\langle money \rangle} \quad \text{and} \quad e_{\langle bank \rangle}
+$$
+
+At this stage, these are simply the input embeddings that will be fed into the attention mechanism.
+
+Next, just as we did in the self-attention section, we project these embeddings into Query, Key, and Value spaces using linear transformations.
+
+In ordinary self-attention, this is accomplished using a single set of projection matrices:
+
+$$
+W_Q, \quad W_K, \quad W_V
+$$
+
+which produce one Query vector, one Key vector, and one Value vector for each word.
+
+Since we have two words, we obtain:
+
+$$
+q_{\langle money \rangle}, \quad k_{\langle money \rangle}, \quad v_{\langle money \rangle}
+$$
+
+and
+
+$$
+q_{\langle bank \rangle}, \quad k_{\langle bank \rangle}, \quad v_{\langle bank \rangle}
+$$
+
+for a total of six vectors.
+
+So far, everything is identical to the self-attention mechanism we developed earlier.
+
+Now comes the important difference.
+
+Suppose we decide to use two attention heads instead of one. Since each head is intended to learn its own perspective on the input, each head must have its own independent set of projection matrices.
+
+Head 1 therefore has:
+
+$$
+W_Q^{(1)}, \quad W_K^{(1)}, \quad W_V^{(1)}
+$$
+
+while Head 2 has:
+
+$$
+W_Q^{(2)}, \quad W_K^{(2)}, \quad W_V^{(2)}
+$$
+
+Notice what has happened. The number of projection matrices has doubled. And because each set of projection matrices generates its own Query, Key, and Value vectors, the number of intermediate vectors doubles as well.
+
+For the word *money*, we now obtain:
+
+$$
+q_{\langle money \rangle}^{(1)}, \quad k_{\langle money \rangle}^{(1)}, \quad v_{\langle money \rangle}^{(1)}
+$$
+
+and
+
+$$
+q_{\langle money \rangle}^{(2)}, \quad k_{\langle money \rangle}^{(2)}, \quad v_{\langle money \rangle}^{(2)}
+$$
+
+Similarly, for the word *bank*, we obtain:
+
+$$
+q_{\langle bank \rangle}^{(1)}, \quad k_{\langle bank \rangle}^{(1)}, \quad v_{\langle bank \rangle}^{(1)}
+$$
+
+and
+
+$$
+q_{\langle bank \rangle}^{(2)}, \quad k_{\langle bank \rangle}^{(2)}, \quad v_{\langle bank \rangle}^{(2)}
+$$
+
+In total, we now have twelve Query, Key, and Value vectors instead of six.
+
+Each attention head then performs its own self-attention computation independently.
+
+Head 1 produces its own contextualized representations:
+
+$$
+y_{\langle money \rangle}^{(1)} \quad \text{and} \quad y_{\langle bank \rangle}^{(1)}
+$$
+
+while Head 2 produces:
+
+$$
+y_{\langle money \rangle}^{(2)} \quad \text{and} \quad y_{\langle bank \rangle}^{(2)}
+$$
+
+Instead of obtaining a single contextualized representation for each word, we now obtain multiple contextualized representations — one from each attention head. And because each head has learned its own Query, Key, and Value projections, each head is free to focus on different relationships within the same input sequence.
+
+---
+
+## The Attention Computation — Nothing New Here
+
+At this point, nothing fundamentally new is happening. Each head simply performs the exact same self-attention computation that we studied throughout this article.
+
+For each head, we:
+
+1. Compute the Query-Key similarity scores using dot products.
+2. Scale those scores by $\sqrt{d_k}$.
+3. Pass the scaled scores through the Softmax function to obtain attention weights.
+4. Use those attention weights to compute weighted combinations of the Value vectors.
+
+In other words, each head independently computes:
+
+$$
+\text{Attention}(Q, K, V) = \text{Softmax}\!\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+$$
+
+For Head 1, this produces:
+
+$$
+y_{\langle money \rangle}^{(1)} \quad \text{and} \quad y_{\langle bank \rangle}^{(1)}
+$$
+
+Likewise, Head 2 performs the same computation using its own Query, Key, and Value vectors, producing:
+
+$$
+y_{\langle money \rangle}^{(2)} \quad \text{and} \quad y_{\langle bank \rangle}^{(2)}
+$$
+
+Notice the key difference from ordinary self-attention.
+
+With a single attention head, each word receives a single contextualized representation.
+
+With two attention heads, each word receives two contextualized representations — one from each head.
+
+For example, instead of a single contextual embedding for *bank*:
+
+$$
+y_{\langle bank \rangle}
+$$
+
+we now obtain:
+
+$$
+y_{\langle bank \rangle}^{(1)} \quad \text{and} \quad y_{\langle bank \rangle}^{(2)}
+$$
+
+Similarly, instead of a single contextual embedding for *money*:
+
+$$
+y_{\langle money \rangle}
+$$
+
+we now obtain:
+
+$$
+y_{\langle money \rangle}^{(1)} \quad \text{and} \quad y_{\langle money \rangle}^{(2)}
+$$
+
+Each of these representations captures the perspective learned by its respective attention head.
+
+At this stage, we have successfully extracted multiple contextual views of the same input sequence. The only question that remains is:
+
+*How do we combine them into a single representation that can be passed to the next layer?*
+
+---
+
+> **A Quick Note**
+>
+> Throughout this discussion, we used two attention heads purely for intuition and ease of understanding.
+>
+> In practice, there is nothing special about the number two.
+>
+> We can use any number of attention heads, allowing the model to learn multiple perspectives on the same input sequence simultaneously.
+>
+> In fact, the original Transformer paper used **8 attention heads**.
+>
+> You can think of this as running eight independent self-attention mechanisms in parallel, each free to learn its own Query, Key, and Value projections and therefore its own way of interpreting the input.
+
+Another important observation follows immediately from what we already know.
+
+Earlier in this article, we saw that self-attention is highly parallelizable. Every token can compute its attention scores simultaneously, making the mechanism extremely efficient on modern hardware.
+
+Multi-head attention preserves this property.
+
+Even though we now have multiple attention heads, all of those heads can be computed in parallel as well. Each head performs its own attention calculation independently, allowing modern GPUs to process them simultaneously during training and inference.
+
+For simplicity, we will not dive into the full matrix implementation here.
+
+However, there is one final piece of the puzzle that we should understand.
+
+---
+
+## Combining the Heads: Concatenation and the Output Projection
+
+Recall that our two attention heads produced:
+
+$$
+y_{\langle money \rangle}^{(1)}, \quad y_{\langle money \rangle}^{(2)}
+$$
+
+and
+
+$$
+y_{\langle bank \rangle}^{(1)}, \quad y_{\langle bank \rangle}^{(2)}
+$$
+
+In other words, each head produced its own contextualized representation of every token.
+
+The question is: how do we combine these multiple perspectives into a single representation?
+
+The answer is surprisingly simple.
+
+We concatenate the outputs of all attention heads together.
+
+If we had two heads, we would concatenate the outputs from Head 1 and Head 2. If we had eight heads, we would concatenate the outputs from all eight heads. This produces a larger vector containing all learned perspectives side by side.
+
+You might wonder why we concatenate rather than, say, average the outputs. The reason is that averaging would collapse the distinct perspectives each head learned into a single blended signal, losing the individual structure each head captured. Concatenation preserves all of that information and lets the next step — the output projection — decide how to combine it.
+
+We multiply this concatenated representation by another trainable matrix:
+
+$$
+W_O
+$$
+
+often referred to as the **output projection matrix**.
+
+The purpose of $W_O$ is not to select a single "correct" perspective. Instead, it learns how to combine the information gathered by all attention heads into a unified representation.
+
+You can think of the attention heads as a group of specialists, each contributing its own interpretation of the input. The output projection matrix then learns how to blend those interpretations together into a final contextualized representation.
+
+Mathematically, this operation is written as:
+
+$$
+\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \text{head}_2, \dots, \text{head}_h)\, W_O
+$$
+
+where $h$ denotes the number of attention heads.
+
+---
+
+### A Small Detail About Dimensions
+
+There is one subtle implementation detail worth mentioning.
+
+The original Transformer architecture used:
+
+$$
+d_{\text{model}} = 512
+$$
+
+meaning that every input embedding had dimensionality 512.
+
+However, each of the 8 attention heads did not operate directly on 512-dimensional Query, Key, and Value vectors. Instead, the projection matrices reduced the dimensionality for each head:
+
+$$
+d_k = d_v = 64
+$$
+
+Since there were 8 heads:
+
+$$
+8 \times 64 = 512
+$$
+
+which means that after concatenating the outputs of all eight heads, we once again obtain a 512-dimensional representation.
+
+This design significantly reduces computational cost because each individual attention head operates on much smaller vectors, while the concatenation step restores the full representational capacity of the model.
+
+The projection matrices for each head therefore have the following shapes:
+
+$$
+W_Q^{(i)}, W_K^{(i)} \in \mathbb{R}^{512 \times 64}, \quad W_V^{(i)} \in \mathbb{R}^{512 \times 64}
+$$
+
+for each head $i = 1, \dots, 8$.
+
+Finally, the concatenated 512-dimensional representation is multiplied by:
+
+$$
+W_O \in \mathbb{R}^{512 \times 512}
+$$
+
+to produce the final output of the multi-head attention block.
+
+Notice something elegant here.
+
+The dimensionality entering the multi-head attention block is the same as the dimensionality leaving it.
+
+A 512-dimensional embedding enters the module. A 512-dimensional contextualized embedding leaves the module. Only the intermediate computations are performed in lower-dimensional spaces.
+
+This allows the architecture to gain the benefits of multiple attention heads without increasing the dimensionality of the representations flowing through the network.
+
+---
+
+## Closing Thoughts
+
+And that, in essence, is multi-head attention.
+
+Self-attention taught us how a word can gather information from the words around it.
+
+Multi-head attention extends that idea by allowing multiple attention mechanisms to perform that gathering process simultaneously, each learning its own way of looking at the same input.
+
+The result is a richer, more expressive representation than any single attention head could typically produce on its own.
+
+Most importantly, notice how little actually changed.
+
+We did not invent a new attention mechanism.
+
+We did not replace self-attention.
+
+We simply took the same self-attention mechanism that we spent this entire article building from first principles and ran it multiple times in parallel.
+
+Sometimes, the most powerful ideas are not entirely new ideas.
+
+They are simple ideas repeated in the right way.
