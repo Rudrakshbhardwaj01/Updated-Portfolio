@@ -33,33 +33,27 @@ function formatSubmittedAt(timestamp: string): string {
 
 function buildEmailBody(data: Required<FeedbackRequest>): string {
   return [
-    "New Blog Feedback",
-    "",
-    "Article:",
-    data.blogTitle,
-    "",
-    
-    "URL:",
-    data.blogUrl,
-    "",
-    "Submitted:",
-    formatSubmittedAt(data.timestamp),
-    "",
-    "Name:",
-    data.name,
-    "",
-    "Email:",
-    data.email,
-    "",
-    "---",
-    "",
-    "Message:",
-    "",
-    data.message,
-    "",
-    "---",
+  `New feedback on "${data.blogTitle}"`,
+  "",
+  "═══════════════════════════════════════",
+  "",
+  `From: ${data.name}`,
+  `Email: ${data.email}`,
+  "",
+  "MESSAGE",
+  "",
+  data.message,
+  "",
+  "═══════════════════════════════════════",
+  "",
+  "ARTICLE",
+  `${data.blogTitle}`,
+  `${data.blogUrl}`,
+  "",
+  `Submitted: ${formatSubmittedAt(data.timestamp)}`,
   ].join("\n");
-}
+  }
+  
 
 function validatePayload(body: FeedbackRequest): string | null {
   if (!body.name?.trim()) {
@@ -124,7 +118,7 @@ export async function POST(request: Request) {
       from: fromEmail,
       to: receiverEmail,
       replyTo: payload.email,
-      subject: `Blog Feedback: ${payload.blogTitle}`,
+      subject: `[${payload.blogTitle}] New Reader Feedback`,
       text: buildEmailBody(payload),
     });
 

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { ArticleToc } from "@/components/ArticleToc";
 import { BlogFeedbackForm } from "@/components/BlogFeedbackForm";
 import { Footer } from "@/components/Footer";
 import { PostContent } from "@/components/PostContent";
@@ -9,6 +10,7 @@ import {
   getAllSlugs,
   getPostBySlug,
 } from "@/lib/posts";
+import { preparePostContent } from "@/lib/renderPostMarkdown";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -45,6 +47,7 @@ export default async function PostPage({ params }: PageProps) {
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://rudraksh.is-a.dev";
   const blogUrl = `${siteUrl}/writings/${slug}`;
+  const { html, headings } = preparePostContent(post.content);
 
   return (
     <div className="mx-auto min-h-screen max-w-5xl px-6 py-12 sm:px-8 sm:py-16">
@@ -57,7 +60,9 @@ export default async function PostPage({ params }: PageProps) {
           </p>
         </header>
 
-        <PostContent content={post.content} />
+        <PostContent html={html} />
+
+        <ArticleToc headings={headings} />
 
         <BlogFeedbackForm
           blogTitle={post.title}

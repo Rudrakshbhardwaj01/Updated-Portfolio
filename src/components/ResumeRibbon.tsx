@@ -1,6 +1,19 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import { siteConfig } from "@/data/site";
 
+function isArticlePage(pathname: string) {
+  return /^\/writings\/[^/]+$/.test(pathname);
+}
+
 export function ResumeRibbon() {
+  const pathname = usePathname();
+
+  if (isArticlePage(pathname)) {
+    return null;
+  }
+
   return (
     <a
       href={siteConfig.resumeUrl}
