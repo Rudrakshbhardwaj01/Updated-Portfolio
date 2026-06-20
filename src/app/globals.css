@@ -1487,3 +1487,16 @@ html.dark .qkv-illustration2 .dark-image2,
   display: block;
   margin: 0 auto;
 }
+
+.positional-encoding {
+  width: 100%;
+  aspect-ratio: 14 / 5;
+  height: auto;
+
+  object-fit: cover;
+  object-position: center 8%;
+
+  display: block;
+
+  filter: grayscale(4%) contrast(1.0) brightness(0.85);
+}
