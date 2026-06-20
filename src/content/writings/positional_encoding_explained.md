@@ -257,8 +257,13 @@ All of that groundwork was worth it. We now have exactly the background we need 
 
 Our sentence is **river bank**. Before sending the embeddings into the self-attention block, we want to inject positional information:
 
-$$\vec{x}_{\text{river}} = \vec{e}_{\text{river}} + PE(\text{pos}_{\text{river}})$$
-$$\vec{x}_{\text{bank}} = \vec{e}_{\text{bank}} + PE(\text{pos}_{\text{bank}})$$
+$$
+\vec{x}_{\text{river}} = \vec{e}_{\text{river}} + PE(1)
+$$
+
+$$
+\vec{x}_{\text{bank}} = \vec{e}_{\text{bank}} + PE(2)
+$$
 
 Since every token embedding in our toy example is 6-dimensional, the positional encoding vectors must also be **6-dimensional**. So the question is simply:
 
