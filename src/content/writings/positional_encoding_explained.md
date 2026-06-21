@@ -45,7 +45,15 @@ Self-attention computes interactions between all token pairs in the sequence **i
 
 But this parallelism comes with a trade-off.
 
-Because there is no sequential processing, and because the attention mechanism itself has no built-in way to represent token order, the model has **no intrinsic notion of where in the sequence each token appeared**. More precisely: without positional information, self-attention is **permutation-equivariant**. If you permute the input tokens, the output representations permute in exactly the same way. The architecture has no native sense of what came "before" or "after" anything else.
+Because self-attention processes all tokens in parallel, it has no built-in notion of order. By itself, it can model how tokens relate to one another, but it has no idea which token came first, which came later, or how far apart two tokens were in the original sequence.
+
+We can make that statement precise by saying that self-attention without positional information is **permutation-equivariant**. If we write the self-attention block as a function \(f\), let \(X\) denote the input sequence, and let $\pi$ denote any permutation (that is, any reordering) of the tokens, then:
+
+$$
+f(\pi X) = \pi f(X)
+$$
+
+This equation says that if you shuffle the input tokens before passing them through self-attention, the output representations are shuffled in exactly the same way. In other words, the mechanism treats the input as a set of token vectors rather than an ordered sequence. It can capture interactions between tokens, but it has no native sense of what came *before* or *after* anything else.
 
 So a self-attention block, on its own, has no built-in way of distinguishing between:
 
@@ -97,7 +105,7 @@ The model now gets both the semantic content of the word and its position. At fi
 
 Right now our toy example only has two words, so the positional values look harmless. But real sequences can be much longer: 50 tokens, 100, 512 or more. If we store the position as a raw scalar, then later tokens carry values like $48, 49, 50, \dots$ and these numbers keep growing with sequence length.
 
-This is not a great signal to inject into a neural network. A raw unbounded scalar is a **low-capacity, single-dimensional representation** of position. It doesn't naturally scale well, and it can cause issues during training if the model encounters sequence lengths significantly different from what it saw during training.
+This is not a great signal to inject into a neural network. A raw, unbounded scalar is a low-capacity, one-dimensional representation of position. It does not scale gracefully to long sequences, and it generalizes poorly when the model is applied to sequence lengths outside the range seen during training.
 
 > **Using the raw position itself as the positional signal is unbounded and brittle, not the kind of clean, well-behaved input representation we want.**
 
@@ -178,7 +186,7 @@ A natural fix is to use both:
 
 $$\begin{bmatrix} \sin(\text{pos}) \\ \cos(\text{pos}) \end{bmatrix}$$
 
-Now the positional value is a **2-dimensional vector** instead of a scalar. This already reduces ambiguity, because while $\sin$ alone repeats, the pair $(\sin(\text{pos}), \cos(\text{pos}))$ uniquely identifies any position within a full $2\pi$ cycle.
+Using both sine and cosine is better than using sine alone because together they capture the phase of the oscillation more completely. But a single frequency still repeats too quickly to serve as a robust positional representation for long sequences, which is why the Transformer uses many frequencies at once.
 
 But we can push this further.
 
