@@ -47,7 +47,7 @@ But this parallelism comes with a trade-off.
 
 Because self-attention processes all tokens in parallel, it has no built-in notion of order. By itself, it can model how tokens relate to one another, but it has no idea which token came first, which came later, or how far apart two tokens were in the original sequence.
 
-We can make that statement precise by saying that self-attention without positional information is **permutation-equivariant**. If we write the self-attention block as a function \(f\), let \(X\) denote the input sequence, and let $\pi$ denote any permutation (that is, any reordering) of the tokens, then:
+We can make that statement precise by saying that self-attention without positional information is **permutation-equivariant**. If we write the self-attention block as a function $f$, let $X$ denote the input sequence, and let $\pi$ denote any permutation (that is, any reordering) of the tokens, then:
 
 $$
 f(\pi X) = \pi f(X)
