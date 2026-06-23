@@ -319,31 +319,23 @@ Building on this intuition, let us attempt to compute the contextual embedding o
 
 A first attempt might look something like this:
 
-$$
-e^{new}_{\langle bank \rangle} = \left( e_{\langle money \rangle} \cdot e_{\langle bank \rangle}^{T} \right) e_{\langle money \rangle} + \left( e_{\langle bank \rangle} \cdot e_{\langle bank \rangle}^{T} \right) e_{\langle bank \rangle} + \left( e_{\langle grows \rangle} \cdot e_{\langle bank \rangle}^{T} \right) e_{\langle grows \rangle}
-$$
+$$e^{\text{new}}_{\langle \text{bank} \rangle} = \left( e_{\langle \text{bank} \rangle} \cdot e_{\langle \text{money} \rangle}^{T} \right)e_{\langle \text{money} \rangle} + \left( e_{\langle \text{bank} \rangle} \cdot e_{\langle \text{bank} \rangle}^{T} \right)e_{\langle \text{bank} \rangle} + \left( e_{\langle \text{bank} \rangle} \cdot e_{\langle \text{grows} \rangle}^{T} \right)e_{\langle \text{grows} \rangle}$$
 
 Let us interpret what this equation is doing.
 
 The term
 
-$$
-e_{\langle money \rangle} \cdot e_{\langle bank \rangle}^{T}
-$$
+$$e_{\langle \text{bank} \rangle} \cdot e_{\langle \text{money} \rangle}^{T}$$
 
 measures the similarity between the embeddings of *money* and *bank*.
 
 Similarly,
 
-$$
-e_{\langle bank \rangle} \cdot e_{\langle bank \rangle}^{T}
-$$
+$$e_{\langle \text{bank} \rangle} \cdot e_{\langle \text{bank} \rangle}^{T}$$
 
 measures how similar *bank* is to itself, and
 
-$$
-e_{\langle grows \rangle} \cdot e_{\langle bank \rangle}^{T}
-$$
+$$e_{\langle \text{bank} \rangle} \cdot e_{\langle \text{grows} \rangle}^{T}$$
 
 measures the similarity between *grows* and *bank*.
 
@@ -353,9 +345,7 @@ Conceptually, this is very close to what we want: words that are more relevant t
 
 Let us write this a little more cleanly:
 
-$$
-e^{new}_{\langle bank \rangle} = \left[ e_{\langle money \rangle} \cdot e_{\langle bank \rangle}^{T} \right] e_{\langle money \rangle} + \left[ e_{\langle bank \rangle} \cdot e_{\langle bank \rangle}^{T} \right] e_{\langle bank \rangle} + \left[ e_{\langle grows \rangle} \cdot e_{\langle bank \rangle}^{T} \right] e_{\langle grows \rangle}
-$$
+$$e^{\text{new}}_{\langle \text{bank} \rangle} = \left[ e_{\langle \text{bank} \rangle} \cdot e_{\langle \text{money} \rangle}^{T} \right] e_{\langle \text{money} \rangle} + \left[ e_{\langle \text{bank} \rangle} \cdot e_{\langle \text{bank} \rangle}^{T} \right] e_{\langle \text{bank} \rangle} + \left[ e_{\langle \text{bank} \rangle} \cdot e_{\langle \text{grows} \rangle}^{T} \right] e_{\langle \text{grows} \rangle}$$
 
 Assume that the dot products inside the square brackets evaluate to the scalars $S_{21}$, $S_{22}$, and $S_{23}$ respectively.
 
