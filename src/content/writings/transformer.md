@@ -33,6 +33,8 @@ If these terms feel unfamiliar right now, that is completely fine. The goal here
 
 Masked self-attention is essentially a special variant of the self-attention mechanism we have already studied. More specifically, it is a version of **multi-head self-attention** in which certain positions are deliberately hidden from the model.
 
+> **Terminology note.** In this blog, I’ll sometimes casually say **self-attention** when discussing the attention mechanism used inside Transformers. Strictly speaking, the Transformer uses **multi-head self-attention** rather than a single attention head. So unless stated otherwise, you can read “self-attention” here as shorthand for the Transformer’s multi-head self-attention block.
+
 But why do we even need such a thing?
 
 To understand that, we need to briefly talk about how the **decoder** behaves during **training** and **inference**.
