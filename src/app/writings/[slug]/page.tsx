@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArticleToc } from "@/components/ArticleToc";
 import { BlogFeedbackForm } from "@/components/BlogFeedbackForm";
+import { MermaidHydrator } from "@/components/MermaidHydrator";
 import { Footer } from "@/components/Footer";
 import { PostContent } from "@/components/PostContent";
 import { TextLink } from "@/components/TextLink";
@@ -61,6 +62,8 @@ export default async function PostPage({ params }: PageProps) {
         </header>
 
         <PostContent html={html} />
+
+        <MermaidHydrator />
 
         <ArticleToc headings={headings} />
 

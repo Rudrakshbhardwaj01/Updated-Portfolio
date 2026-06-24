@@ -1,6 +1,9 @@
 import { Marked, type Tokens } from "marked";
 import { extractHeadings, type TocHeading } from "@/lib/extractHeadings";
-import { renderMathInMarkdown } from "@/lib/renderMath";
+import {
+  protectMathInMarkdown,
+  restoreMathInHtml,
+} from "@/lib/renderMath";
 
 export type PreparedPostContent = {
   html: string;
@@ -14,8 +17,8 @@ function wrapTables(html: string): string {
 }
 
 export function preparePostContent(content: string): PreparedPostContent {
-  const processed = renderMathInMarkdown(content);
-  const headings = extractHeadings(processed);
+  const headings = extractHeadings(content);
+  const { markdown, blocks } = protectMathInMarkdown(content);
 
   let headingIndex = 0;
 
@@ -45,11 +48,20 @@ export function preparePostContent(content: string): PreparedPostContent {
 
         return `<h${depth}>${html}</h${depth}>`;
       },
+      code({ text, lang }: Tokens.Code) {
+        if (lang === "mermaid") {
+          const encoded = encodeURIComponent(text.trim());
+          return `<div class="mermaid-block" data-diagram="${encoded}"></div>\n`;
+        }
+
+        return false;
+      },
     },
   });
 
-  const html = wrapTables(
-    marked.parse(processed, { async: false }) as string,
+  const html = restoreMathInHtml(
+    wrapTables(marked.parse(markdown, { async: false }) as string),
+    blocks,
   );
 
   return {

@@ -1,7 +1,7 @@
 ---
 title: "Positional Encoding: Explained from First Principles"
 date: "2026-06-20"
-description: "A first-principles explaination of positional encoding in Transformers—from why self-attention needs order information, through sinusoidal encodings at multiple frequencies, to the full PE formula and a worked example."
+description: "A first-principles explanation of positional encoding in Transformers—from why self-attention needs order information, through sinusoidal encodings at multiple frequencies, to the full PE formula and a worked example."
 category: "Deep Learning"
 ---
 
