@@ -112,6 +112,24 @@ then at each position the model predicts the next target token while being allow
 
 but it must **not** attend to any future decoder-input position.
 
+> **Why can position 4 attend to itself if \(y_4\) has not been predicted yet?**  
+> Because decoder position 4 does **not** contain \(y_4\). It contains **\(y_3\)**.  
+> During training, the decoder input is shifted right:
+>
+> $$
+> [\langle SOS \rangle,\ y_1,\ y_2,\ y_3]
+> $$
+>
+> while the targets are:
+>
+> $$
+> [y_1,\ y_2,\ y_3,\ y_4]
+> $$
+>
+> So at decoder position 4, the model receives \(y_3\) as input and must predict \(y_4\).  
+> That is why position 4 is allowed to attend to positions \(1,2,3,4\): position 4 corresponds to the **input token \(y_3\)**, not the not-yet-predicted token \(y_4\).
+
+
 ### How Is the Mask Applied?
 
 In practice, the mask is applied to the attention score matrix before the softmax step.
@@ -211,7 +229,7 @@ In the original *Attention Is All You Need* paper, the Transformer was built usi
 
 One more important thing: all encoder layers have the **same architecture**, and all decoder layers also have the **same architecture**. That means structurally they are identical. However, that does **not** mean they share the same learned parameters. Each encoder layer has its own weights, and each decoder layer has its own weights.
 
-So when we say that all six encoders are "the same," we mean **architecturally identical**, not **parameter-tied**.
+So when we say that all six encoders are "the same", we mean **architecturally identical**, not **parameter-tied**.
 
 <figure class="transformer-figure">
   <img
