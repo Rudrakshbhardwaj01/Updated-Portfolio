@@ -776,12 +776,12 @@ To make this concrete, here is the relationship between decoder inputs and train
 
 So the training objective is:
 
-* at position 1 (decoder input: $\langle\text{SOS}\rangle$), predict `आप`
-* at position 2 (decoder input: `आप`), predict `कैसे`
-* at position 3 (decoder input: `कैसे`), predict `हैं`
-* at position 4 (decoder input: `हैं`), predict $\langle\text{EOS}\rangle$
+- at position 1 (decoder input: $\langle \text{SOS} \rangle$), predict **आप**
+- at position 2 (decoder input: **आप**), predict **कैसे**
+- at position 3 (decoder input: **कैसे**), predict **हैं**
+- at position 4 (decoder input: **हैं**), predict $\langle \text{EOS} \rangle$
 
-This is why the decoder input is right-shifted in the first place: at each position, the model sees all tokens up to and including the current one, and is asked to predict the **next** token in the target sequence.
+This is why the decoder input is right-shifted in the first place: at each position, the decoder is given the target sequence **up to the current input token**, and it is trained to predict the **next** token in the target sequence.
 
 ### Decoder Input Processing
 
