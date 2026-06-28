@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { ArticleNarrator } from "@/components/ArticleNarrator";
 import { ArticleToc } from "@/components/ArticleToc";
 import { BlogFeedbackForm } from "@/components/BlogFeedbackForm";
 import { MermaidHydrator } from "@/components/MermaidHydrator";
@@ -56,9 +57,14 @@ export default async function PostPage({ params }: PageProps) {
         <header className="mb-10">
           <TextLink href="/writings">← Writings</TextLink>
 
-          <p className="mt-6 text-base text-secondary">
-            {formatDate(post.date)}
-          </p>
+          <div className="mt-6">
+            <p className="text-base text-secondary">
+              {formatDate(post.date)}
+            </p>
+            <div className="mt-3">
+              <ArticleNarrator />
+            </div>
+          </div>
         </header>
 
         <PostContent html={html} />

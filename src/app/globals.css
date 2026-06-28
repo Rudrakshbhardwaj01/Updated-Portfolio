@@ -892,6 +892,168 @@ body {
   }
 }
 
+/* Article narration controls */
+
+.article-narrator {
+  display: inline-flex;
+  max-width: 100%;
+}
+
+.article-narrator-bar {
+  display: flex;
+  align-items: stretch;
+  max-width: 100%;
+  border: 2px solid var(--foreground);
+  background: var(--background);
+  color: var(--foreground);
+  box-shadow: 3px 3px 0 var(--foreground);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.article-narrator-bar:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 var(--foreground);
+}
+
+.article-narrator-bar--active {
+  background: color-mix(in srgb, var(--foreground) 3%, var(--background));
+}
+
+.article-narrator-accent {
+  width: 0.3rem;
+  flex-shrink: 0;
+  background: var(--ribbon);
+}
+
+.article-narrator-inner {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.article-narrator-transport {
+  display: flex;
+  align-items: stretch;
+}
+
+.article-narrator-action,
+.article-narrator-secondary,
+.article-narrator-rate {
+  border: 0;
+  background: transparent;
+  padding: 0.4rem 0.7rem 0.35rem;
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--foreground);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.article-narrator-action {
+  font-family: var(--font-bebas), Impact, sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+}
+
+.article-narrator-action--active {
+  background: color-mix(in srgb, var(--foreground) 5%, var(--background));
+}
+
+.article-narrator-secondary {
+  border-left: 2px solid var(--foreground);
+  color: var(--secondary);
+}
+
+.article-narrator-rates {
+  display: flex;
+  align-items: stretch;
+  border-top: 2px solid var(--foreground);
+}
+
+.article-narrator-rates-label {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  padding: 0.35rem 0.65rem;
+  border-right: 2px solid var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 4%, var(--background));
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--secondary);
+}
+
+.article-narrator-rates-options {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.article-narrator-rate {
+  flex: 1 1 auto;
+  min-width: 2.75rem;
+  padding: 0.35rem 0.5rem;
+  border-right: 1px solid color-mix(in srgb, var(--foreground) 20%, transparent);
+  color: var(--secondary);
+}
+
+.article-narrator-rate:last-child {
+  border-right: 0;
+}
+
+.article-narrator-rate--active {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+.article-narrator-action:hover,
+.article-narrator-secondary:hover,
+.article-narrator-rate:hover {
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 5%, var(--background));
+}
+
+.article-narrator-rate--active:hover {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+.article-narrator-action:focus-visible,
+.article-narrator-secondary:focus-visible,
+.article-narrator-rate:focus-visible {
+  outline: 2px solid var(--foreground);
+  outline-offset: -2px;
+  z-index: 1;
+}
+
+@media (min-width: 640px) {
+  .article-narrator-action,
+  .article-narrator-secondary {
+    padding: 0.45rem 0.85rem 0.4rem;
+  }
+
+  .article-narrator-action {
+    font-size: 1.1rem;
+  }
+
+  .article-narrator-rates-label {
+    padding: 0.4rem 0.75rem;
+  }
+
+  .article-narrator-rate {
+    padding: 0.4rem 0.65rem;
+  }
+}
+
 /* Portfolio utility launchers — RBSH + BhardwajBot */
 
 .utility-launcher-wrap {
