@@ -30,6 +30,32 @@ export const projects: Project[] = [
     featured: true,
   },
   {
+    name: "CineCouch",
+    highlight: "Couch",
+    tagline: "Privacy-first synchronized watch party platform",
+    description:
+      "Real-time watch party platform that lets up to four people watch YouTube together with synchronized playback, live chat, and peer-to-peer WebRTC video calling — no signup or login required.",
+    highlights: [
+      "Real-time synchronized YouTube playback across up to four participants",
+      "Peer-to-peer WebRTC video calling with privacy-first media routing",
+      "Live Socket.IO chat, ephemeral rooms, and automatic host transfer",
+    ],
+    tech: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Express",
+      "Socket.IO",
+      "WebRTC",
+      "Tailwind CSS",
+      "Zod",
+    ],
+    githubUrl: "https://github.com/Rudrakshbhardwaj01/CineCouch",
+    demoUrl: "https://cinecouch.vercel.app/",
+    previewImage: "/assets/cinecouch.png",
+    featured: true,
+  },
+  {
     name: "YouTubeGPT",
     highlight: "GPT",
     tagline: "Video-grounded RAG for YouTube Q&A",
@@ -58,7 +84,7 @@ export const projects: Project[] = [
     tech: ["Python", "PySide6", "GitHub OAuth", "Pillow", "Multithreading"],
     githubUrl:
       "https://github.com/Rudrakshbhardwaj01/GitGallery-Your-own-photo-vault",
-    featured: true,
+    featured: false,
   },
   {
     name: "RoadDefect-Dodge",
