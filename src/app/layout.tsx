@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Bebas_Neue, IBM_Plex_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { BhardwajBot } from "@/components/bhardwajbot/BhardwajBot";
 import { RBSH } from "@/components/rbsh/RBSH";
 import { ResumeRibbon } from "@/components/ResumeRibbon";
@@ -18,6 +19,13 @@ const plexMono = IBM_Plex_Mono({
   variable: "--font-plex-mono",
   subsets: ["latin"],
   weight: ["400", "500"],
+});
+
+const pilowlava = localFont({
+  src: "../../public/fonts/Pilowlava-Regular.woff2",
+  variable: "--font-pilowlava",
+  display: "swap",
+  weight: "400",
 });
 
 const siteUrl =
@@ -66,7 +74,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body
-        className={`${bebas.variable} ${plexMono.variable} min-h-screen antialiased`}
+        className={`${bebas.variable} ${plexMono.variable} ${pilowlava.variable} min-h-screen antialiased`}
       >
         <ThemeProvider>
           <Ticker />

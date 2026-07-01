@@ -31,7 +31,7 @@ export default function WritingsPage() {
             Essays · Notes · Technical Deep Dives
           </p>
 
-          <h1 className="brutal-section-title mt-4 text-primary">WRITINGS</h1>
+          <h1 className="brutal-section-title mt-4 dark:text-red-500" style={{ fontFamily: "var(--font-pilowlava)" }}>WRITINGS</h1>
 
           <div
             className="relative mt-10 aspect-[14/5] w-full overflow-hidden sm:mt-12"
