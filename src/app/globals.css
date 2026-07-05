@@ -464,6 +464,34 @@ body {
   background: var(--highlight);
 }
 
+/* ── Shelf ── */
+
+.shelf-card {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--foreground);
+  background: var(--background);
+  padding: 1.25rem;
+  box-shadow: 5px 5px 0 var(--foreground);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.shelf-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 var(--foreground);
+}
+
+.shelf-cover {
+  aspect-ratio: 3 / 4;
+  background: var(--card-dark);
+}
+
+.shelf-banner {
+  background: color-mix(in srgb, var(--highlight) 10%, var(--background));
+}
+
 @media (prefers-reduced-motion: reduce) {
   .ticker-track {
     animation: none;

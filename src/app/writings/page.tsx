@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Footer } from "@/components/Footer";
+import { ShelfBanner } from "@/components/ShelfBanner";
 import { TextLink } from "@/components/TextLink";
 import {
   formatDate,
@@ -114,6 +115,10 @@ export default function WritingsPage() {
             </ol>
           )}
         </section>
+
+        <div className="max-w-2xl">
+          <ShelfBanner />
+        </div>
       </main>
 
       <Footer />
