@@ -1854,7 +1854,3 @@ html.dark .qkv-illustration2 .dark-image2,
   filter: grayscale(25%) contrast(1.25) brightness(0.85);
 }
 
-.brutal-card {
-  border-radius: 10px;
-  overflow: hidden;
-}
