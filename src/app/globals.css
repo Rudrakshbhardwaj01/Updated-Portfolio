@@ -484,8 +484,24 @@ body {
 }
 
 .shelf-cover {
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 4 / 5;
   background: var(--card-dark);
+  padding: 0.75rem;
+}
+
+.shelf-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.shelf-cover:hover {
+  cursor: zoom-in;
+}
+
+.shelf-cover img:hover {
+  transform: scale(1.02);
+  transition: transform 220ms ease-out;
 }
 
 .shelf-banner {
@@ -1836,4 +1852,9 @@ html.dark .qkv-illustration2 .dark-image2,
   display: block;
 
   filter: grayscale(25%) contrast(1.25) brightness(0.85);
+}
+
+.brutal-card {
+  border-radius: 10px;
+  overflow: hidden;
 }

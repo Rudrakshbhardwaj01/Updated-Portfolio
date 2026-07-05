@@ -8,16 +8,27 @@ import { ShelfCover } from "./ShelfCover";
  * type pill (Book / Paper). The whole card lifts on hover using the
  * brutalist shadow vocabulary already in use across the site.
  */
-export function ShelfCard({ item }: { item: ShelfItem }) {
+interface ShelfCardProps {
+  item: ShelfItem;
+  onCoverClick?: (imageSrc: string, imageAlt: string) => void;
+}
+
+export function ShelfCard({ item, onCoverClick }: ShelfCardProps) {
   const titleContent = (
     <h3 className="brutal-project-title text-primary transition-colors duration-300 group-hover:text-accent">
       {item.title}
     </h3>
   );
 
+  const handleCoverClick = () => {
+    if (item.image && onCoverClick) {
+      onCoverClick(item.image, `${item.title} cover`);
+    }
+  };
+
   return (
     <article className="group shelf-card">
-      <ShelfCover item={item} />
+      <ShelfCover item={item} onClick={handleCoverClick} />
 
       <div className="mt-5">
         {item.link ? (

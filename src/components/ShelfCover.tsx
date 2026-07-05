@@ -1,25 +1,38 @@
 import Image from "next/image";
 import type { ShelfItem } from "@/data/shelf";
 
+interface ShelfCoverProps {
+  item: ShelfItem;
+  onClick?: () => void;
+}
+
 /**
  * Cover artwork for a shelf item.
  *
- * When `item.image` is set, the real cover is rendered with `object-cover`
- * so every card displays an identical 3:4 framed area — no stretching,
- * consistent cropping across books and papers. While covers are pending,
- * a consistent placeholder preserves the same aspect ratio and reads
- * "Cover Coming Soon". Swapping the data file's `image` field is the only
- * change needed to replace a placeholder.
- *
- * The cover uses `.brutal-card` (plain 2px border, neutral fill) without the
- * `brutal-card-stack` offset-shadow wrapper so it sits cleanly inside the
- * framed `ShelfCard` article without nested shadows.
+ * Every cover sits inside an identical 4:5 container with equal padding.
+ * Images use `object-fit: contain` so the full cover is visible without
+ * cropping. Placeholders preserve the same aspect ratio and padding.
  */
-export function ShelfCover({ item }: { item: ShelfItem }) {
+export function ShelfCover({ item, onClick }: ShelfCoverProps) {
+  const handleClick = onClick ? (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onClick();
+  } : undefined;
+
   return (
     <div
       className="brutal-card shelf-cover"
       aria-label={`Cover of ${item.title}`}
+      onClick={handleClick}
+      role={onClick ? "button" : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={onClick ? (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick();
+        }
+      } : undefined}
     >
       {item.image ? (
         <Image
@@ -27,7 +40,7 @@ export function ShelfCover({ item }: { item: ShelfItem }) {
           alt={`${item.title} cover`}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover"
+          className="object-contain"
         />
       ) : (
         <div className="brutal-card-placeholder">

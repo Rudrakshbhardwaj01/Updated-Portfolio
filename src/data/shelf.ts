@@ -45,14 +45,4 @@ export const shelfItems: ShelfItem[] = [
     image: "/assets/gfs_paper.png",
     description: "Foundational distributed storage paper from Google.",
   },
-  {
-    id: "hands-on-machine-learning",
-    title:
-      "Hands-On Machine Learning with Scikit-Learn, TensorFlow & Keras",
-    author: "Aurélien Géron",
-    type: "book",
-    status: "Reading",
-    description:
-      "Practical machine learning from fundamentals to deep learning.",
-  },
 ];
