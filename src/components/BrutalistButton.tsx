@@ -10,17 +10,23 @@ export function BrutalistButton({
   external = false,
 }: BrutalistButtonProps) {
   const isExternal =
-    external || href.startsWith("http") || href.startsWith("mailto:");
+    external ||
+    href.startsWith("http://") ||
+    href.startsWith("https://") ||
+    href.startsWith("mailto:");
 
   return (
     <a
       href={href}
-      className="brutal-btn inline-flex items-center gap-2 font-mono text-xs font-medium tracking-widest uppercase"
+      className="brutal-btn inline-flex items-center justify-center gap-2 font-mono text-xs font-medium tracking-widest uppercase"
       {...(isExternal
-        ? { target: "_blank", rel: "noopener noreferrer" }
+        ? {
+            target: "_blank",
+            rel: "noopener noreferrer",
+          }
         : {})}
     >
-      {children}
+      <span className="brutal-btn-content">{children}</span>
     </a>
   );
 }

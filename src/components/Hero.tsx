@@ -106,7 +106,7 @@ export function Hero() {
                   alt="Rudraksh Bhardwaj"
                   width={480}
                   height={480}
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-cover object-[center_40%]"
                   priority
                   onError={() => setAvatarError(true)}
                 />
