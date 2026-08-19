@@ -270,6 +270,65 @@ body {
   opacity: 0.65;
 }
 
+/* ── Social Icon Buttons ── */
+
+.social-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border: 2px solid var(--foreground);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--foreground);
+  text-decoration: none;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.1s ease,
+    box-shadow 0.15s ease;
+}
+
+.social-icon-btn:hover {
+  background: var(--foreground);
+  color: var(--background);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--foreground);
+}
+
+.social-icon-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--foreground);
+}
+
+.social-icon-btn:focus-visible {
+  outline: 2px solid var(--foreground);
+  outline-offset: 2px;
+}
+
+.social-icon-svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+  stroke: currentColor;
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .social-icon-btn {
+    width: 44px;
+    height: 44px;
+    border-width: 1.5px;
+    border-radius: 8px;
+  }
+
+  .social-icon-svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
 .brutal-body {
   font-family: var(--font-plex-mono), monospace;
   font-size: 1rem;

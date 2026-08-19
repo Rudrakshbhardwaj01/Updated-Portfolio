@@ -8,7 +8,7 @@ export function Experience() {
       aria-labelledby="experience-heading"
       className="section section-featured"
     >
-      <hr className="brutal-divider mb-14" />
+      <br></br>
       <SectionHeading id="experience-heading" featured>
         Experience
       </SectionHeading>

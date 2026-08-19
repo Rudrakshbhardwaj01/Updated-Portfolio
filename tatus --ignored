@@ -1,0 +1,205 @@
+warning: in the working copy of 'src/components/Experience.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/components/Hero.tsx', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/src/app/globals.css b/src/app/globals.css[m
+[1mindex 1721599..25fc209 100644[m
+[1m--- a/src/app/globals.css[m
+[1m+++ b/src/app/globals.css[m
+[36m@@ -270,6 +270,65 @@[m [mbody {[m
+   opacity: 0.65;[m
+ }[m
+ [m
+[32m+[m[32m/* ── Social Icon Buttons ── */[m
+[32m+[m
+[32m+[m[32m.social-icon-btn {[m
+[32m+[m[32m  display: inline-flex;[m
+[32m+[m[32m  align-items: center;[m
+[32m+[m[32m  justify-content: center;[m
+[32m+[m[32m  width: 52px;[m
+[32m+[m[32m  height: 52px;[m
+[32m+[m[32m  border: 2px solid var(--foreground);[m
+[32m+[m[32m  border-radius: 10px;[m
+[32m+[m[32m  background: transparent;[m
+[32m+[m[32m  color: var(--foreground);[m
+[32m+[m[32m  text-decoration: none;[m
+[32m+[m[32m  transition:[m
+[32m+[m[32m    background-color 0.15s ease,[m
+[32m+[m[32m    color 0.15s ease,[m
+[32m+[m[32m    transform 0.1s ease,[m
+[32m+[m[32m    box-shadow 0.15s ease;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.social-icon-btn:hover {[m
+[32m+[m[32m  background: var(--foreground);[m
+[32m+[m[32m  color: var(--background);[m
+[32m+[m[32m  transform: translate(-1px, -1px);[m
+[32m+[m[32m  box-shadow: 3px 3px 0 var(--foreground);[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.social-icon-btn:active {[m
+[32m+[m[32m  transform: translate(1px, 1px);[m
+[32m+[m[32m  box-shadow: 1px 1px 0 var(--foreground);[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.social-icon-btn:focus-visible {[m
+[32m+[m[32m  outline: 2px solid var(--foreground);[m
+[32m+[m[32m  outline-offset: 2px;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m.social-icon-svg {[m
+[32m+[m[32m  width: 24px;[m
+[32m+[m[32m  height: 24px;[m
+[32m+[m[32m  fill: currentColor;[m
+[32m+[m[32m  stroke: currentColor;[m
+[32m+[m[32m  flex-shrink: 0;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m@media (max-width: 640px) {[m
+[32m+[m[32m  .social-icon-btn {[m
+[32m+[m[32m    width: 44px;[m
+[32m+[m[32m    height: 44px;[m
+[32m+[m[32m    border-width: 1.5px;[m
+[32m+[m[32m    border-radius: 8px;[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  .social-icon-svg {[m
+[32m+[m[32m    width: 20px;[m
+[32m+[m[32m    height: 20px;[m
+[32m+[m[32m  }[m
+[32m+[m[32m}[m
+[32m+[m
+ .brutal-body {[m
+   font-family: var(--font-plex-mono), monospace;[m
+   font-size: 1rem;[m
+[1mdiff --git a/src/components/Experience.tsx b/src/components/Experience.tsx[m
+[1mindex d96fe35..f3146d9 100644[m
+[1m--- a/src/components/Experience.tsx[m
+[1m+++ b/src/components/Experience.tsx[m
+[36m@@ -8,7 +8,7 @@[m [mexport function Experience() {[m
+       aria-labelledby="experience-heading"[m
+       className="section section-featured"[m
+     >[m
+[31m-      <hr className="brutal-divider mb-14" />[m
+[32m+[m[32m      <br></br>[m
+       <SectionHeading id="experience-heading" featured>[m
+         Experience[m
+       </SectionHeading>[m
+[1mdiff --git a/src/components/Hero.tsx b/src/components/Hero.tsx[m
+[1mindex 470e4bd..9d5ae56 100644[m
+[1m--- a/src/components/Hero.tsx[m
+[1m+++ b/src/components/Hero.tsx[m
+[36m@@ -5,6 +5,17 @@[m [mimport { useState } from "react";[m
+ import { siteConfig, socialLinks } from "@/data/site";[m
+ import { BrutalistButton } from "./BrutalistButton";[m
+ import { WritingBanner } from "./WritingBanner";[m
+[32m+[m[32mimport { SocialIcon } from "./SocialIcons";[m
+[32m+[m
+[32m+[m[32mconst iconNames: Record<string, "Email" | "LinkedIn" | "X" | "GitHub" | "LeetCode" | "Codeforces" | "CodeChef"> = {[m
+[32m+[m[32m  Email: "Email",[m
+[32m+[m[32m  LinkedIn: "LinkedIn",[m
+[32m+[m[32m  X: "X",[m
+[32m+[m[32m  GitHub: "GitHub",[m
+[32m+[m[32m  LeetCode: "LeetCode",[m
+[32m+[m[32m  Codeforces: "Codeforces",[m
+[32m+[m[32m  CodeChef: "CodeChef",[m
+[32m+[m[32m};[m
+ [m
+ export function Hero() {[m
+   const [avatarError, setAvatarError] = useState(false);[m
+[36m@@ -60,22 +71,22 @@[m [mexport function Hero() {[m
+             <WritingBanner />[m
+           </div>[m
+ [m
+[31m-          <nav[m
+[31m-            className="mt-9 flex flex-wrap gap-x-6 gap-y-2"[m
+[31m-            aria-label="Social"[m
+[31m-          >[m
+[31m-            {socialLinks.map((link) => ([m
+[31m-              <a[m
+[31m-                key={link.label}[m
+[31m-                href={link.href}[m
+[31m-                className="brutal-social-link"[m
+[31m-                {...(link.external || link.href.startsWith("http")[m
+[31m-                  ? { target: "_blank", rel: "noopener noreferrer" }[m
+[31m-                  : {})}[m
+[31m-              >[m
+[31m-                {link.label}[m
+[31m-              </a>[m
+[31m-            ))}[m
+[32m+[m[32m          <nav className="mt-9 flex flex-wrap gap-3" aria-label="Social">[m
+[32m+[m[32m            {socialLinks.map((link) => {[m
+[32m+[m[32m              const IconName = iconNames[link.label];[m
+[32m+[m[32m              const isExternal = link.external || link.href.startsWith("http");[m
+[32m+[m[32m              return ([m
+[32m+[m[32m                <a[m
+[32m+[m[32m                  key={link.label}[m
+[32m+[m[32m                  href={link.href}[m
+[32m+[m[32m                  className="social-icon-btn"[m
+[32m+[m[32m                  aria-label={link.label}[m
+[32m+[m[32m                  {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}[m
+[32m+[m[32m                >[m
+[32m+[m[32m                  <SocialIcon name={IconName} />[m
+[32m+[m[32m                </a>[m
+[32m+[m[32m              );[m
+[32m+[m[32m            })}[m
+           </nav>[m
+         </div>[m
+ [m
+[1mdiff --git a/src/components/MermaidHydrator.tsx b/src/components/MermaidHydrator.tsx[m
+[1mindex 5f83ce3..edcea2e 100644[m
+[1m--- a/src/components/MermaidHydrator.tsx[m
+[1m+++ b/src/components/MermaidHydrator.tsx[m
+[36m@@ -24,7 +24,7 @@[m [mexport function MermaidHydrator() {[m
+       mermaid.initialize({[m
+         startOnLoad: false,[m
+         theme: getMermaidTheme(),[m
+[31m-        securityLevel: "loose",[m
+[32m+[m[32m        securityLevel: "strict",[m
+         flowchart: {[m
+           useMaxWidth: true,[m
+           htmlLabels: true,[m
+[1mdiff --git a/src/data/site.ts b/src/data/site.ts[m
+[1mindex 8eb8be3..7ee32d9 100644[m
+[1m--- a/src/data/site.ts[m
+[1m+++ b/src/data/site.ts[m
+[36m@@ -39,9 +39,10 @@[m [mexport type SocialLink = {[m
+ };[m
+ [m
+ export const socialLinks: SocialLink[] = [[m
+[32m+[m[32m  { label: "Email", href: siteConfig.email },[m
+   {[m
+[31m-    label: "GitHub",[m
+[31m-    href: "https://github.com/Rudrakshbhardwaj01",[m
+[32m+[m[32m    label: "LinkedIn",[m
+[32m+[m[32m    href: "https://www.linkedin.com/in/rudraksh-bhardwaj-55a337278/",[m
+     external: true,[m
+   },[m
+   {[m
+[36m@@ -50,11 +51,25 @@[m [mexport const socialLinks: SocialLink[] = [[m
+     external: true,[m
+   },[m
+   {[m
+[31m-    label: "LinkedIn",[m
+[31m-    href: "https://www.linkedin.com/in/rudraksh-bhardwaj-55a337278/",[m
+[32m+[m[32m    label: "GitHub",[m
+[32m+[m[32m    href: "https://github.com/Rudrakshbhardwaj01",[m
+[32m+[m[32m    external: true,[m
+[32m+[m[32m  },[m
+[32m+[m[32m  {[m
+[32m+[m[32m    label: "LeetCode",[m
+[32m+[m[32m    href: "https://leetcode.com/u/Rudraksh2005/",[m
+[32m+[m[32m    external: true,[m
+[32m+[m[32m  },[m
+[32m+[m[32m  {[m
+[32m+[m[32m    label: "Codeforces",[m
+[32m+[m[32m    href: "https://codeforces.com/profile/Bhardwaj01",[m
+[32m+[m[32m    external: true,[m
+[32m+[m[32m  },[m
+[32m+[m[32m  {[m
+[32m+[m[32m    label: "CodeChef",[m
+[32m+[m[32m    href: "https://www.codechef.com/users/rudraksh01",[m
+     external: true,[m
+   },[m
+[31m-  { label: "Email", href: siteConfig.email },[m
+ ];[m
+ [m
+ export const navLinks = [[m

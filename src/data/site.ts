@@ -39,9 +39,10 @@ export type SocialLink = {
 };
 
 export const socialLinks: SocialLink[] = [
+  { label: "Email", href: siteConfig.email },
   {
-    label: "GitHub",
-    href: "https://github.com/Rudrakshbhardwaj01",
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/rudraksh-bhardwaj-55a337278/",
     external: true,
   },
   {
@@ -50,11 +51,25 @@ export const socialLinks: SocialLink[] = [
     external: true,
   },
   {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/rudraksh-bhardwaj-55a337278/",
+    label: "GitHub",
+    href: "https://github.com/Rudrakshbhardwaj01",
     external: true,
   },
-  { label: "Email", href: siteConfig.email },
+  {
+    label: "LeetCode",
+    href: "https://leetcode.com/u/Rudraksh2005/",
+    external: true,
+  },
+  {
+    label: "Codeforces",
+    href: "https://codeforces.com/profile/Bhardwaj01",
+    external: true,
+  },
+  {
+    label: "CodeChef",
+    href: "https://www.codechef.com/users/rudraksh01",
+    external: true,
+  },
 ];
 
 export const navLinks = [

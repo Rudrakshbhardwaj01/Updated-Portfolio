@@ -5,6 +5,17 @@ import { useState } from "react";
 import { siteConfig, socialLinks } from "@/data/site";
 import { BrutalistButton } from "./BrutalistButton";
 import { WritingBanner } from "./WritingBanner";
+import { SocialIcon } from "./SocialIcons";
+
+const iconNames: Record<string, "Email" | "LinkedIn" | "X" | "GitHub" | "LeetCode" | "Codeforces" | "CodeChef"> = {
+  Email: "Email",
+  LinkedIn: "LinkedIn",
+  X: "X",
+  GitHub: "GitHub",
+  LeetCode: "LeetCode",
+  Codeforces: "Codeforces",
+  CodeChef: "CodeChef",
+};
 
 export function Hero() {
   const [avatarError, setAvatarError] = useState(false);
@@ -60,22 +71,22 @@ export function Hero() {
             <WritingBanner />
           </div>
 
-          <nav
-            className="mt-9 flex flex-wrap gap-x-6 gap-y-2"
-            aria-label="Social"
-          >
-            {socialLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="brutal-social-link"
-                {...(link.external || link.href.startsWith("http")
-                  ? { target: "_blank", rel: "noopener noreferrer" }
-                  : {})}
-              >
-                {link.label}
-              </a>
-            ))}
+          <nav className="mt-9 flex flex-wrap gap-3" aria-label="Social">
+            {socialLinks.map((link) => {
+              const IconName = iconNames[link.label];
+              const isExternal = link.external || link.href.startsWith("http");
+              return (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="social-icon-btn"
+                  aria-label={link.label}
+                  {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                >
+                  <SocialIcon name={IconName} />
+                </a>
+              );
+            })}
           </nav>
         </div>
 

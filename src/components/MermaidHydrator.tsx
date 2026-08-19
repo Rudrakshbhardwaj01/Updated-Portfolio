@@ -24,7 +24,7 @@ export function MermaidHydrator() {
       mermaid.initialize({
         startOnLoad: false,
         theme: getMermaidTheme(),
-        securityLevel: "loose",
+        securityLevel: "strict",
         flowchart: {
           useMaxWidth: true,
           htmlLabels: true,
