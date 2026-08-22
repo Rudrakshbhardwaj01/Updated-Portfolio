@@ -6,9 +6,9 @@ import { Footer } from "@/components/Footer";
 import { ShelfCard } from "@/components/ShelfCard";
 import { ShelfLightbox } from "@/components/ShelfLightbox";
 import { TextLink } from "@/components/TextLink";
-import { shelfItems } from "@/data/shelf";
+import { notesItems } from "@/data/notes";
 
-export function ShelfContent() {
+export function NotesContent() {
   const [lightbox, setLightbox] = useState<{
     imageSrc: string;
     imageAlt: string;
@@ -27,11 +27,11 @@ export function ShelfContent() {
             <span className="mx-2">/</span>
             <TextLink href="/writings">Writings</TextLink>
             <span className="mx-2">/</span>
-            <span className="text-primary">Shelf</span>
+            <span className="text-primary">My Notes</span>
           </nav>
 
           <p className="font-mono text-xs uppercase tracking-[0.3em] text-accent">
-            Books &middot; Papers &middot; Notes
+            Notes &middot; Diagrams &middot; Explorations
           </p>
 
           <h1
@@ -43,12 +43,12 @@ export function ShelfContent() {
               letterSpacing: "0.02em",
             }}
           >
-            Shelf
+            My Notes
           </h1>
 
           <p className="brutal-body-lg mt-6">
-            A collection of books and papers that have influenced the way I
-            think about engineering, systems, machine learning, and software.
+            A collection of notes, diagrams, and things I&apos;ve worked through
+            while learning.
           </p>
         </header>
 
@@ -65,10 +65,10 @@ export function ShelfContent() {
         </div>
 
         <section
-          aria-label="Shelf"
+          aria-label="Notes"
           className="lg:col-span-3 grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {shelfItems.map((item) => (
+          {notesItems.map((item) => (
             <ShelfCard
               key={item.id}
               item={item}

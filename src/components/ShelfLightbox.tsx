@@ -98,20 +98,21 @@ export function ShelfLightbox({
           maxHeight: "90vh",
         }}
       >
-        <div className="relative bg-black/90 border-2 border-foreground overflow-hidden rounded-lg">
-          <img
-            src={imageSrc}
-            alt={imageAlt}
-            style={{
-              maxWidth: "90vw",
-              maxHeight: "90vh",
-              width: "auto",
-              height: "auto",
-              display: "block",
-              objectFit: "contain",
-            }}
-          />
-        </div>
+<div className="relative bg-black/90 border-2 border-foreground overflow-hidden rounded-lg">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={imageSrc}
+              alt={imageAlt}
+              style={{
+                maxWidth: "90vw",
+                maxHeight: "90vh",
+                width: "auto",
+                height: "auto",
+                display: "block",
+                objectFit: "contain",
+              }}
+            />
+          </div>
       </div>
     </div>
   );

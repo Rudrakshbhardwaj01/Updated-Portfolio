@@ -77,4 +77,6 @@ export const navLinks = [
   { label: "Work", href: "/#work" },
   { label: "Skills", href: "/#skills" },
   { label: "Writings", href: "/writings" },
+  { label: "Shelf", href: "/shelf" },
+  { label: "My Notes", href: "/notes" },
 ] as const;
