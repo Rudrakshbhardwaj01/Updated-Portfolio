@@ -30,7 +30,7 @@ export function ShelfCard({ item, onCoverClick }: ShelfCardProps) {
     <article className="group shelf-card">
       <ShelfCover item={item} onClick={handleCoverClick} />
 
-      <div className="mt-5">
+      <div className="mt-4">
         {item.link ? (
           <a
             href={item.link}
@@ -44,11 +44,11 @@ export function ShelfCard({ item, onCoverClick }: ShelfCardProps) {
           titleContent
         )}
 
-        <p className="brutal-label mt-2">{item.author}</p>
+        <p className="brutal-label mt-1.5">{item.author}</p>
 
-        <p className="brutal-body mt-3">{item.description}</p>
+        <p className="brutal-body mt-2">{item.description}</p>
 
-        <div className="mt-5">
+        <div className="mt-4">
           <span className="brutal-tech-pill">{item.type}</span>
         </div>
       </div>

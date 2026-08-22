@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Footer } from "@/components/Footer";
 import { ShelfCard } from "@/components/ShelfCard";
 import { ShelfLightbox } from "@/components/ShelfLightbox";
@@ -19,8 +20,8 @@ export function ShelfContent() {
 
   return (
     <div className="mx-auto min-h-screen max-w-6xl px-6 py-14 sm:px-10 sm:py-20">
-      <main>
-        <header className="mb-12 max-w-2xl">
+      <main className="grid gap-8 lg:grid-cols-3">
+        <header className="lg:col-span-2 max-w-2xl">
           <nav className="mb-8 font-mono text-xs uppercase tracking-[0.2em] text-secondary">
             <TextLink href="/">Home</TextLink>
             <span className="mx-2">/</span>
@@ -51,9 +52,21 @@ export function ShelfContent() {
           </p>
         </header>
 
+        <div className="lg:col-start-3 lg:row-start-1 self-start hidden lg:block">
+          <div className="shelf-illustration border-2 border-foreground bg-background">
+            <Image
+              src="/assets/shelfImage.jpg"
+              alt="Pixel art illustration of a person at a computer"
+              width={300}
+              height={300}
+              className="object-contain pixelated"
+            />
+          </div>
+        </div>
+
         <section
           aria-label="Shelf"
-          className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
+          className="lg:col-span-3 grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
         >
           {shelfItems.map((item) => (
             <ShelfCard
@@ -64,6 +77,18 @@ export function ShelfContent() {
           ))}
         </section>
       </main>
+
+      <div className="lg:hidden">
+        <div className="shelf-illustration border-2 border-foreground bg-background mx-auto my-10 max-w-xs">
+          <Image
+            src="/assets/shelfImage.jpg"
+            alt="Pixel art illustration of a person at a computer"
+            width={280}
+            height={280}
+            className="object-contain pixelated"
+          />
+        </div>
+      </div>
 
       <Footer />
 
