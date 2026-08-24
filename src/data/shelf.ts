@@ -33,7 +33,7 @@ export const shelfItems: ShelfItem[] = [
     author: "Jon Bodner",
     type: "book",
     status: "Completed",
-    image: "/assets/Go.png",
+    image: "/assets/go.png",
     description:
       "An Idiomatic Approach to Real-World Go Programming. Second Edition.",
   },
@@ -61,7 +61,7 @@ export const shelfItems: ShelfItem[] = [
     author: "Joseph Redmon et al.",
     type: "paper",
     status: "Completed",
-    image: "/assets/YOLO.png",
+    image: "/assets/yolo.png",
     description: "The paper that introduced YOLO, reframing object detection as a single regression problem for real-time detection.",
   },
 ];
