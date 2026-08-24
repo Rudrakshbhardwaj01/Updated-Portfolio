@@ -28,6 +28,16 @@ export const shelfItems: ShelfItem[] = [
       "Building scalable, reliable, and maintainable distributed systems.",
   },
   {
+    id: "learning-go",
+    title: "Learning Go",
+    author: "Jon Bodner",
+    type: "book",
+    status: "Completed",
+    image: "/assets/Go.png",
+    description:
+      "An Idiomatic Approach to Real-World Go Programming. Second Edition.",
+  },
+  {
     id: "attention-is-all-you-need",
     title: "Attention Is All You Need",
     author: "Ashish Vaswani et al.",
@@ -44,5 +54,14 @@ export const shelfItems: ShelfItem[] = [
     status: "Completed",
     image: "/assets/gfs_paper.png",
     description: "Foundational distributed storage paper from Google.",
+  },
+  {
+    id: "you-only-look-once",
+    title: "YOU ONLY LOOK ONCE (YOLO)",
+    author: "Joseph Redmon et al.",
+    type: "paper",
+    status: "Completed",
+    image: "/assets/YOLO.png",
+    description: "The paper that introduced YOLO, reframing object detection as a single regression problem for real-time detection.",
   },
 ];
