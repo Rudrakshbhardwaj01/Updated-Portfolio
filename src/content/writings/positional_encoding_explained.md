@@ -320,7 +320,9 @@ $d_{\text{model}}$ is the **embedding dimension**. In our toy example, $d_{\text
 
 ### What does $i$ mean?
 
-$i$ is **not** the token position — that's $\text{pos}$. Instead, $i$ tells us **which sine-cosine pair we are currently filling**:
+$i$ is **not** the token position — that’s $\text{pos}$.
+
+Instead, $i$ tells us **which sine–cosine pair we are currently filling**:
 
 - $i = 0$ → filling dimensions 0 and 1
 - $i = 1$ → filling dimensions 2 and 3
