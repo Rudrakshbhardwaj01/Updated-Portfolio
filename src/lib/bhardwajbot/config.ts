@@ -19,11 +19,15 @@ export const NVIDIA_STREAM_TIMEOUT_MS = 60_000;
  */
 export const NVIDIA_STREAM_IDLE_TIMEOUT_MS = 30_000;
 
-/** Cap chat history to limit prompt size on 70B. */
+/** Cap chat history to limit prompt size. */
 export const MAX_CHAT_MESSAGES = 4;
 
-export const PORTFOLIO_MAX_TOKENS = 150;
-export const GENERAL_MAX_TOKENS = 100;
+/**
+ * Increased token limits to accommodate reasoning model (meta/muse-glimmer-30b).
+ * With reasoning_effort=none, reasoning is minimal but we need headroom.
+ */
+export const PORTFOLIO_MAX_TOKENS = 800;
+export const GENERAL_MAX_TOKENS = 500;
 
 export type NvidiaConfig = {
   apiKey: string;
@@ -41,6 +45,7 @@ export type NvidiaChatCompletionPayload = {
   top_p: number;
   max_tokens: number;
   stream: boolean;
+  reasoning_effort?: "none" | "low" | "medium" | "high";
 };
 
 export function isNvidiaConfigured(): boolean {
@@ -81,5 +86,6 @@ export function buildNvidiaChatPayload(
     top_p: config.topP,
     max_tokens: config.maxTokens,
     stream,
+    reasoning_effort: "none",
   };
 }
