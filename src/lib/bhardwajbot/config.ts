@@ -2,7 +2,7 @@
  * BhardwajBot NVIDIA Configuration
  */
 
-export const BHARDWAJBOT_MODEL = "meta/llama-3.1-70b-instruct";
+export const BHARDWAJBOT_MODEL = "deepseek-ai/deepseek-v4-flash-0731";
 
 export const NVIDIA_CHAT_COMPLETIONS_URL =
   "https://integrate.api.nvidia.com/v1/chat/completions";
