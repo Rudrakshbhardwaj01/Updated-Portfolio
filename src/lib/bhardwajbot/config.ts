@@ -2,7 +2,7 @@
  * BhardwajBot NVIDIA Configuration
  */
 
-export const BHARDWAJBOT_MODEL = "meta/muse-glimmer-30b";
+export const BHARDWAJBOT_MODEL = "nvidia/nemotron-3.5-lightning-30b-a3b";
 
 export const NVIDIA_CHAT_COMPLETIONS_URL =
   "https://integrate.api.nvidia.com/v1/chat/completions";
@@ -23,11 +23,11 @@ export const NVIDIA_STREAM_IDLE_TIMEOUT_MS = 30_000;
 export const MAX_CHAT_MESSAGES = 4;
 
 /**
- * Token limits for muse-glimmer-30b on NVIDIA API.
- * Model has ~19s cold-start latency; timeouts set accordingly.
+ * Token limits for Nemotron 3.5 Lightning 30B A3B on NVIDIA API.
+ * Tuned for BhardwajBot's concise portfolio/general responses.
  */
-export const PORTFOLIO_MAX_TOKENS = 800;
-export const GENERAL_MAX_TOKENS = 500;
+export const PORTFOLIO_MAX_TOKENS = 400;
+export const GENERAL_MAX_TOKENS = 400;
 
 export type NvidiaConfig = {
   apiKey: string;
