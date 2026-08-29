@@ -8,7 +8,7 @@ export const NVIDIA_CHAT_COMPLETIONS_URL =
   "https://integrate.api.nvidia.com/v1/chat/completions";
 
 /** Max wait for NVIDIA to return response headers / first byte. */
-export const NVIDIA_FETCH_TIMEOUT_MS = 15_000;
+export const NVIDIA_FETCH_TIMEOUT_MS = 30_000;
 
 /** Max total time for a single NVIDIA request after it starts. */
 export const NVIDIA_STREAM_TIMEOUT_MS = 60_000;
@@ -23,8 +23,8 @@ export const NVIDIA_STREAM_IDLE_TIMEOUT_MS = 30_000;
 export const MAX_CHAT_MESSAGES = 4;
 
 /**
- * Increased token limits to accommodate reasoning model (meta/muse-glimmer-30b).
- * With reasoning_effort=none, reasoning is minimal but we need headroom.
+ * Token limits for muse-glimmer-30b on NVIDIA API.
+ * Model has ~19s cold-start latency; timeouts set accordingly.
  */
 export const PORTFOLIO_MAX_TOKENS = 800;
 export const GENERAL_MAX_TOKENS = 500;

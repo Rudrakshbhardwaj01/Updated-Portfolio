@@ -22,9 +22,9 @@ import { RequestTiming } from "@/lib/bhardwajbot/timing";
 
 export const dynamic = "force-dynamic";
 
-// Must exceed the stream timeouts in src/lib/bhardwajbot/config.ts (60s),
+// Must exceed the stream timeouts in src/lib/bhardwajbot/config.ts (60s + 30s fetch),
 // otherwise Vercel kills the function before the model finishes responding.
-export const maxDuration = 60;
+export const maxDuration = 90;
 
 type ChatRequestBody = {
   messages?: ChatMessage[];
