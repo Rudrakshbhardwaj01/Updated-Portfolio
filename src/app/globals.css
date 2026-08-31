@@ -84,6 +84,127 @@ body {
   margin-bottom: 0;
 }
 
+/* ── Hero Cube / Voxel Background ── */
+
+.hero-cube-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.hero-cube-bg::before {
+  content: "";
+  position: absolute;
+
+  right: -10%;
+  top: 47%;
+  transform: translateY(-50%);
+
+  width: 64vw;
+  max-width: 920px;
+  aspect-ratio: 260.77 / 292.13;
+
+  background-image: url("/assets/scattered-cube-grid-v3-2026-08-30-raw.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  /* Strong visible geometry */
+  opacity: 0.25;
+
+  filter:
+    grayscale(100%)
+    contrast(125%)
+    brightness(0.82);
+
+  /*
+   * The opacity comes from the gradient, not from
+   * making the entire SVG weak.
+   *
+   * Barely present behind the content,
+   * increasingly visible as it moves right,
+   * fully established toward the outer edge.
+   */
+  mask-image:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      transparent 8%,
+      rgba(0, 0, 0, 0.18) 22%,
+      rgba(0, 0, 0, 0.48) 38%,
+      rgba(0, 0, 0, 0.78) 54%,
+      black 70%,
+      black 100%
+    );
+
+  -webkit-mask-image:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      transparent 8%,
+      rgba(0, 0, 0, 0.18) 22%,
+      rgba(0, 0, 0, 0.48) 38%,
+      rgba(0, 0, 0, 0.78) 54%,
+      black 70%,
+      black 100%
+    );
+}
+
+
+/* ── Dark Mode ── */
+
+.dark .hero-cube-bg::before {
+  opacity: 0.18;
+
+  filter:
+    grayscale(100%)
+    contrast(120%)
+    brightness(1.7)
+    invert(1);
+}
+
+
+/* ── Tablet ── */
+
+@media (max-width: 1024px) {
+  .hero-cube-bg::before {
+    right: -7%;
+    top: 50%;
+    width: 78vw;
+    opacity: 0.18;
+  }
+
+  .dark .hero-cube-bg::before {
+    opacity: 0.15;
+  }
+}
+
+
+/* ── Smaller Tablet / Large Mobile ── */
+
+@media (max-width: 768px) {
+  .hero-cube-bg::before {
+    right: -12%;
+    top: 50%;
+    width: 94vw;
+    opacity: 0.14;
+  }
+
+  .dark .hero-cube-bg::before {
+    opacity: 0.12;
+  }
+}
+
+
+/* ── Mobile ── */
+
+@media (max-width: 640px) {
+  .hero-cube-bg {
+    display: none;
+  }
+}
 ::selection {
   background-color: var(--highlight);
   color: var(--foreground);

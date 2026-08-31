@@ -22,8 +22,9 @@ export function Hero() {
   const { bio } = siteConfig;
 
   return (
-    <header className="section">
-      <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
+    <header className="section relative">
+      <div className="hero-cube-bg" aria-hidden="true" />
+      <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-16 relative z-10">
         <div className="order-2 pr-24 sm:pr-28 lg:order-1 lg:pr-0">
           <h1 className="brutal-heading text-primary">
             {siteConfig.displayName.map((line) => (
