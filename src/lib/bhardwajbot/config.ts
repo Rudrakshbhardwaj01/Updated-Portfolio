@@ -26,8 +26,8 @@ export const MAX_CHAT_MESSAGES = 4;
  * Token limits for Nemotron 3.5 Lightning 30B A3B on NVIDIA API.
  * Tuned for BhardwajBot's concise portfolio/general responses.
  */
-export const PORTFOLIO_MAX_TOKENS = 400;
-export const GENERAL_MAX_TOKENS = 400;
+export const PORTFOLIO_MAX_TOKENS = 200;
+export const GENERAL_MAX_TOKENS = 200;
 
 export type NvidiaConfig = {
   apiKey: string;

@@ -28,10 +28,10 @@ const WELCOME_MESSAGE =
 const CLIENT_REQUEST_TIMEOUT_MS = 65_000;
 
 export const SUGGESTED_PROMPTS = [
-  "What AI projects has Rudraksh built?",
-  "What should I look at first?",
-  "What is he currently learning?",
-  "Show me his writings",
+  "Walk me through Rudraksh's AI projects",
+  "What's the best project to start with?",
+  "What technologies is Rudraksh currently exploring?",
+  "Read Rudraksh's technical blogs"
 ] as const;
 
 function createMessageId(): string {
