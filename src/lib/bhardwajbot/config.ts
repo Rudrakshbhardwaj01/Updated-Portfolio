@@ -7,17 +7,9 @@ export const BHARDWAJBOT_MODEL = "nvidia/nemotron-3.5-lightning-30b-a3b";
 export const NVIDIA_CHAT_COMPLETIONS_URL =
   "https://integrate.api.nvidia.com/v1/chat/completions";
 
-/** Max wait for NVIDIA to return response headers / first byte. */
-export const NVIDIA_FETCH_TIMEOUT_MS = 30_000;
-
-/** Max total time for a single NVIDIA request after it starts. */
-export const NVIDIA_STREAM_TIMEOUT_MS = 60_000;
-
-/**
- * If the model stream goes silent after content has started, stop waiting.
- * Prevents hung streams that never send [DONE].
- */
-export const NVIDIA_STREAM_IDLE_TIMEOUT_MS = 30_000;
+export const NVIDIA_FETCH_TIMEOUT_MS = 60_000;
+export const NVIDIA_STREAM_TIMEOUT_MS = 90_000;
+export const NVIDIA_STREAM_IDLE_TIMEOUT_MS = 20_000;
 
 /** Cap chat history to limit prompt size. */
 export const MAX_CHAT_MESSAGES = 4;
