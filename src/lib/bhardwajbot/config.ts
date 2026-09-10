@@ -2,7 +2,8 @@
  * BhardwajBot NVIDIA Configuration
  */
 
-export const BHARDWAJBOT_MODEL = "nvidia/nemotron-3.5-lightning-30b-a3b";
+export const BHARDWAJBOT_MODEL =
+  "nvidia/nemotron-3.5-lightning-30b-a3b";
 
 export const NVIDIA_CHAT_COMPLETIONS_URL =
   "https://integrate.api.nvidia.com/v1/chat/completions";
@@ -16,10 +17,10 @@ export const MAX_CHAT_MESSAGES = 4;
 
 /**
  * Token limits for Nemotron 3.5 Lightning 30B A3B on NVIDIA API.
- * Tuned for BhardwajBot's concise portfolio/general responses.
+ * Tuned for BhardwajBot's fast, concise portfolio/general responses.
  */
-export const PORTFOLIO_MAX_TOKENS = 200;
-export const GENERAL_MAX_TOKENS = 200;
+export const PORTFOLIO_MAX_TOKENS = 120;
+export const GENERAL_MAX_TOKENS = 120;
 
 export type NvidiaConfig = {
   apiKey: string;
@@ -37,11 +38,14 @@ export type NvidiaChatCompletionPayload = {
   top_p: number;
   max_tokens: number;
   stream: boolean;
-  reasoning_effort?: "none" | "low" | "medium" | "high";
+  chat_template_kwargs?: {
+    enable_thinking?: boolean;
+  };
 };
 
 export function isNvidiaConfigured(): boolean {
   const apiKey = process.env.NVIDIA_API_KEY;
+
   return typeof apiKey === "string" && apiKey.trim().length > 0;
 }
 
@@ -60,7 +64,7 @@ export function getNvidiaConfig(maxTokens?: number): NvidiaConfig | null {
     apiKey,
     model: BHARDWAJBOT_MODEL,
     chatCompletionsUrl: NVIDIA_CHAT_COMPLETIONS_URL,
-    temperature: 0.2,
+    temperature: 0.3,
     topP: 0.9,
     maxTokens: maxTokens ?? GENERAL_MAX_TOKENS,
   };
@@ -78,6 +82,8 @@ export function buildNvidiaChatPayload(
     top_p: config.topP,
     max_tokens: config.maxTokens,
     stream,
-    reasoning_effort: "none",
+    chat_template_kwargs: {
+      enable_thinking: false,
+    },
   };
 }
