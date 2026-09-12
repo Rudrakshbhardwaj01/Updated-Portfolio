@@ -8,7 +8,7 @@ export type Experience = {
 
 export const experiences: Experience[] = [
   {
-    period: "Apr 2026 – Present",
+    period: "Apr 2026 – Jul 2026",
     role: "Summer Intern",
     company: "EY",
     companyUrl: "https://www.ey.com",
