@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ArticleNarrator } from "@/components/ArticleNarrator";
 import { ArticleToc } from "@/components/ArticleToc";
 import { BlogFeedbackForm } from "@/components/BlogFeedbackForm";
+import { CodeBlockEnhancer } from "@/components/CodeBlockEnhancer";
 import { MermaidHydrator } from "@/components/MermaidHydrator";
 import { Footer } from "@/components/Footer";
 import { PostContent } from "@/components/PostContent";
@@ -68,6 +69,8 @@ export default async function PostPage({ params }: PageProps) {
         </header>
 
         <PostContent html={html} />
+
+        <CodeBlockEnhancer />
 
         <MermaidHydrator />
 

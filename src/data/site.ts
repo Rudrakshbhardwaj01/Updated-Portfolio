@@ -22,7 +22,7 @@ export const siteConfig = {
     tail: ".",
   },
   bioSecondary:
-    "Currently a Summer Intern at EY, building internal treasury tooling and AI-assisted workflow automation.",
+    "Currently hopping across multiple niches",
   writing: {
     label: "Writings",
     url: "/writings",
