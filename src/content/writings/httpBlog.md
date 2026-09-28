@@ -1214,6 +1214,121 @@ This is particularly useful for text-heavy resources such as HTML, CSS, JavaScri
 
 Again, notice how HTTP itself gives us the mechanism for negotiating this. The client says `Accept-Encoding: gzip, br`, and the server responds with `Content-Encoding: br`. The headers communicate the capabilities and the decision, while the actual body contains the encoded representation.
 
+## A Short History: Where Did HTTP/1.1, 2, and 3 Come From?
+
+Throughout this blog, I have been writing `HTTP/1.1` at the top of every request without ever asking a simple question.
+
+**Why is there a version number at all? And what happened to the versions before and after it?**
+
+HTTP has not stayed the same since it was created. It has been reshaped several times, and every version exists because the previous one was hitting a real limit. So let's walk through them.
+
+### HTTP/0.9: The One-Line Protocol (1991)
+
+HTTP began at CERN, where Tim Berners-Lee was building the first version of the World Wide Web. The very first version was almost absurdly small. It is retroactively called HTTP/0.9.
+
+A request was a single line:
+
+```http
+GET /index.html
+```
+
+That was the entire request. There were no headers, no status codes, no other methods, and no content types. The server sent back the HTML and closed the connection. If something went wrong, the server just sent back an HTML page describing the error. There was no standardized way to tell success from failure.
+
+That was enough for fetching simple hypertext documents. It was not enough for the web that was about to happen.
+
+### HTTP/1.0: Headers and Status Codes (1996)
+
+As the web grew, people wanted to send more than HTML: images, other file types, and metadata about the request itself. HTTP/1.0, documented in RFC 1945, added most of the vocabulary we have spent this blog discussing:
+
+```text
++ Headers (request and response)
++ Status codes (200, 404, 500 ...)
++ Methods beyond GET (HEAD and POST)
++ Content-Type, so responses were not limited to HTML
+```
+
+But HTTP/1.0 had a big inefficiency. By default, every request opened a brand new TCP connection, got one response, and closed the connection. As pages started embedding multiple images, stylesheets, and scripts, all that connection setup added up quickly.
+
+### HTTP/1.1: The Workhorse (1997)
+
+HTTP/1.1 was first standardized in 1997 (RFC 2068, then revised in RFC 2616 in 1999) and fixed most of the pain points of 1.0. This is why so much of what we have discussed in this blog belongs to HTTP/1.1:
+
+```text
++ Persistent connections by default
++ The Host header, allowing many websites on one IP address
++ Chunked transfer encoding
++ Range requests (206 Partial Content)
++ Much richer caching (Cache-Control, ETag, conditional requests)
++ More methods: PUT, DELETE, OPTIONS
++ Better content negotiation
+```
+
+The `Host` header deserves special mention. Before it, a server had no way of knowing which website a request was meant for if several domains shared one IP address. `Host` is what made shared hosting practical.
+
+HTTP/1.1 was so successful that it stayed the dominant version for well over a decade. It was later revised and clarified (RFC 7230 to 7235 in 2014, then consolidated in RFC 9110 and 9112 in 2022), but the protocol itself remained recognizably the same.
+
+Still, HTTP/1.1 had a fundamental limitation. On a single connection, responses have to come back in order. If the first response is slow, everything queued behind it waits. This is called **head-of-line blocking** at the HTTP level. HTTP/1.1 did define pipelining, which let clients send several requests without waiting for each response, but it was never widely usable in practice.
+
+So developers worked around the problem instead:
+
+```text
+- Browsers opened multiple parallel connections per host (commonly six)
+- Domain sharding: spreading assets across several domains
+- Bundling many JS/CSS files into one
+- Image sprites: combining many small images into one
+```
+
+If you have ever seen these techniques in old codebases, they were all workarounds for the limits of HTTP/1.1.
+
+### HTTP/2: Same Meaning, New Wire Format (2015)
+
+Around 2009, Google started experimenting with a protocol called SPDY, aimed at making the web faster without breaking existing applications. It became the foundation of HTTP/2, standardized in 2015 as RFC 7540 (later updated by RFC 9113).
+
+The key idea is that HTTP/2 does **not** change what HTTP means. Methods, status codes, headers, and URLs all work the same way. What changes is how those messages are encoded and sent over the wire:
+
+```text
++ Binary framing instead of plain-text messages
++ Multiplexing: many requests and responses in parallel on ONE connection
++ Header compression (HPACK), since headers repeat a lot
++ Server push (largely abandoned in practice and removed from browsers)
+```
+
+Multiplexing is the big one. Instead of six connections each handling one request at a time, a single connection carries many independent streams at once, and the old HTTP/1.1 workarounds mostly become unnecessary.
+
+Browsers only support HTTP/2 over TLS in practice, which was a major push towards HTTPS everywhere.
+
+But HTTP/2 still had a problem, and it was not in HTTP itself. It was in TCP. All of HTTP/2's streams share one TCP connection, and TCP guarantees ordered delivery. So if a single packet is lost, TCP holds back everything behind it until that packet is retransmitted, even data belonging to completely unrelated streams. We moved head-of-line blocking from the HTTP layer down to the TCP layer.
+
+### HTTP/3: Leaving TCP Behind (2022)
+
+Fixing this could not be done inside TCP, so HTTP/3 (RFC 9114, published in 2022) took a different route. It runs over **QUIC**, a transport protocol built on top of UDP, which grew out of another Google experiment.
+
+QUIC handles reliability and multiplexing itself, per stream:
+
+```text
++ A lost packet only stalls the stream it belongs to
++ TLS 1.3 is built into the QUIC handshake, so connections start faster
++ Connections can survive network changes (for example, Wi-Fi to mobile data)
++ Header compression with QPACK, adapted to independent streams
+```
+
+And once again, the HTTP semantics stay the same. A `GET` is still a `GET`, and a `404` is still a `404`.
+
+### The Big Picture
+
+```text
+Version    Year    Big idea
+--------   -----   ------------------------------------------------
+HTTP/0.9   1991    One-line GET, HTML only, no headers
+HTTP/1.0   1996    Headers, status codes, more methods
+HTTP/1.1   1997    Persistent connections, Host header, caching
+HTTP/2     2015    Binary framing, multiplexing over one TCP connection
+HTTP/3     2022    Same semantics, running over QUIC instead of TCP
+```
+
+Notice the pattern. From HTTP/2 onwards, the meaning of HTTP barely changes. Methods, headers, and status codes stay the same, and what gets rebuilt is the machinery that moves those messages across the network. This is also why an application written years ago can be served over HTTP/3 today without rewriting its API.
+With that history in mind, the next section on persistent connections should make a lot more sense.
+
 ## Persistent Connections and Keep-Alive
 
 Now let's think about something even more fundamental. Suppose a webpage needs to make 50 HTTP requests: one request for HTML, several for CSS and JavaScript, a bunch for images, some API requests.
