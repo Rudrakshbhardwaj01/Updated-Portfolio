@@ -128,7 +128,7 @@ We send the first token for the decoder, and the first token is the **start toke
 
 ```text
 Decoder initial state = Encoder's final context vector
-Decoder first input = <START>
+Decoder first input = "START Token"
 ```
 
 Here is the interesting bit: we make sure to attach a **softmax layer** on top of every cell of the decoder LSTM. Why? Because this softmax layer builds out probabilities, it spits out probabilities for what the next token in the target sentence should be, given the context vector and everything the decoder has generated so far.

@@ -278,7 +278,7 @@ export function BlogFeedbackForm({
             <textarea
               id="feedback-message"
               name="message"
-              rows={5}
+              rows={2}
               maxLength={1200}
               value={fields.message}
               onChange={(e) => updateField("message", e.target.value)}
