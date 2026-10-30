@@ -11,7 +11,7 @@ export const siteConfig = {
   "BACKEND SYSTEMS",
 ],
   resumeUrl:
-    "https://drive.google.com/file/d/1SGKo28VxnhsG32YYUfcUV4HDh3pvhvPn/view?usp=sharing",
+    "https://drive.google.com/file/d/1u6QfgTrgXuWnLpwplYpu-Q7n4j7KZYF7/view?usp=sharing",
   ctaEmail: "mailto:rudrakshbhardwaj01@gmail.com",
   bio: {
     lead: "I'm an Applied AI Engineer building",
