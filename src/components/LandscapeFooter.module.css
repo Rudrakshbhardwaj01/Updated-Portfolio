@@ -2,24 +2,29 @@
   position: relative;
   width: 100%;
   aspect-ratio: 2338 / 1003;
+
   background-color: var(--background);
   background-image: url("/assets/footer.jpg");
   background-position: center bottom;
   background-repeat: no-repeat;
   background-size: 100% 100%;
+
   isolation: isolate;
-  mask-image: linear-gradient(
+}
+
+/* Theme-aware transition into the original photograph */
+.landscape::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+
+  background: linear-gradient(
     to bottom,
-    transparent 0%,
-    rgba(0, 0, 0, 0.32) 12%,
-    black 34%,
-    black 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0, 0, 0, 0.32) 12%,
-    black 34%,
-    black 100%
+    var(--background) 0%,
+    color-mix(in srgb, var(--background) 85%, transparent) 12%,
+    color-mix(in srgb, var(--background) 45%, transparent) 25%,
+    transparent 48%
   );
 }
