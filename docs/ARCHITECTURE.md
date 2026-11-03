@@ -12,6 +12,8 @@ The browser enters the application through the Next.js routes in `src/app/`. The
 
 The root layout mounts exactly one client-side `MaleHunter` after the active route content. The component observes the active shared `footer`, positions an absolute rail against its existing top border, and retargets that rail when the pathname or footer changes. This keeps the instance and controller alive during client-side navigation while preserving the home page's existing divider placement and using the equivalent footer divider on other routes.
 
+The root layout also renders exactly one [`LandscapeFooter`](../src/components/LandscapeFooter.tsx) after the active route content. Its dedicated CSS module uses the supplied `public/assets/footer.jpg` at the asset's native 2338:1003 ratio and a top-to-bottom alpha mask to dissolve the upper edge into the site's background. Because it is outside route-specific page containers, the illustration spans the viewport and remains after each page's complete footer.
+
 `MaleHunter` uses refs for its DOM position and frame image and runs one cancellable walking controller. East and west frames are selected in archive order at the supplied 10 FPS; the character moves continuously between the measured rail boundaries and turns around before either edge. A `ResizeObserver` recalculates the footer rail and movement limit. `prefers-reduced-motion` stops movement and leaves a stable directional Idle frame.
 
 The supplied sprite pack uses 120×120 transparent canvases. The component preserves that canvas at the existing responsive pixel size and offsets it so the source ground line meets the footer divider.

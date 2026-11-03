@@ -1,0 +1,25 @@
+.landscape {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2338 / 1003;
+  background-color: var(--background);
+  background-image: url("/assets/footer.jpg");
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  isolation: isolate;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.32) 12%,
+    black 34%,
+    black 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.32) 12%,
+    black 34%,
+    black 100%
+  );
+}

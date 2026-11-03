@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Bebas_Neue, IBM_Plex_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import { BhardwajBot } from "@/components/bhardwajbot/BhardwajBot";
+import { LandscapeFooter } from "@/components/LandscapeFooter";
 import { MaleHunter } from "@/components/MaleHunter";
 import { RBSH } from "@/components/rbsh/RBSH";
 import { ResumeRibbon } from "@/components/ResumeRibbon";
@@ -82,6 +83,7 @@ export default function RootLayout({
           <ResumeRibbon />
           <ThemeToggle />
           {children}
+          <LandscapeFooter />
           <MaleHunter />
           <RBSH />
           <BhardwajBot />

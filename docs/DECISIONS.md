@@ -11,3 +11,15 @@
 - **Trade-offs and consequences:** The root layout owns the single global walker, while the component observes footer replacement and calculates document coordinates. Existing footer markup and design tokens remain unchanged.
 - **Evidence and code references:** [`src/app/layout.tsx`](../src/app/layout.tsx), [`src/components/MaleHunter.tsx`](../src/components/MaleHunter.tsx), [`src/components/MaleHunter.module.css`](../src/components/MaleHunter.module.css), and [`src/components/Footer.tsx`](../src/components/Footer.tsx).
 - **Revisit conditions:** Revisit if routes stop sharing a footer or if the sprite pack's canvas/ground-line contract changes.
+
+## DEC-002 — Render the landscape globally after route content
+
+- **Status:** Accepted
+- **Basis:** User requirement; repository evidence
+- **Context:** The supplied landscape must appear once below the complete footer on every route without changing route-specific page structure.
+- **Decision:** Mount a single `LandscapeFooter` from the root layout after `{children}`, using the existing `public/assets/footer.jpg` and a dedicated CSS-module fade mask.
+- **Rationale:** Root-layout placement gives direct loads and client-side routes the same ordering, while the native aspect ratio and alpha mask preserve the artwork and soften its boundary into the existing background.
+- **Alternatives considered:** Adding the image to each page footer would duplicate integration points and risk inconsistent ordering. Modifying global CSS would expand the scope of a localized visual addition.
+- **Trade-offs and consequences:** The landscape contributes responsive page height after the footer and relies on the root background variable for seamless blending.
+- **Evidence and code references:** [`src/app/layout.tsx`](../src/app/layout.tsx), [`src/components/LandscapeFooter.tsx`](../src/components/LandscapeFooter.tsx), [`src/components/LandscapeFooter.module.css`](../src/components/LandscapeFooter.module.css), and [`public/assets/footer.jpg`](../public/assets/footer.jpg).
+- **Revisit conditions:** Revisit if the supplied artwork's dimensions or the shared root layout ordering changes.
