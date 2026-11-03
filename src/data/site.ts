@@ -24,7 +24,7 @@ export const siteConfig = {
   bioSecondary:
     "Currently hopping across multiple niches",
   writing: {
-    label: "Writings",
+    label: "Writings",  
     url: "/writings",
     description: "Technical & non-technical essays. ",
   },
