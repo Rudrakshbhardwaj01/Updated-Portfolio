@@ -76,6 +76,29 @@ body {
     color 0.2s ease;
 }
 
+/* ── Global Custom Cursor (Roret cursor pack) ── */
+
+* {
+  cursor: url("/assets/cursor/cursor_default.png") 2 1, auto;
+}
+
+a,
+button,
+[role="button"],
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+select,
+summary,
+label {
+  cursor: url("/assets/cursor/cursor_select_tap.png") 4 1, pointer;
+}
+
+:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
 .section {
   margin-bottom: var(--section-gap);
 }
@@ -999,7 +1022,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   box-shadow: 5px 5px 0 var(--foreground);
-  cursor: pointer;
+  cursor: url("/assets/cursor/cursor_select_tap.png") 4 1, pointer;
   transition:
     transform 0.15s ease,
     box-shadow 0.15s ease;
@@ -1116,7 +1139,7 @@ body {
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--secondary);
-  cursor: pointer;
+  cursor: url("/assets/cursor/cursor_select_tap.png") 4 1, pointer;
 }
 
 .article-toc-close:hover {
@@ -1242,7 +1265,7 @@ body {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--foreground);
-  cursor: pointer;
+  cursor: url("/assets/cursor/cursor_select_tap.png") 4 1, pointer;
   white-space: nowrap;
 }
 
@@ -1371,7 +1394,7 @@ body {
   border-radius: 6px;
   background: var(--background);
   padding: 0.3125rem;
-  cursor: pointer;
+  cursor: url("/assets/cursor/cursor_select_tap.png") 4 1, pointer;
   transition:
     border-color 0.15s ease,
     background-color 0.15s ease;
@@ -1499,7 +1522,7 @@ body {
   font-size: 0.875rem;
   line-height: 1;
   color: var(--secondary);
-  cursor: pointer;
+  cursor: url("/assets/cursor/cursor_select_tap.png") 4 1, pointer;
 }
 
 .rbsh-close:hover {
@@ -1578,7 +1601,7 @@ body {
   padding: 0;
   font: inherit;
   color: var(--foreground);
-  cursor: pointer;
+  cursor: url("/assets/cursor/cursor_select_tap.png") 4 1, pointer;
 }
 
 .rbsh-shortcut:hover {
@@ -2169,7 +2192,7 @@ html.dark .qkv-illustration2 .dark-image2,
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  cursor: pointer;
+  cursor: url("/assets/cursor/cursor_select_tap.png") 4 1, pointer;
   transition: all 0.15s ease;
   border-radius: 4px;
 }
