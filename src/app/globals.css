@@ -78,7 +78,7 @@ body {
 
 /* ── Global Custom Cursor (Roret cursor pack) ── */
 
-* {
+body {
   cursor: url("/assets/cursor/cursor_default.png") 2 1, auto;
 }
 
@@ -700,6 +700,7 @@ label {
 
 .writing-banner {
   background: color-mix(in srgb, var(--highlight) 18%, var(--background));
+  cursor: url("/assets/cursor/cursor_select_tap.png") 4 1, pointer;
 }
 
 .writing-banner-accent {
