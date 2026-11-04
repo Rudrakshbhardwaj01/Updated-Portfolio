@@ -356,25 +356,6 @@ label {
   }
 }
 
-.brutal-highlight {
-  background: linear-gradient(
-    to bottom,
-    transparent 20%,
-    var(--highlight) 20%,
-    var(--highlight) 88%,
-    transparent 88%
-  );
-  padding: 0 0.1em;
-}
-
-.brutal-squiggle {
-  text-decoration: underline;
-  text-decoration-color: var(--ribbon);
-  text-decoration-style: wavy;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 3px;
-}
-
 .brutal-btn {
   display: inline-flex;
   align-items: center;

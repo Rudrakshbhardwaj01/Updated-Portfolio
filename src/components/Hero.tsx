@@ -1,9 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { annotate } from "rough-notation";
+import { useEffect, useRef, useState } from "react";
 import { siteConfig, socialLinks } from "@/data/site";
 import { BrutalistButton } from "./BrutalistButton";
+import { useTheme } from "./ThemeProvider";
 import { WritingBanner } from "./WritingBanner";
 import { SocialIcon } from "./SocialIcons";
 
@@ -17,9 +19,83 @@ const iconNames: Record<string, "Email" | "LinkedIn" | "X" | "GitHub" | "LeetCod
   CodeChef: "CodeChef",
 };
 
+function hexToRgb(hex: string): [number, number, number] {
+  const h = hex.replace("#", "");
+  return [
+    parseInt(h.slice(0, 2), 16),
+    parseInt(h.slice(2, 4), 16),
+    parseInt(h.slice(4, 6), 16),
+  ];
+}
+
+function withAlpha(hex: string, alpha: number): string {
+  const [r, g, b] = hexToRgb(hex);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+function darken(hex: string, amount: number): string {
+  const [r, g, b] = hexToRgb(hex);
+  const mix = (c: number) => Math.round(c * (1 - amount));
+  return `rgb(${mix(r)}, ${mix(g)}, ${mix(b)})`;
+}
+
 export function Hero() {
   const [avatarError, setAvatarError] = useState(false);
   const { bio } = siteConfig;
+  const { theme } = useTheme();
+
+  const boxRef = useRef<HTMLSpanElement>(null);
+  const highlightRefs = [
+    useRef<HTMLSpanElement>(null),
+    useRef<HTMLSpanElement>(null),
+  ];
+
+  const middleParts = bio.middle.split("rabbit hole");
+  const secondaryParts = siteConfig.bioSecondary.split("multiple niches");
+
+  useEffect(() => {
+    const accent =
+      getComputedStyle(document.documentElement)
+        .getPropertyValue("--highlight")
+        .trim() || "#f5d547";
+    const isDark = theme === "dark";
+
+    // Dark mode: soften the pink highlights to ~60% intensity.
+    const highlightColor = isDark ? withAlpha(accent, 0.6) : accent;
+    // Light mode: deepen the yellow box so it stands out on the ivory background.
+    const boxColor = isDark ? accent : darken(accent, 0.3);
+
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    const animationDuration = reducedMotion ? 0 : 700;
+
+    const targets = [
+      { ref: highlightRefs[0], type: "highlight", padding: 2, strokeWidth: 2, iterations: 1, color: highlightColor },
+      { ref: highlightRefs[1], type: "highlight", padding: 2, strokeWidth: 2, iterations: 1, color: highlightColor },
+      { ref: boxRef, type: "box", padding: 6, strokeWidth: 2, iterations: 2, color: boxColor },
+    ] as const;
+
+    const annotations = targets
+      .filter((t) => t.ref.current)
+      .map((t) =>
+        annotate(t.ref.current as HTMLElement, {
+          type: t.type,
+          color: t.color,
+          padding: t.padding,
+          strokeWidth: t.strokeWidth,
+          animationDuration,
+          iterations: t.iterations,
+          multiline: true,
+        })
+      );
+
+    annotations.forEach((a) => a.show());
+
+    return () => {
+      annotations.forEach((a) => a.remove());
+    };
+  }, [theme]);
 
   return (
     <header className="section relative">
@@ -52,15 +128,18 @@ export function Hero() {
 
           <p className="brutal-body-lg mt-8 max-w-lg">
             {bio.lead}{" "}
-            <span className="brutal-highlight text-primary">
-              {bio.highlight}
-            </span>
-            {bio.middle}{" "}
-            <span className="brutal-squiggle text-primary">{bio.squiggle}</span>
+            <span ref={highlightRefs[0]}>{bio.highlight}</span>
+            {middleParts[0]}
+            <span ref={highlightRefs[1]}>rabbit hole</span>
+            {middleParts[1]} {bio.squiggle}
             {bio.tail}
           </p>
 
-          <p className="brutal-body mt-4 max-w-lg">{siteConfig.bioSecondary}</p>
+          <p className="brutal-body mt-4 max-w-lg">
+            {secondaryParts[0]}
+            <span ref={boxRef}>multiple niches</span>
+            {secondaryParts[1]}
+          </p>
 
           <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-stretch">
             <div className="shrink-0">

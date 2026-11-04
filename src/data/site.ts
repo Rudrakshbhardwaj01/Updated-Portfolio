@@ -14,11 +14,11 @@ export const siteConfig = {
     "https://drive.google.com/file/d/1u6QfgTrgXuWnLpwplYpu-Q7n4j7KZYF7/view?usp=sharing",
   ctaEmail: "mailto:rudrakshbhardwaj01@gmail.com",
   bio: {
-    lead: "I'm an Applied AI Engineer building",
-    highlight: "production-grade AI systems",
+    lead: "Part engineer, part explorer. I spend my time somewhere between",
+    highlight: "machine learning, intelligent systems, and software engineering",
     middle:
-      "— multi-model orchestration, RAG pipelines, and distributed backends — for",
-    squiggle: "engineering teams shipping real products",
+      ", and whatever rabbit hole catches my attention next. From training models and building RAG pipelines to experimenting with autonomous agents and engineering software from scratch, I enjoy taking things apart, understanding what makes them click, and discovering",
+    squiggle: "what else they could become",
     tail: ".",
   },
   bioSecondary:
