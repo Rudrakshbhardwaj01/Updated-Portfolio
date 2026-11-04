@@ -63,7 +63,7 @@ export function Hero() {
     // Dark mode: soften the pink highlights to ~60% intensity.
     const highlightColor = isDark ? withAlpha(accent, 0.6) : accent;
     // Light mode: deepen the yellow box so it stands out on the ivory background.
-    const boxColor = isDark ? accent : darken(accent, 0.3);
+    const boxColor = "#387A9B";
 
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
