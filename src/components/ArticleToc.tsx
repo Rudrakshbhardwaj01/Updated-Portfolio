@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
+import { useActiveSection } from "@/hooks/useActiveSection";
 import { useFloatingWidget } from "@/hooks/useFloatingWidget";
 import type { TocHeading } from "@/lib/extractHeadings";
 
@@ -8,11 +9,9 @@ type ArticleTocProps = {
   headings: TocHeading[];
 };
 
-const SCROLL_OFFSET = 96;
-
 export function ArticleToc({ headings }: ArticleTocProps) {
   const { isOpen, toggle, close } = useFloatingWidget();
-  const [activeId, setActiveId] = useState<string | null>(headings[0]?.id ?? null);
+  const activeId = useActiveSection(headings);
   const panelRef = useRef<HTMLElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -20,30 +19,6 @@ export function ArticleToc({ headings }: ArticleTocProps) {
     close();
     buttonRef.current?.focus();
   }, [close]);
-
-  const updateActiveHeading = useCallback(() => {
-    let current = headings[0]?.id ?? null;
-
-    for (const heading of headings) {
-      const element = document.getElementById(heading.id);
-      if (element && element.getBoundingClientRect().top <= SCROLL_OFFSET) {
-        current = heading.id;
-      }
-    }
-
-    setActiveId(current);
-  }, [headings]);
-
-  useEffect(() => {
-    updateActiveHeading();
-    window.addEventListener("scroll", updateActiveHeading, { passive: true });
-    window.addEventListener("resize", updateActiveHeading);
-
-    return () => {
-      window.removeEventListener("scroll", updateActiveHeading);
-      window.removeEventListener("resize", updateActiveHeading);
-    };
-  }, [updateActiveHeading]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -96,7 +71,6 @@ export function ArticleToc({ headings }: ArticleTocProps) {
     }
 
     element.scrollIntoView({ behavior: "smooth", block: "start" });
-    setActiveId(id);
     window.history.replaceState(null, "", `#${id}`);
     handleClose();
   }

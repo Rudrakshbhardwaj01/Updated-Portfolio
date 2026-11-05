@@ -5,6 +5,7 @@ import { ArticleToc } from "@/components/ArticleToc";
 import { BlogFeedbackForm } from "@/components/BlogFeedbackForm";
 import { CodeBlockEnhancer } from "@/components/CodeBlockEnhancer";
 import { MermaidHydrator } from "@/components/MermaidHydrator";
+import { ReadingProgressNavigator } from "@/components/ReadingProgressNavigator";
 import { Footer } from "@/components/Footer";
 import { PostContent } from "@/components/PostContent";
 import { TextLink } from "@/components/TextLink";
@@ -75,6 +76,8 @@ export default async function PostPage({ params }: PageProps) {
         <MermaidHydrator />
 
         <ArticleToc headings={headings} />
+
+        <ReadingProgressNavigator headings={headings} />
 
         <BlogFeedbackForm
           blogTitle={post.title}

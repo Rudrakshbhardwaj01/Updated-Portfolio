@@ -25,3 +25,14 @@ Only the supplied Male Hunter PNG animation frames are copied into `public/asset
 ## Lifecycle and failure behavior
 
 The animation is client-only because it needs browser timers, media-query state, image updates, and `ResizeObserver`. If the browser does not provide `ResizeObserver`, the initial measured rail width remains usable and the window resize listener still recalculates it. Effect cleanup cancels the scheduled behavior, frame updates, observer, and media-query listener. Static image loading errors follow normal browser image behavior; no network fallback is defined.
+
+## Blog article reading system
+
+All articles under `src/content/writings/*.md` render through the single shared route [`src/app/writings/[slug]/page.tsx`](../src/app/writings/[slug]/page.tsx). The page prepares markdown with [`preparePostContent`](../src/lib/renderPostMarkdown.ts), which extracts H2 headings via [`extractHeadings`](../src/lib/extractHeadings.ts) and injects their slugged IDs into the rendered `<h2>` elements.
+
+Two floating controls are mounted once per article by that shared page, so every existing and future article inherits them with no per-article wiring:
+
+- [`ArticleToc`](../src/components/ArticleToc.tsx) — the top-right Contents panel.
+- [`ReadingProgressNavigator`](../src/components/ReadingProgressNavigator.tsx) — the bottom-centre reading progress navigator (SVG ring + current section label).
+
+Both consume the shared [`useActiveSection`](../src/hooks/useActiveSection.ts) hook, the single source of truth for the active heading (rAF-throttled scroll/resize/hashchange tracking). The navigator computes progress from the `article.post-content` element bounds versus viewport and scroll position, re-measuring through a `ResizeObserver` so async images, fonts, and code blocks cannot skew it. Styling lives in `globals.css` under "Reading progress navigator" and follows the existing brutalist tokens (2px `--foreground` border, hard offset shadow), theme variables, and `prefers-reduced-motion`.

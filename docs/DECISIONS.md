@@ -23,3 +23,15 @@
 - **Trade-offs and consequences:** The landscape contributes responsive page height after the footer and relies on the root background variable for seamless blending.
 - **Evidence and code references:** [`src/app/layout.tsx`](../src/app/layout.tsx), [`src/components/LandscapeFooter.tsx`](../src/components/LandscapeFooter.tsx), [`src/components/LandscapeFooter.module.css`](../src/components/LandscapeFooter.module.css), and [`public/assets/footer.jpg`](../public/assets/footer.jpg).
 - **Revisit conditions:** Revisit if the supplied artwork's dimensions or the shared root layout ordering changes.
+
+## DEC-003 — Global reading-progress navigator via the shared article route
+
+- **Status:** Accepted
+- **Basis:** User requirement; repository evidence
+- **Context:** The portfolio blog needs a persistent bottom-centre reading-progress navigator (circular SVG ring + current section title, brutalist styling) on every article, present and future, with no per-article integration.
+- **Decision:** Mount one `ReadingProgressNavigator` from the shared `src/app/writings/[slug]/page.tsx` alongside `ArticleToc`, and move active-section tracking into the shared `useActiveSection` hook consumed by both controls so Contents and the navigator stay synchronized from one source of truth.
+- **Rationale:** Every article already renders through this single route, so new markdown posts inherit the feature automatically; sharing the section hook prevents divergent heading parsing.
+- **Alternatives considered:** A per-article component import (rejected: violates the global-system requirement and future-article compatibility); duplicating heading extraction in the navigator (rejected: competing section sources).
+- **Trade-offs and consequences:** Progress is measured against the article element with a `ResizeObserver`, so dynamic content stays accurate; the component is client-only and cleans up its listeners, observer, and animation frames on unmount.
+- **Evidence and code references:** [`src/app/writings/[slug]/page.tsx`](../src/app/writings/[slug]/page.tsx), [`src/components/ReadingProgressNavigator.tsx`](../src/components/ReadingProgressNavigator.tsx), [`src/hooks/useActiveSection.ts`](../src/hooks/useActiveSection.ts), [`src/components/ArticleToc.tsx`](../src/components/ArticleToc.tsx), and `globals.css` ("Reading progress navigator").
+- **Revisit conditions:** Revisit if articles ever stop sharing the `[slug]` route or if the heading extraction rules in `extractHeadings.ts` change.
