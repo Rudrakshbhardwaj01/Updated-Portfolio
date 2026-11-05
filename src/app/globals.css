@@ -17,6 +17,7 @@
   --article-chrome-height: 4.75rem;
   --rbsh-orange: #fa5200;
   --rbsh-orange-muted: #d94400;
+  --ticket: #f7f2e4;
 }
 
 .dark {
@@ -31,6 +32,7 @@
   --card-dark: #1a1a1a;
   --rbsh-orange: #fa5200;
   --rbsh-orange-muted: #e85d04;
+  --ticket: #161613;
 }
 
 @theme inline {
@@ -628,23 +630,203 @@ label {
   text-transform: uppercase;
 }
 
-.experience-card {
+/* ── Experience admission tickets ── */
+
+.ticket {
+  --stub-w: 200px;
+  --stub-h: 132px;
+  --notch: 15px;
+  --ticket-stroke: 4px;
+
   position: relative;
-  border: 2px solid var(--foreground);
-  background: var(--background);
-  padding: 1.5rem 1.75rem;
-  box-shadow: 6px 6px 0 var(--foreground);
-  transition: transform 0.15s ease;
-}
+  display: flex;
+  align-items: stretch;
 
-.experience-card:hover {
-  transform: translate(-2px, -2px);
-}
-
-.experience-card-featured {
-  border-width: 3px;
-  padding: 2rem 2.25rem;
+  border: var(--ticket-stroke) solid var(--foreground);
+  background: var(--ticket);
   box-shadow: 8px 8px 0 var(--foreground);
+
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+
+  /* Admission-ticket silhouette: semicircular cutouts at the perforation
+     (top + bottom) and at the middle of the left/right edges. The mask also
+     cuts the offset shadow so the notches read as physically punched. */
+  mask-image:
+    radial-gradient(circle var(--notch) at calc(100% - var(--stub-w)) 0, transparent 98%, black 100%),
+    radial-gradient(circle var(--notch) at calc(100% - var(--stub-w)) 100%, transparent 98%, black 100%),
+    radial-gradient(circle var(--notch) at 0 50%, transparent 98%, black 100%),
+    radial-gradient(circle var(--notch) at 100% 50%, transparent 98%, black 100%),
+    linear-gradient(black, black);
+  mask-composite: intersect;
+  -webkit-mask-image:
+    radial-gradient(circle var(--notch) at calc(100% - var(--stub-w)) 0, transparent 98%, black 100%),
+    radial-gradient(circle var(--notch) at calc(100% - var(--stub-w)) 100%, transparent 98%, black 100%),
+    radial-gradient(circle var(--notch) at 0 50%, transparent 98%, black 100%),
+    radial-gradient(circle var(--notch) at 100% 50%, transparent 98%, black 100%),
+    linear-gradient(black, black);
+  -webkit-mask-composite: source-in;
+}
+
+.ticket:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 11px 11px 0 var(--foreground);
+}
+
+.ticket-art {
+  flex: 0 0 27%;
+  border-right: 2px solid var(--foreground);
+  overflow: hidden;
+  background: var(--card-dark);
+}
+
+.ticket-art img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.08) saturate(0.92);
+  transition: transform 0.35s ease;
+}
+
+.ticket:hover .ticket-art img {
+  transform: scale(1.045);
+}
+
+.ticket-body {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 1.75rem 2rem;
+}
+
+.ticket-title {
+  font-size: clamp(1.6rem, 2.6vw, 2.4rem);
+}
+
+.ticket-stub {
+  position: relative;
+  flex: 0 0 var(--stub-w);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 1.25rem 1.5rem;
+  color: var(--foreground);
+}
+
+/* Perforated tear-off line between the body and the stub */
+.ticket-stub::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 2.5px;
+  width: 2px;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--foreground) 0,
+    var(--foreground) 5px,
+    transparent 5px,
+    transparent 11px
+  );
+}
+
+.ticket-serial,
+.ticket-admit {
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.ticket-admit {
+  color: var(--secondary);
+}
+
+.ticket-barcode {
+  display: block;
+  width: 100%;
+  height: 64px;
+  color: var(--foreground);
+}
+
+@media (max-width: 1024px) {
+  .ticket {
+    --stub-w: 170px;
+  }
+
+  .ticket-body {
+    padding: 1.4rem 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .ticket {
+    --ticket-stroke: 3px;
+    flex-direction: column;
+
+    /* Notches move to the horizontal perforation between body and stub */
+    mask-image:
+      radial-gradient(circle var(--notch) at 0 calc(100% - var(--stub-h)), transparent 98%, black 100%),
+      radial-gradient(circle var(--notch) at 100% calc(100% - var(--stub-h)), transparent 98%, black 100%),
+      linear-gradient(black, black);
+    -webkit-mask-image:
+      radial-gradient(circle var(--notch) at 0 calc(100% - var(--stub-h)), transparent 98%, black 100%),
+      radial-gradient(circle var(--notch) at 100% calc(100% - var(--stub-h)), transparent 98%, black 100%),
+      linear-gradient(black, black);
+  }
+
+  .ticket-art {
+    flex: none;
+    width: 100%;
+    height: 190px;
+    border-right: 0;
+    border-bottom: 2px solid var(--foreground);
+  }
+
+  .ticket-body {
+    padding: 1.25rem 1.4rem 1.5rem;
+  }
+
+  .ticket-stub {
+    flex: none;
+    width: 100%;
+    height: var(--stub-h);
+    flex-direction: row;
+    gap: 1.25rem;
+    padding: 1rem 1.5rem;
+  }
+
+  .ticket-stub::before {
+    top: -1px;
+    bottom: auto;
+    left: 0;
+    right: 0;
+    width: auto;
+    height: 2px;
+    background: repeating-linear-gradient(
+      to right,
+      var(--foreground) 0,
+      var(--foreground) 5px,
+      transparent 5px,
+      transparent 11px
+    );
+  }
+
+  .ticket-stub .ticket-barcode {
+    width: 46%;
+    height: 56px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticket,
+  .ticket-art img {
+    transition: none;
+  }
 }
 
 .section-featured {

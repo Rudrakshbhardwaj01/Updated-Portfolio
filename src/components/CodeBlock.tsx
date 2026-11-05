@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 
 export function CodeBlock({
   children,
@@ -28,7 +28,7 @@ export function CodeBlock({
     }
   };
 
-  const blockId = `code-block-${Math.random().toString(36).slice(2, 9)}`;
+  const blockId = `code-block-${useId().replace(/[^a-zA-Z0-9]/g, "")}`;
 
   return (
     <div className="code-block" data-code-block-id={blockId}>
