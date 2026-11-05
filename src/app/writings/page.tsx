@@ -12,6 +12,9 @@ import {
 export const metadata: Metadata = {
   title: "Writings | Rudraksh Bhardwaj",
   description: "Technical and non-technical blogs.",
+  alternates: {
+    canonical: "/writings",
+  },
 };
 
 export default function WritingsPage() {

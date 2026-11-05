@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Bebas_Neue, IBM_Plex_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import { BhardwajBot } from "@/components/bhardwajbot/BhardwajBot";
+import { CommandPalette } from "@/components/CommandPalette";
+import { JsonLd } from "@/components/JsonLd";
 import { LandscapeFooter } from "@/components/LandscapeFooter";
 import { MaleHunter } from "@/components/MaleHunter";
 import { RBSH } from "@/components/rbsh/RBSH";
@@ -9,6 +11,8 @@ import { ResumeRibbon } from "@/components/ResumeRibbon";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Ticker } from "@/components/Ticker";
+import { buildFinderItems } from "@/lib/finder-items";
+import { getSiteUrl } from "@/lib/site-url";
 import "./globals.css";
 
 const bebas = Bebas_Neue({
@@ -30,10 +34,12 @@ const pilowlava = localFont({
   weight: "400",
 });
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://rudraksh.is-a.dev";
+const siteUrl = getSiteUrl();
+// Existing site asset used for social preview cards on every page (720×630).
+const ogImage = `${siteUrl}/assets/heroBanner.png`;
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Rudraksh Bhardwaj | Applied AI Engineer",
   description:
     "Applied AI Engineer building LLM systems, RAG pipelines, and production backends. Multi-model orchestration, computer vision, and distributed systems.",
@@ -45,13 +51,51 @@ export const metadata: Metadata = {
     siteName: "Rudraksh Bhardwaj",
     locale: "en_US",
     type: "website",
+    images: [{ url: ogImage, width: 720, height: 630, alt: "Rudraksh Bhardwaj — Applied AI Engineer" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Rudraksh Bhardwaj | Applied AI Engineer",
     description:
       "Applied AI Engineer building LLM systems, RAG pipelines, and production backends.",
+    images: [ogImage],
   },
+};
+
+/**
+ * Site-level structured data. Only facts already published on the site are
+ * declared; the Person node is referenced by id from article pages so the
+ * graph stays consistent without duplication.
+ */
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${siteUrl}/#person`,
+      name: "Rudraksh Bhardwaj",
+      url: `${siteUrl}/`,
+      jobTitle: "Applied AI Engineer",
+      description:
+        "Applied AI Engineer building LLM systems, RAG pipelines, and production backends.",
+      sameAs: [
+        "https://www.linkedin.com/in/rudraksh-bhardwaj-55a337278/",
+        "https://x.com/Rudrakshb01",
+        "https://github.com/Rudrakshbhardwaj01",
+        "https://leetcode.com/u/Rudraksh2005/",
+        "https://codeforces.com/profile/Bhardwaj01",
+        "https://www.codechef.com/users/rudraksh01",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      url: `${siteUrl}/`,
+      name: "Rudraksh Bhardwaj",
+      inLanguage: "en",
+      publisher: { "@id": `${siteUrl}/#person` },
+    },
+  ],
 };
 
 const themeScript = `
@@ -70,6 +114,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const finderItems = buildFinderItems();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -87,6 +133,8 @@ export default function RootLayout({
           <MaleHunter />
           <RBSH />
           <BhardwajBot />
+          <CommandPalette items={finderItems} />
+          <JsonLd data={structuredData} />
         </ThemeProvider>
       </body>
     </html>
