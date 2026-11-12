@@ -37,7 +37,9 @@ export async function generateMetadata({
   }
 
   const url = `${getSiteUrl()}/writings/${post.slug}`;
-  const ogImage = `${getSiteUrl()}/assets/heroBanner.png`;
+  const ogImage = post.image
+    ? `${getSiteUrl()}${post.image}`
+    : `${getSiteUrl()}/assets/heroBanner.png`;
 
   return {
     title: `${post.title} | Rudraksh Bhardwaj`,
@@ -52,7 +54,11 @@ export async function generateMetadata({
       type: "article",
       publishedTime: post.date,
       siteName: "Rudraksh Bhardwaj",
-      images: [{ url: ogImage, width: 720, height: 630, alt: post.title }],
+      images: [
+        post.image
+          ? { url: ogImage, alt: post.title }
+          : { url: ogImage, width: 720, height: 630, alt: post.title },
+      ],
     },
     twitter: {
       card: "summary_large_image",
@@ -73,7 +79,9 @@ export default async function PostPage({ params }: PageProps) {
 
   const siteUrl = getSiteUrl();
   const blogUrl = `${siteUrl}/writings/${slug}`;
-  const ogImage = `${siteUrl}/assets/heroBanner.png`;
+  const ogImage = post.image
+    ? `${siteUrl}${post.image}`
+    : `${siteUrl}/assets/heroBanner.png`;
   const { html, headings } = preparePostContent(post.content);
 
   // BlogPosting structured data — only facts already visible on the page.

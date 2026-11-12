@@ -11,6 +11,8 @@ export type PostMeta = {
   description: string;
   category: string;
   readingTimeMinutes: number;
+  /** Optional per-post social/banner image, as a path under /assets. */
+  image?: string;
 };
 
 export type Post = PostMeta & {
@@ -48,6 +50,7 @@ export function getAllPosts(): PostMeta[] {
       description: data.description as string,
       category: data.category as string,
       readingTimeMinutes: estimateReadingTimeMinutes(content),
+      image: data.image as string | undefined,
     };
   });
 
@@ -73,6 +76,7 @@ export function getPostBySlug(slug: string): Post | null {
     description: data.description as string,
     category: data.category as string,
     readingTimeMinutes: estimateReadingTimeMinutes(content),
+    image: data.image as string | undefined,
     content,
   };
 }
