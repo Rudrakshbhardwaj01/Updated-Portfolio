@@ -3069,3 +3069,26 @@ html.dark .qkv-illustration2 .dark-image2,
     transition: none;
   }
 }
+
+/* ── Responsive control handoff ──
+   Below the project's mobile breakpoint (48rem — the same width at which
+   the finder trigger switches to its icon variant) the pendant lamp yields
+   to the conventional theme toggle button. Both visibility rules use the
+   identical `width < 48rem` condition, so no viewport width can show both
+   controls or neither of them. Both stay mounted; CSS alone decides which
+   paints, so resizing can never desynchronise the shared theme state. */
+@media (width < 48rem) {
+  .lamp-mount {
+    display: none;
+  }
+}
+
+.theme-toggle {
+  display: none;
+}
+
+@media (width < 48rem) {
+  .theme-toggle {
+    display: inline-block;
+  }
+}

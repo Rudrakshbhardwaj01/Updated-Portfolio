@@ -36,7 +36,7 @@ The site configuration and content live in `src/data/`, while application routes
 - Sitemap / robots: `src/app/sitemap.ts`, `src/app/robots.ts`
 - Structured data: `src/components/JsonLd.tsx` (Person + WebSite site-wide, BlogPosting per article)
 - This portfolio intentionally provides no RSS feed (see DEC-009)
-- Global pull-cord lamp theme switch: [`src/components/LampToggle.tsx`](../src/components/LampToggle.tsx) — hangs off the ticker, drives the shared `ThemeProvider` (see DEC-011)
+- Global pull-cord lamp theme switch: [`src/components/LampToggle.tsx`](../src/components/LampToggle.tsx) — hangs off the ticker on desktop, drives the shared `ThemeProvider` (see DEC-011); below 48rem the conventional [`ThemeToggle.tsx`](../src/components/ThemeToggle.tsx) button takes over
 - Shared footer: [`src/components/Footer.tsx`](../src/components/Footer.tsx)
 - Other projects section: [`src/components/OtherProjects.tsx`](../src/components/OtherProjects.tsx)
 - Technical map and execution flows: [`ARCHITECTURE.md`](ARCHITECTURE.md)

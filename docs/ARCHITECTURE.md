@@ -53,7 +53,9 @@ The component renders a fixed `FIND` trigger chip at the top-right — measured 
 
 ## Pull-cord lamp theme switch
 
-The root layout mounts exactly one [`LampToggle`](../src/components/LampToggle.tsx) in place of the former text `ThemeToggle` button. The lamp consumes the shared `ThemeProvider` through `useTheme`, so it always displays the real global theme and stays in sync with the command palette's theme action; there is no second theme mechanism.
+The root layout mounts exactly one [`LampToggle`](../src/components/LampToggle.tsx) alongside the conventional [`ThemeToggle`](../src/components/ThemeToggle.tsx), and CSS decides which one paints. Both consume the shared `ThemeProvider` through `useTheme`, so they always display the real global theme, stay in sync with each other and with the command palette's theme action, and share one persistence mechanism; there is no second theme mechanism.
+
+**Responsive handoff:** below 48rem (768px — the same width at which the finder trigger switches to its icon variant) the lamp is hidden and the conventional toggle is restored at its original fixed top-left position; from 48rem up the toggle is hidden and the pendant lamp takes over. Both visibility rules use the identical `width < 48rem` condition in the "Pull-Cord Lamp" section of `globals.css`, so no viewport width can show both controls or neither, and resizing between layouts cannot desynchronise the theme. The mobile button plays no mechanical audio — it simply calls `toggleTheme()`.
 
 The lamp is a bare fixed SVG (no card, no labels) hanging off the site's top structure. Its ceiling wire runs to the viewport top, and the ticker band — stacked above the lamp via `.ticker-wrap { position: relative; z-index: 30 }` in the "Pull-Cord Lamp" section of `globals.css` — masks the wire's upper run with its opaque background, so the lamp appears to hang from the ticker's bottom border at rest and from the viewport top once the ticker scrolls away. The stacking tiers are: lamp (20) below the ticker (30), both below the resume/finder chrome (60) and the finder dialog (70).
 
