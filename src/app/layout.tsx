@@ -9,7 +9,7 @@ import { MaleHunter } from "@/components/MaleHunter";
 import { RBSH } from "@/components/rbsh/RBSH";
 import { ResumeRibbon } from "@/components/ResumeRibbon";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { LampToggle } from "@/components/LampToggle";
 import { Ticker } from "@/components/Ticker";
 import { buildFinderItems } from "@/lib/finder-items";
 import { getSiteUrl } from "@/lib/site-url";
@@ -127,7 +127,7 @@ export default function RootLayout({
         <ThemeProvider>
           <Ticker />
           <ResumeRibbon />
-          <ThemeToggle />
+          <LampToggle />
           {children}
           <LandscapeFooter />
           <MaleHunter />

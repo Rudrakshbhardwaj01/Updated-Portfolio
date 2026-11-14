@@ -2956,3 +2956,116 @@ html.dark .qkv-illustration2 .dark-image2,
     display: none;
   }
 }
+
+/* ─────────────────────────────────────────────────────────────────────
+   Pull-Cord Lamp — global light/dark theme switch.
+   A bare pendant lamp (no card, no labels) hanging from the site's top
+   structure: the ticker's opaque band masks the wire's upper run, so the
+   cord appears to grow out of the ticker's bottom border at rest, and out
+   of the viewport top once the ticker scrolls away. Colours come from the
+   site's own tokens: shade and handle are --foreground, the bulb is
+   --highlight (yellow) in light mode; dark mode keeps the reference's
+   charcoal shade and grey bulb, so those two get literal overrides.
+   ───────────────────────────────────────────────────────────────────── */
+
+:root {
+  --lamp-shade: var(--foreground);
+  --lamp-bulb: var(--highlight);
+  --lamp-wire-ceiling: color-mix(in srgb, var(--foreground) 26%, transparent);
+  --lamp-cord: color-mix(in srgb, var(--foreground) 48%, transparent);
+  --lamp-handle: var(--foreground);
+}
+
+.dark {
+  --lamp-shade: #2f2f2e;
+  --lamp-bulb: #474745;
+  --lamp-wire-ceiling: color-mix(in srgb, var(--foreground) 30%, transparent);
+  --lamp-cord: color-mix(in srgb, var(--foreground) 46%, transparent);
+  --lamp-handle: color-mix(in srgb, var(--foreground) 82%, var(--background));
+}
+
+/* The ticker doubles as the lamp's ceiling: stacking it above the lamp
+   (z-20) hides the wire's top run behind its opaque band, while staying
+   below the resume/finder chrome (z-60) exactly as before. */
+.ticker-wrap {
+  position: relative;
+  z-index: 30;
+}
+
+.lamp-mount {
+  position: fixed;
+  top: 0;
+  left: 12px;
+  z-index: 20;
+  width: 100px;
+  height: auto;
+  user-select: none;
+  -webkit-user-select: none;
+  /* Bare lamp: the box is click-through; only the handle hit area below
+     captures the pointer. */
+  pointer-events: none;
+}
+
+/* Below 1280px the hero name reaches the far left (x≈40px at ≤1152px
+   viewports), so the lamp scales down and tucks into the left edge: its
+   shade sits above the heading zone and the cord/handle stay left of the
+   text column at every width. */
+@media (max-width: 1279px) {
+  .lamp-mount {
+    width: 80px;
+    left: -18px;
+    top: 10px;
+  }
+}
+
+.lamp-wire-ceiling {
+  stroke: var(--lamp-wire-ceiling);
+  transition: stroke 0.35s ease;
+}
+
+.lamp-shade {
+  fill: var(--lamp-shade);
+  stroke: var(--lamp-shade);
+  transition:
+    fill 0.35s ease,
+    stroke 0.35s ease;
+}
+
+.lamp-bulb {
+  fill: var(--lamp-bulb);
+  transition: fill 0.35s ease;
+}
+
+.lamp-cord {
+  stroke: var(--lamp-cord);
+  transition: stroke 0.35s ease;
+}
+
+.lamp-handle-pill {
+  fill: var(--lamp-handle);
+  transition: fill 0.35s ease;
+}
+
+/* Draggable handle: physical grab affordance instead of the site's
+   custom pointer cursors; scrolling never hijacks the gesture. */
+.lamp-hit {
+  touch-action: none;
+  cursor: grab;
+  outline: none;
+  pointer-events: all;
+}
+
+.lamp-hit:focus-visible .lamp-handle-pill {
+  stroke: var(--highlight);
+  stroke-width: 1.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lamp-wire-ceiling,
+  .lamp-shade,
+  .lamp-bulb,
+  .lamp-cord,
+  .lamp-handle-pill {
+    transition: none;
+  }
+}
