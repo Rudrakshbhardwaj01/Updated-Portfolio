@@ -83,9 +83,6 @@ const structuredData = {
         "https://www.linkedin.com/in/rudraksh-bhardwaj-55a337278/",
         "https://x.com/Rudrakshb01",
         "https://github.com/Rudrakshbhardwaj01",
-        "https://leetcode.com/u/Rudraksh2005/",
-        "https://codeforces.com/profile/Bhardwaj01",
-        "https://www.codechef.com/users/rudraksh01",
       ],
     },
     {

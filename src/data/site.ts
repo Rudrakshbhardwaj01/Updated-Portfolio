@@ -55,21 +55,6 @@ export const socialLinks: SocialLink[] = [
     href: "https://github.com/Rudrakshbhardwaj01",
     external: true,
   },
-  {
-    label: "LeetCode",
-    href: "https://leetcode.com/u/Rudraksh2005/",
-    external: true,
-  },
-  {
-    label: "Codeforces",
-    href: "https://codeforces.com/profile/Bhardwaj01",
-    external: true,
-  },
-  {
-    label: "CodeChef",
-    href: "https://www.codechef.com/users/rudraksh01",
-    external: true,
-  },
 ];
 
 export const navLinks = [

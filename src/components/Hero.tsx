@@ -9,14 +9,11 @@ import { useTheme } from "./ThemeProvider";
 import { WritingBanner } from "./WritingBanner";
 import { SocialIcon } from "./SocialIcons";
 
-const iconNames: Record<string, "Email" | "LinkedIn" | "X" | "GitHub" | "LeetCode" | "Codeforces" | "CodeChef"> = {
+const iconNames: Record<string, "Email" | "LinkedIn" | "X" | "GitHub"> = {
   Email: "Email",
   LinkedIn: "LinkedIn",
   X: "X",
   GitHub: "GitHub",
-  LeetCode: "LeetCode",
-  Codeforces: "Codeforces",
-  CodeChef: "CodeChef",
 };
 
 function hexToRgb(hex: string): [number, number, number] {
